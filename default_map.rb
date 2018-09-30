@@ -1,6 +1,9 @@
 // plot idea: start in field.
-// Find house. Find note. Note says that the bank is coming to close the property
-// if it finds evidence from their investigation that
+// Find house. Find note. Note says that the bank is coming at 6PM to close the property
+// if it finds evidence from their investigation that a farm is not operating here.
+// It is currently 6AM(find a watch somewhere)
+// Need to collect water, seeds, till the soil.
+
 
 defaultMap = [
   [waterfall, barn, old_tree],
@@ -29,10 +32,19 @@ field = Location.new(
   feel a faint breeze on your skin. There is a fence to the south.'
 )
 
-house = Location.new
+house = Location.new('
+  There is a large two-story, southern-style house in front of you. It has a wrap-around porch with a cushioned
+  swing fit for two.
+')
 
-old_tree = Location.new
+old_tree = Location.new('
+  You see an old tree that looks like it has been through multiple human lifetimes.
+')
 
-dry_earth = Location.new
+dry_earth = Location.new('
+  There isn\'t much that stands out here. You are standing on a barren plot of land.
+')
 
-tractor = Location.new
+tractor = Location.new('
+  An old tractor is parked next to a shed. It looks like the tractor has seen better days.
+')

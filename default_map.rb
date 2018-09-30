@@ -1,15 +1,10 @@
-// plot idea: start in field.
-// Find house. Find note. Note says that the bank is coming at 6PM to close the property
-// if it finds evidence from their investigation that a farm is not operating here.
-// It is currently 6AM(find a watch somewhere)
-// Need to collect water, seeds, till the soil.
+# plot idea: start in field.
+# Find house. Find note. Note says that the bank is coming at 6PM to close the property
+# if it finds evidence from their investigation that a farm is not operating here.
+# It is currently 6AM(find a watch somewhere)
+# Need to collect water, seeds, till the soil.
 
-
-defaultMap = [
-  [waterfall, barn, old_tree],
-  [stream, field, dry_earth],
-  [pond, house, tractor]
-];
+require_relative 'map'
 
 waterfall = Location.new('
   The sound of rushing water is envelopes your senses. Before you lies a large waterfall.
@@ -48,3 +43,9 @@ dry_earth = Location.new('
 tractor = Location.new('
   An old tractor is parked next to a shed. It looks like the tractor has seen better days.
 ')
+
+DEFAULT_MAP = Map.new([
+  [waterfall, barn, old_tree],
+  [stream, field, dry_earth],
+  [pond, house, tractor]
+]);

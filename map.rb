@@ -6,30 +6,52 @@ class Map
     @grid = grid
     @current_x = 1
     @current_y = 1
-    @current_pos = [@current_x, @current_y]
-    @current_location = @grid[@current_x][@current_y]
+    @current_location = @grid[@current_y][@current_x]
   end
 
-  # def go_north(pos)
-  #   x, y = pos
-  #
-  #   @current_location = [x-1, y]
-  # end
-  #
-  # def go_south(pos)
-  #   x, y = pos
-  #   @current_location = [x+1, y]
-  # end
-  #
-  # def go_east(pos)
-  #   x, y = pos
-  #   @current_location = [x, y+1]
-  # end
-  #
-  # def go_west(pos)
-  #   x, y = pos
-  #   @current_location = [x, y-1]
-  # end
+  def update_current_location(x = nil, y = nil)
+    if x
+      @current_x = x
+    elsif
+      @current_y = y
+    end
+
+    @current_location = @grid[@current_y][@current_x]
+  end
+
+  def within_bounds?(coord)
+    coord >= 0 && coord < @grid.length
+  end
+
+  def go(direction)
+    case direction
+    when 'north'
+      next_y = @current_y - 1
+
+      if within_bounds?(next_y)
+        update_current_location(nil, next_y)
+      end
+    when 'south'
+      next_y = @current_y + 1
+
+      if within_bounds?(next_y)
+        update_current_location(nil, next_y)
+      end
+    when 'west'
+      next_x = @current_x - 1
+
+      if within_bounds?(next_x)
+        update_current_location(next_x, nil)
+      end
+
+    when 'east'
+      next_x = @current_x + 1
+
+      if within_bounds?(next_x)
+        update_current_location(next_x, nil)
+      end
+    end
+  end
 end
 
 class Location

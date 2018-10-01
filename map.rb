@@ -24,6 +24,14 @@ class Map
   end
 
   def go(direction)
+    puts "@current_location.blocked_paths.include?(direction) #{@current_location.blocked_paths.include?(direction)}"
+    if @current_location.blocked_paths.include?(direction)
+      puts "It looks like a #{@current_location.blocked_paths[direction][obstruction]}
+      is blocking your path. You can't go #{direction}."
+      return
+    end
+
+
     case direction
     when 'north'
       next_y = @current_y - 1
@@ -55,12 +63,13 @@ class Map
 end
 
 class Location
-  attr_reader :description
+  attr_reader :description, :blocked_paths
 
-  def initialize(description, inspect_description = '', items = [], people = [])
+  def initialize(description, options = {})
     @description = description
-    @inspect_description = inspect_description
-    @items = items
-    @people = people;
+    @inspect_description = options[:inspect_description] || ''
+    @items = options[:items] || []
+    @people = options[:people] || []
+    @blocked_paths = options[:people] || []
   end
 end

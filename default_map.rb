@@ -25,13 +25,13 @@ barn = Location.new('
 field = Location.new(
   'You find yourself in an open field. The sun is shiny very brightly and you
   feel a faint breeze on your skin. There is a fence to the south.',
-  blocked_paths: {'south' => {'obstruction' => 'fence'}}
+  blocked_paths: {'south' => {obstruction: 'white picket fence'}}
 )
 
 house = Location.new('
   There is a large two-story, southern-style house in front of you. It has a wrap-around porch with a cushioned
   swing fit for two.
-', blocked_paths: {'north' => {'obstruction' => 'fence'}})
+', blocked_paths: {'north' => {obstruction: 'white picket fence'}})
 
 old_tree = Location.new('
   You see an old tree that looks like it has been through multiple human lifetimes.

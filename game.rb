@@ -5,7 +5,8 @@ COMMANDS = [
   :go,
   :read,
   :take,
-  :open
+  :open,
+  :drop
 ];
 
 class Game

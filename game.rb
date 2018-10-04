@@ -1,4 +1,3 @@
-require_relative 'player'
 require_relative 'default_map'
 
 COMMANDS = [
@@ -6,7 +5,8 @@ COMMANDS = [
   :read,
   :take,
   :open,
-  :drop
+  :drop,
+  :look_around
 ];
 
 class Game
@@ -18,10 +18,12 @@ class Game
 
   def start
     intro
+    puts ""
     until game_over?
-      puts "________________________________"
       puts @map.current_location.description
+      puts ""
       response = gets.chomp
+      puts ""
       parse_user_response(response)
     end
   end
@@ -36,7 +38,6 @@ class Game
   end
 
   def invoke_command(command, additional)
-      puts "!!!!!!! #{command}"
     case command
       when :go
         @map.go(additional)
@@ -44,6 +45,8 @@ class Game
         open_item(additional)
       when :read
         read_item(additional)
+      when :look_around
+        look_around
       when :take
         @map.current_location.items
       when :drop
@@ -51,15 +54,34 @@ class Game
     end
   end
 
+  def look_around
+    puts "#{@map.current_location.inspect_description}\n"
+  end
+
   def open_item(additional)
     # if current_location doesn't have the item, check player inventory
     item = @map.current_location.items.find {|item| item.name == additional}
 
+    def reveal_items(item)
+      # Item is in a Location
+      if item.associated_location
+        # reveal items
+        item.associated_location.items.each do |item|
+          if item.is_hidden == true
+            item.is_hidden = false
+          end
+        end
+      end
+    end
+
     if item
-      item.state[:is_open] = true
-      puts "You opened the #{item.name}"
+      item.state = :open
+      puts "You opened the #{item.name}\n"
+
+      reveal_items(item)
+      @map.current_location.reconstruct_inspect_description
     else
-      puts "You can't open the #{item.name}"
+      puts "You can't open the #{item.name}\n"
     end
   end
 
@@ -84,6 +106,6 @@ class Game
 end
 
 if __FILE__ == $PROGRAM_NAME
-  g = Game.new(Player.new('Cary'))
+  g = Game.new(PLAYER_1)
   g.start
 end

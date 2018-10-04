@@ -1,6 +1,7 @@
 class Player
-  def initialize(name)
-    @name = name
+  def initialize
     @inventory = []
   end
 end
+
+PLAYER_1 = Player.new

@@ -5,30 +5,43 @@
 # Need to collect water, seeds, till the soil.
 
 require_relative 'map'
+require_relative 'item'
 
 ####
 # items
 ####
 
-letter = Item.new(
-  'letter',
-   "The letterhead of the message reads 'Perry Ford Bank'
-   in large block font. The letter reads, 'It has come to our
-   attention that your recurring payment on your property loan has
-   been cancelled. Our records show that your account has not been
-   active for longer than 6 months. Pursuant to UCC code 018B,
-   we have the authority to foreclose your property if we do
-  not find evidence of income generating activities taking
-  place at your address.
-  Our investigation will take place on October 15, 2018 at 6PM.'",
-  applicable_commands: [:read]
+mailbox = Item.new(
+'mailbox',
+"It's an old-style mailbox with the red lever sticking up.",
+  applicable_commands: [:open],
+  state: :open,
+  state_descriptions: {
+    open: {
+      location: 'There is an open mailbox here.',
+      item: 'The mailbox is open.'
+    },
+    closed: {
+      location: 'There is a closed mailbox here.',
+      item: 'The mailbox is closed.'
+    }
+  }
 )
 
-mailbox = Item.new(
-  'mailbox',
-  "It's an old-style mailbox with the red lever sticking up.",
-  applicable_commands: [:open],
-  state: {is_open: false}
+letter = Item.new(
+'letter',
+"The letterhead of the message reads 'Perry Ford Bank'
+in large block font. The letter reads, 'It has come to our
+attention that your recurring payment on your property loan has
+been cancelled. Our records show that your account has not been
+active for longer than 6 months. Pursuant to UCC code 018B,
+we have the authority to foreclose your property if we do
+not find evidence of income generating activities taking
+place at your address. Our investigation will take place
+on October 15, 2018 at 6PM.'",
+  applicable_commands: [:read],
+  location_description: 'There is a letter inside the mailbox.',
+  is_hidden: true,
 )
 
 ###
@@ -36,27 +49,32 @@ mailbox = Item.new(
 ###
 
 waterfall = Location.new('
-  The sound of rushing water is envelopes your senses. Before you lies a large waterfall.
+The sound of rushing water is envelopes your senses.
+Before you lies a large waterfall.
 ')
 
 stream = Location.new('
-  You stumble across a moving body of water. It looks like a healthy stream that any ecosystem could thrive off of.
+You stumble across a moving body of water. It looks like a healthy stream that
+any ecosystem could thrive off of.
 ')
 
 pond = Location.new('
-  You arrive at a pond. The water is very calm here and it makes you feel at peace with the world. You see an open gate to your east.
+You arrive at a pond. The water is very calm here and it makes you feel at
+peace with the world. You see an open gate to your east.
 ', blocked_paths: {'south' => {obstruction: 'wall'}})
 
 bedroom = Location.new('
 ', blocked_paths: {'west' => {obstruction: 'wall'}, 'south' => {obstruction: 'wall'}})
 
 barn = Location.new('
-  You arrive at what looks like a very dilapidated barn. It\'s clear that it hasn\'t been used in ages. There are a few old horse stalls here but no sign of horses.
+You arrive at what looks like a very dilapidated barn. It\'s clear that it
+hasn\'t been used in ages. There are a few old horse stalls here but no sign of horses.
 ')
 
-field = Location.new(
-  'You find yourself in an open field. The sun is shiny very brightly and you
-  feel a faint breeze on your skin. There is a fence to the south.',
+field = Location.new('
+You find yourself in an open field. The sun
+is shining very brightly and you feel a faint breeze on your skin.
+There is a fence to the south.',
   blocked_paths: {'south' => {obstruction: 'white picket fence'}}
 )
 
@@ -65,23 +83,25 @@ entryway = Location.new('
 ', blocked_paths: {'south' => {obstruction: 'wall'}})
 
 front_yard = Location.new('
-  There is a quaint, southern-style house in front of you toward the south. It has a wrap-around porch with a cushioned
-  swing fit for two. You are standing near a mailbox. There is an open gate to your west.
+There is a quaint, southern-style house in front of you toward the south.
+It has a wrap-around porch with a cushioned swing fit for two. There is
+an open gate to your west. You are standing near a mailbox.
 ',
+description_2: 'It looks like this mailbox might have been sent some mail.',
 items: [mailbox, letter],
 blocked_paths: {'north' => {obstruction: 'white picket fence'}}
 )
 
 old_tree = Location.new('
-  You see an old tree that looks like it has been through multiple human lifetimes.
+You see an old tree that looks like it has been through multiple human lifetimes.
 ')
 
 dry_earth = Location.new('
-  There isn\'t much here. You are standing on a barren plot of land.
+There isn\'t much here. You are standing on a barren plot of land.
 ')
 
 tractor = Location.new('
-  An old tractor is parked next to a shed. It looks like the tractor has seen better days.
+An old tractor is parked next to a shed. It looks like the tractor has seen better days.
 ', blocked_paths: {'south' => {obstruction: 'wall'}})
 
 living_room = Location.new('

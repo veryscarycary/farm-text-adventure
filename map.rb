@@ -57,26 +57,27 @@ class Map
 end
 
 class Location
-  attr_reader :description, :blocked_paths
+  attr_reader :description, :blocked_paths, :inspect_description
   attr_accessor :items
 
   def initialize(description, options = {})
-    @description = description
-    @inspect_description = options[:inspect_description] || ''
+    @description = description.gsub(/\R+/, ' ')
+    @description_2= options[:description_2] ? options[:description_2].gsub(/\R+/, ' ') : ''
+    @inspect_description = options[:description_2] || ''
     @items = options[:items] || []
     @people = options[:people] || []
     @blocked_paths = options[:blocked_paths] || []
+
+    @items.each { |item| item.associated_location = self }
   end
-end
 
-class Item
-  attr_reader :description, :name
-  attr_accessor :state
+  def reconstruct_inspect_description
+    item_descriptions = @items.select do |item|
+      if !item.is_hidden
+        item.location_description
+      end
+    end
 
-  def initialize(name, description, options = {})
-    @name = name
-    @description = description
-    @applicable_commands = options[:applicable_commands] ? options[:applicable_commands].concat([:take, :drop]) : [:take, :drop]
-    @state = options[:state] || {}
+    item_descriptions.unshift(@description_2).join(' ')
   end
 end

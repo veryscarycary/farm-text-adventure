@@ -1,3 +1,5 @@
+require 'rubygems'
+require 'colorize'
 require_relative 'default_map'
 
 COMMANDS = [
@@ -23,7 +25,7 @@ class Game
       puts ""
       puts @map.current_location.description
       puts ""
-      response = gets.chomp
+      response = gets.chomp.blue
       parse_user_response(response)
     end
   end

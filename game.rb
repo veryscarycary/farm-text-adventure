@@ -20,10 +20,10 @@ class Game
     intro
     puts ""
     until game_over?
+      puts ""
       puts @map.current_location.description
       puts ""
       response = gets.chomp
-      puts ""
       parse_user_response(response)
     end
   end
@@ -55,7 +55,7 @@ class Game
   end
 
   def look_around
-    puts "#{@map.current_location.inspect_description}\n"
+    puts "\n#{@map.current_location.inspect_description}\n"
   end
 
   def open_item(additional)
@@ -76,12 +76,12 @@ class Game
 
     if item
       item.state = :open
-      puts "You opened the #{item.name}\n"
+      puts "\nYou opened the #{item.name}"
 
       reveal_items(item)
       @map.current_location.reconstruct_inspect_description
     else
-      puts "You can't open the #{item.name}\n"
+      puts "\nYou can't open the #{item.name}"
     end
   end
 
@@ -92,12 +92,12 @@ class Game
     if item
       puts item.description
     else
-      puts "You can't read the #{item.name}"
+      puts "\nYou can't read the #{item.name}"
     end
   end
 
   def intro
-    puts "Welcome to the text adventure! You will be in a loop!"
+    puts "\nWelcome to the text adventure! You will be in a loop!"
   end
 
   def game_over?

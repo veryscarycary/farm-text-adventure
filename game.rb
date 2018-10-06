@@ -3,32 +3,32 @@ require_relative 'default_map'
 
 COMMANDS = {
   go: {
-    numberOfArgs: 1,
-    definition: ''
+    args: ['direction'],
+    definition: 'Moves your player in the chosen direction (north/south/east/west) around the map'
   },
   read: {
-    numberOfArgs: 1,
-    definition: ''
+    args: ['item'],
+    definition: 'Reads the inscription on an item'
   },
   take: {
-    numberOfArgs: 1,
-    definition: ''
+    args: ['item'],
+    definition: 'Take an item with you in your personal inventory'
   },
   open: {
-    numberOfArgs: 1,
-    definition: ''
+    args: ['target(item/door)'],
+    definition: 'Opens the target, whether it be an item or a door'
   },
   drop: {
-    numberOfArgs: 1,
-    definition: ''
+    args: ['item'],
+    definition: 'Drops an item in your current location and removes it from your personal inventory'
   },
   look_around: {
-    numberOfArgs: 0,
-    definition: ''
+    args: [],
+    definition: 'Describes your current location'
   },
   help: {
-    numberOfArgs: 0,
-    definition: ''
+    args: [],
+    definition: 'Displays the help menu'
   },
 };
 
@@ -42,7 +42,10 @@ class Game
   def start
     intro
     putsy ""
+    help
+    putsy ""
     putsy @map.current_location.description
+
     until game_over?
       putsy ""
       response = gets.chomp
@@ -80,8 +83,8 @@ class Game
 
   def help
     putsy "Commands:\n"
-    COMMANDS.each do |command, definition|
-      puts "#{command} - #{definition}".yellow
+    COMMANDS.each do |command, command_hash|
+      puts "#{command}#{" [#{command_hash[:args][0]}]" if command_hash[:args].length > 0} - #{command_hash[:definition]}".yellow
     end
   end
 
@@ -128,7 +131,7 @@ class Game
   end
 
   def intro
-    putsy "Welcome to the text adventure! You will be in a loop!"
+    putsy "Welcome to the text adventure! Let the adventure begin!"
   end
 
   def game_over?

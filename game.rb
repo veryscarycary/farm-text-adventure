@@ -1,15 +1,36 @@
-require 'rubygems'
-require 'colorize'
+require_relative 'kernal'
 require_relative 'default_map'
 
-COMMANDS = [
-  :go,
-  :read,
-  :take,
-  :open,
-  :drop,
-  :look_around
-];
+COMMANDS = {
+  go: {
+    numberOfArgs: 1,
+    definition: ''
+  },
+  read: {
+    numberOfArgs: 1,
+    definition: ''
+  },
+  take: {
+    numberOfArgs: 1,
+    definition: ''
+  },
+  open: {
+    numberOfArgs: 1,
+    definition: ''
+  },
+  drop: {
+    numberOfArgs: 1,
+    definition: ''
+  },
+  look_around: {
+    numberOfArgs: 0,
+    definition: ''
+  },
+  help: {
+    numberOfArgs: 0,
+    definition: ''
+  },
+};
 
 class Game
 
@@ -20,12 +41,11 @@ class Game
 
   def start
     intro
-    puts ""
+    putsy ""
+    putsy @map.current_location.description
     until game_over?
-      puts ""
-      puts @map.current_location.description
-      puts ""
-      response = gets.chomp.blue
+      putsy ""
+      response = gets.chomp
       parse_user_response(response)
     end
   end
@@ -34,9 +54,7 @@ class Game
     command = response.split(' ')[0].to_sym
     additional = response.split(' ')[1..-1].join(' ')
 
-    if COMMANDS.include?(command)
-      invoke_command(command, additional)
-    end
+    invoke_command(command, additional)
   end
 
   def invoke_command(command, additional)
@@ -53,11 +71,22 @@ class Game
         @map.current_location.items
       when :drop
         @map.current_location.items
+      when :help
+        help
+      else
+        putsy "Invalid command. Please use the 'help' command to view your options."
+    end
+  end
+
+  def help
+    putsy "Commands:\n"
+    COMMANDS.each do |command, definition|
+      puts "#{command} - #{definition}".yellow
     end
   end
 
   def look_around
-    puts "\n#{@map.current_location.inspect_description}\n"
+    putsy "#{@map.current_location.inspect_description}\n"
   end
 
   def open_item(additional)
@@ -78,12 +107,12 @@ class Game
 
     if item
       item.state = :open
-      puts "\nYou opened the #{item.name}"
+      putsy "You opened the #{item.name}"
 
       reveal_items(item)
       @map.current_location.reconstruct_inspect_description
     else
-      puts "\nYou can't open the #{item.name}"
+      putsy "You can't open the #{item.name}"
     end
   end
 
@@ -92,14 +121,14 @@ class Game
     item = @map.current_location.items.find {|item| item.name == additional}
 
     if item
-      puts item.description
+      putsy item.description
     else
-      puts "\nYou can't read the #{item.name}"
+      putsy "You can't read the #{item.name}"
     end
   end
 
   def intro
-    puts "\nWelcome to the text adventure! You will be in a loop!"
+    putsy "Welcome to the text adventure! You will be in a loop!"
   end
 
   def game_over?

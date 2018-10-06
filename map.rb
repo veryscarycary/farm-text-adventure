@@ -1,4 +1,3 @@
-
 class Map
   OUT_OF_BOUNDS_OBSTRUCTION = 'chain link fence'
   attr_reader :current_location
@@ -24,34 +23,53 @@ class Map
     coord >= 0 && (coord_type == :x ? coord < @grid[@current_y].length : coord < @grid.length)
   end
 
-  def print_out_of_bounds_message(direction)
-    puts "It looks like a #{OUT_OF_BOUNDS_OBSTRUCTION} is blocking your path. You can't go #{direction}."
+  def print_blocked_path_message(direction, obstruction = OUT_OF_BOUNDS_OBSTRUCTION)
+    putsy "It looks like a #{OUT_OF_BOUNDS_OBSTRUCTION} is blocking your path. You can't go #{direction}."
   end
 
   def go(direction)
     if @current_location.blocked_paths.include?(direction)
-      puts "It looks like a #{@current_location.blocked_paths[direction][:obstruction]} is blocking your path. You can't go #{direction}."
+      print_blocked_path_message(direction, @current_location.blocked_paths[direction][:obstruction])
       return
     end
-
 
     case direction
       when 'north'
         next_y = @current_y - 1
 
-        within_bounds?(next_y, :y) ? update_current_location(nil, next_y) : print_out_of_bounds_message(direction)
+        if within_bounds?(next_y, :y)
+          update_current_location(nil, next_y)
+          putsy @current_location.description
+        else
+          print_out_of_bounds_message(direction)
+        end
       when 'south'
         next_y = @current_y + 1
 
-        within_bounds?(next_y, :y) ? update_current_location(nil, next_y) : print_out_of_bounds_message(direction)
+        if within_bounds?(next_y, :y)
+          update_current_location(nil, next_y)
+          putsy @current_location.description
+        else
+          print_out_of_bounds_message(direction)
+        end
       when 'west'
         next_x = @current_x - 1
 
-        within_bounds?(next_x, :x) ? update_current_location(next_x, nil) : print_out_of_bounds_message(direction)
+        if within_bounds?(next_x, :x)
+          update_current_location(next_x, nil)
+          putsy @current_location.description
+        else
+          print_out_of_bounds_message(direction)
+        end
       when 'east'
         next_x = @current_x + 1
 
-        within_bounds?(next_x, :x) ? update_current_location(next_x, nil) : print_out_of_bounds_message(direction)
+        if within_bounds?(next_x, :x)
+          update_current_location(next_x, nil)
+          putsy @current_location.description
+        else
+          print_out_of_bounds_message(direction)
+        end
     end
   end
 end

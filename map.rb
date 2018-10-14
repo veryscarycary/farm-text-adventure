@@ -89,13 +89,13 @@ class Location
     @items.each { |item| item.associated_location = self }
   end
 
-  def reconstruct_inspect_description
+  def reconstruct_description
     item_descriptions = @items.select do |item|
       if !item.is_hidden
         item.location_description
       end
     end
 
-    item_descriptions.unshift(@description_2).join(' ')
+    item_descriptions.unshift(@description).join(' ')
   end
 end

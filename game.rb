@@ -100,22 +100,33 @@ class Game
       # Item is in a Location
       if item.associated_location
         # reveal items
+        revealed_items = []
+
         item.associated_location.items.each do |item|
           if item.is_hidden == true
             item.is_hidden = false
+            revealed_items << item
           end
         end
+
+        revealed_items
       end
     end
 
     if item
       item.state = :open
-      putsy "You opened the #{item.name}"
+      open_output = "You opened the #{item.name}."
 
-      reveal_items(item)
-      @map.current_location.reconstruct_inspect_description
+      revealed_items = reveal_items(item)
+      if revealed_items.length > 0
+        open_output_arr = revealed_items.unshift(open_output)
+        open_output = open_output_arr.join(' ')
+      end
+      putsy open_output
+
+      @map.current_location.reconstruct_description
     else
-      putsy "You can't open the #{item.name}"
+      putsy "You can't open the #{item.name}."
     end
   end
 
@@ -123,8 +134,9 @@ class Game
     # if current_location doesn't have the item, check player inventory
     item = @map.current_location.items.find {|item| item.name == additional}
 
-    if item
-      putsy item.description
+    if item && item.method_defined?(read_description)
+      putsy item.read_description
+
     else
       putsy "You can't read the #{item.name}"
     end

@@ -8,6 +8,8 @@ class Item
     @name = name
     @description = description.gsub(/\R+/, ' ')
     @location_description = options[:location_description]
+    @read_description = options[:read_description]
+    @on_open_contents = options[:on_open_contents]
     @applicable_commands = options[:applicable_commands] ? options[:applicable_commands].concat([:take, :drop]) : [:take, :drop]
     @associated_location = options[:associated_location] || nil
     @state = options[:state] || nil

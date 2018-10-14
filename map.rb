@@ -12,7 +12,7 @@ class Map
   def update_current_location(x = nil, y = nil)
     if x
       @current_x = x
-    elsif
+    else
       @current_y = y
     end
 

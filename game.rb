@@ -30,6 +30,10 @@ COMMANDS = {
     args: ['item'],
     definition: 'Describes an item, either in your current location or in your inventory'
   },
+  inventory: {
+    args: [],
+    definition: 'Lists the items in your inventory'
+  },
   help: {
     args: [],
     definition: 'Displays the help menu'
@@ -68,6 +72,10 @@ class Game
     case command
       when :go
         @map.go(additional)
+      when :help
+        help
+      when :inventory
+        @player.check_inventory
       when :open
         open_item(additional)
       when :read
@@ -77,11 +85,9 @@ class Game
       when :look_at
         look_at(additional)
       when :take
-        @map.current_location.items
+        take_item(additional)
       when :drop
-        @map.current_location.items
-      when :help
-        help
+        drop_item(additional)
       else
         putsy "Invalid command. Please use the 'help' command to view your options."
     end
@@ -98,18 +104,35 @@ class Game
     putsy "#{@map.current_location.description}\n"
   end
 
+  def _check_for_item(item_name)
+    @map.current_location.items.find {|curr_item| curr_item.name == item_name} || @player.inventory.find {|curr_item| curr_item.name == item_name}
+  end
+
   def look_at(item_name)
-    itemFound = @map.current_location.items.find {|curr_item| curr_item.name == item_name} || @player.inventory.find {|curr_item| curr_item.name == item_name}
-    if itemFound
-      putsy itemFound.description
+    item = _check_for_item(item_name)
+
+    if item
+      putsy item.description
     else
-      putsy "There isn't a #{item.name} to look at."
+      putsy "There isn't a #{item_name} to look at."
     end
+  end
+
+  def take_item(item_name)
+    item = _check_for_item(item_name)
+    @player.add_to_inventory(item)
+  end
+
+  def drop_item(item_name)
+    item = _check_for_item(item_name)
+    dropped_item = @player.drop_from_inventory(item)
+
+    @map.current_location.items << dropped_item
   end
 
   def open_item(additional)
     # if current_location doesn't have the item, check player inventory
-    item = @map.current_location.items.find {|item| item.name == additional}
+    item = _check_for_item(additional)
 
     def reveal_items(item)
       # Item is in a Location
@@ -148,11 +171,10 @@ class Game
 
   def read_item(additional)
     # if current_location doesn't have the item, check player inventory
-    item = @map.current_location.items.find {|item| item.name == additional}
+    item = _check_for_item(additional)
 
-    if item && item.method_defined?(read_description)
+    if item && item.respond_to?(:read_description)
       putsy item.read_description
-
     else
       putsy "You can't read the #{item.name}"
     end

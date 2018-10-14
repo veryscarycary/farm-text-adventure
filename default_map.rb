@@ -41,7 +41,7 @@ not find evidence of income generating activities taking
 place at your address. Our investigation will take place
 on October 15, 2018 at 6PM.'",
   applicable_commands: [:read],
-  on_open_contents: lambda { puts "There is a letter inside the mailbox." }
+  reveal_description: "There is a letter inside the mailbox.",
   location_description: 'There is a letter inside the mailbox.',
   is_hidden: true,
 )

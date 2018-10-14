@@ -26,6 +26,10 @@ COMMANDS = {
     args: [],
     definition: 'Describes your current location'
   },
+  look_at: {
+    args: ['item'],
+    definition: 'Describes an item, either in your current location or in your inventory'
+  },
   help: {
     args: [],
     definition: 'Displays the help menu'
@@ -70,6 +74,8 @@ class Game
         read_item(additional)
       when :look_around
         look_around
+      when :look_at
+        look_at(additional)
       when :take
         @map.current_location.items
       when :drop
@@ -89,7 +95,16 @@ class Game
   end
 
   def look_around
-    putsy "#{@map.current_location.inspect_description}\n"
+    putsy "#{@map.current_location.description}\n"
+  end
+
+  def look_at(item_name)
+    itemFound = @map.current_location.items.find {|curr_item| curr_item.name == item_name} || @player.inventory.find {|curr_item| curr_item.name == item_name}
+    if itemFound
+      putsy itemFound.description
+    else
+      putsy "There isn't a #{item.name} to look at."
+    end
   end
 
   def open_item(additional)
@@ -119,7 +134,8 @@ class Game
 
       revealed_items = reveal_items(item)
       if revealed_items.length > 0
-        open_output_arr = revealed_items.unshift(open_output)
+        reveal_descriptions = revealed_items.map {|item| item.reveal_description }
+        open_output_arr = reveal_descriptions.unshift(open_output)
         open_output = open_output_arr.join(' ')
       end
       putsy open_output

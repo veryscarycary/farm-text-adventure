@@ -75,8 +75,8 @@ class Map
 end
 
 class Location
-  attr_reader :description, :blocked_paths, :inspect_description
-  attr_accessor :items
+  attr_reader :blocked_paths, :inspect_description
+  attr_accessor :description, :items
 
   def initialize(description, options = {})
     @description = description.gsub(/\R+/, ' ')
@@ -90,12 +90,12 @@ class Location
   end
 
   def reconstruct_description
-    item_descriptions = @items.select do |item|
+    item_descriptions = @items.map do |item|
       if !item.is_hidden
         item.location_description
       end
     end
 
-    item_descriptions.unshift(@description).join(' ')
+    @description = item_descriptions.unshift(@description).join(' ').gsub(/\s+/, ' ')
   end
 end

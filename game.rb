@@ -2,6 +2,10 @@ require_relative 'kernal'
 require_relative 'default_map'
 
 COMMANDS = {
+  help: {
+    args: [],
+    definition: 'Displays the help menu'
+  },
   go: {
     args: ['direction'],
     definition: 'Moves your player in the chosen direction (north/south/east/west) around the map'
@@ -33,10 +37,6 @@ COMMANDS = {
   inventory: {
     args: [],
     definition: 'Lists the items in your inventory'
-  },
-  help: {
-    args: [],
-    definition: 'Displays the help menu'
   },
 };
 
@@ -123,6 +123,8 @@ class Game
     if item
       @map.current_location.remove_item(item)
       @player.add_to_inventory(item)
+
+      putsy "You took the #{item.name}."
     end
   end
 
@@ -176,10 +178,12 @@ class Game
     # if current_location doesn't have the item, check player inventory
     item = _check_for_item(additional)
 
-    if item && item.respond_to?(:read_description)
+    if item && defined?(item.read_description) && !item.read_description.nil?
       putsy item.read_description
+    elsif item
+      putsy "You can't read the #{additional}"
     else
-      putsy "You can't read the #{item.name}"
+      putsy "There is no #{additional} to read."
     end
   end
 

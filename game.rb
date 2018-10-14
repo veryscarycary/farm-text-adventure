@@ -120,7 +120,10 @@ class Game
 
   def take_item(item_name)
     item = _check_for_item(item_name)
-    @player.add_to_inventory(item)
+    if item
+      @map.current_location.remove_item(item)
+      @player.add_to_inventory(item)
+    end
   end
 
   def drop_item(item_name)

@@ -89,6 +89,10 @@ class Location
     @items.each { |item| item.associated_location = self }
   end
 
+  def remove_item(item)
+    @items.delete(item)
+  end
+
   def reconstruct_description
     item_descriptions = @items.map do |item|
       if !item.is_hidden

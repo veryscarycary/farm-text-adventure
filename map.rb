@@ -41,7 +41,7 @@ class Map
           update_current_location(nil, next_y)
           putsy @current_location.description
         else
-          print_out_of_bounds_message(direction)
+          print_blocked_path_message(direction)
         end
       when 'south'
         next_y = @current_y + 1
@@ -50,7 +50,7 @@ class Map
           update_current_location(nil, next_y)
           putsy @current_location.description
         else
-          print_out_of_bounds_message(direction)
+          print_blocked_path_message(direction)
         end
       when 'west'
         next_x = @current_x - 1
@@ -59,7 +59,7 @@ class Map
           update_current_location(next_x, nil)
           putsy @current_location.description
         else
-          print_out_of_bounds_message(direction)
+          print_blocked_path_message(direction)
         end
       when 'east'
         next_x = @current_x + 1
@@ -68,7 +68,7 @@ class Map
           update_current_location(next_x, nil)
           putsy @current_location.description
         else
-          print_out_of_bounds_message(direction)
+          print_blocked_path_message(direction)
         end
     end
   end

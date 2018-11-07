@@ -24,7 +24,7 @@ class Map
   end
 
   def print_blocked_path_message(direction, obstruction = OUT_OF_BOUNDS_OBSTRUCTION)
-    putsy "It looks like a #{OUT_OF_BOUNDS_OBSTRUCTION} is blocking your path. You can't go #{direction}."
+    putsy "It looks like a #{obstruction} is blocking your path. You can't go #{direction}."
   end
 
   def go(direction)

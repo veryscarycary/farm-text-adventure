@@ -88,6 +88,8 @@ class Game
         take_item(additional)
       when :drop
         drop_item(additional)
+      when :show_location_items
+        putsy @map.current_location.items.inspect
       else
         putsy "Invalid command. Please use the 'help' command to view your options."
     end
@@ -104,7 +106,9 @@ class Game
     putsy "#{@map.current_location.description}\n"
   end
 
-  def _check_for_item(item_name)
+  def _check_for_item(item_name, target = nil)
+    return @map.current_location.items.find {|curr_item| curr_item.name == item_name} if target == :location
+    return @player.inventory.find {|curr_item| curr_item.name == item_name} if target == :inventory
     @map.current_location.items.find {|curr_item| curr_item.name == item_name} || @player.inventory.find {|curr_item| curr_item.name == item_name}
   end
 
@@ -119,20 +123,30 @@ class Game
   end
 
   def take_item(item_name)
-    item = _check_for_item(item_name)
+    item = _check_for_item(item_name, :location)
     if item
       @map.current_location.remove_item(item)
       @player.add_to_inventory(item)
 
       putsy "You took the #{item.name}."
+
+      @map.current_location.reconstruct_description
+    else
+      putsy "There isn't a #{item_name} to take."
     end
   end
 
   def drop_item(item_name)
-    item = _check_for_item(item_name)
-    dropped_item = @player.drop_from_inventory(item)
+    item = _check_for_item(item_name, :inventory)
+    if item
+      dropped_item = @player.drop_from_inventory(item)
 
-    @map.current_location.items << dropped_item
+      @map.current_location.items << dropped_item
+
+      @map.current_location.reconstruct_description
+    else
+      putsy "There isn't a #{item_name} to drop."
+    end
   end
 
   def open_item(additional)

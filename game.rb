@@ -1,6 +1,8 @@
 require_relative 'kernal'
 require_relative 'default_map'
 
+$current_time = '6:00 AM'
+
 COMMANDS = {
   help: {
     args: [],
@@ -45,6 +47,7 @@ class Game
   def initialize(player, map = DEFAULT_MAP)
     @player = player
     @map = map
+    @time = Time.new
   end
 
   def start
@@ -52,7 +55,7 @@ class Game
     putsy ""
     help
     putsy ""
-    putsy @map.current_location.description
+    print_current_location_description
 
     until game_over?
       putsy ""
@@ -90,6 +93,8 @@ class Game
         drop_item(additional)
       when :show_location_items
         putsy @map.current_location.items.inspect
+      when :show_time
+        putsy $current_time
       else
         putsy "Invalid command. Please use the 'help' command to view your options."
     end
@@ -98,8 +103,12 @@ class Game
   def help
     putsy "Commands:\n"
     COMMANDS.each do |command, command_hash|
-      puts "#{command}#{" [#{command_hash[:args][0]}]" if command_hash[:args].length > 0} - #{command_hash[:definition]}".yellow
+      puts "#{command}#{" [#{command_hash[:args][0]}]" if command_hash[:args].length > 0}  -  #{command_hash[:definition]}".yellow
     end
+  end
+
+  def print_current_location_description
+    @map.current_location.print_full_description
   end
 
   def look_around
@@ -168,6 +177,8 @@ class Game
 
     if item
       item.state = :open
+      item.update_location_description_due_to_state
+
       open_output = "You opened the #{item.name}."
 
       revealed_items = reveal_items(item)

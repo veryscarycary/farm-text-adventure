@@ -15,14 +15,14 @@ mailbox = Item.new(
 'mailbox',
 "It's an old-style mailbox with the red lever sticking up.",
   applicable_commands: [:open],
-  state: :open,
+  state: :closed,
   state_descriptions: {
     open: {
-      location: 'There is an open mailbox here.',
+      location: 'You are standing near an open mailbox.',
       item: 'The mailbox is open.'
     },
     closed: {
-      location: 'There is a closed mailbox here.',
+      location: 'You are standing near a mailbox.',
       item: 'The mailbox is closed.'
     }
   }
@@ -33,16 +33,48 @@ letter = Item.new(
 "The letter is signed and dated by somebody. It looks pretty official.",
   read_description: "The letterhead of the message reads 'Perry Ford Bank'
 in large block font. The letter reads, 'It has come to our
-attention that your recurring payment on your property loan has
-been cancelled. Our records show that your account has not been
-active for longer than 6 months. Pursuant to UCC code 018B,
+attention that you have been delinquent on your property loan
+payment for more than 6 months. Pursuant to UCC code 018B,
 we have the authority to foreclose your property if we do
-not find evidence of income generating activities taking
+not find evidence of agricultural activities taking
 place at your address. Our investigation will take place
 on October 15, 2018 at 6PM.'",
   applicable_commands: [:read],
   reveal_description: "There is a letter inside the mailbox.",
-  location_description: 'There is a letter inside the mailbox.',
+  location_description: "There is a letter inside the mailbox.",
+  is_hidden: true,
+)
+
+
+entry_table = Item.new(
+'table',
+"The entry table has a drawer that stretches its entire width.",
+  applicable_commands: [:read],
+  location_description: "There is an thin table with a drawer against the wall.",
+)
+
+entry_table_drawer = Item.new(
+'drawer',
+"It\'s a typical drawer.",
+  applicable_commands: [:open],
+  state: :closed,
+  state_descriptions: {
+    open: {
+      location: 'The table\'s drawer is open.',
+      item: 'The drawer is open.'
+    },
+    closed: {
+      location: '',
+      item: 'The drawer is closed.'
+    }
+  }
+)
+
+watch = Item.new(
+'watch',
+"It's an old, antique watch with a copper color to it. It seems to be working just fine. It is currently #{$current_time}",
+  reveal_description: "There is a watch inside the drawer",
+  location_description: "There is a watch inside the drawer.",
   is_hidden: true,
 )
 
@@ -81,13 +113,16 @@ There is a fence to the south.',
 )
 
 entryway = Location.new('
-
-', blocked_paths: {'south' => {obstruction: 'wall'}})
+You enter the entryway of the house. It seems like a usual entryway with ample
+walking space and baby blue and white striped wallpaper.
+',
+items: [entry_table, entry_table_drawer, watch],
+blocked_paths: {'south' => {obstruction: 'wall'}})
 
 front_yard = Location.new('
 There is a quaint, southern-style house in front of you toward the south.
 It has a wrap-around porch with a cushioned swing fit for two. There is
-an open gate to your west. You are standing near a mailbox.
+an open gate to your west.
 ',
 description_2: 'It looks like this mailbox might have been sent some mail.',
 items: [mailbox, letter],

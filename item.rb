@@ -1,13 +1,13 @@
 require_relative 'player'
 
 class Item
-  attr_reader :description, :name, :location_description, :read_description, :reveal_description
+  attr_reader :description, :name, :location_description, :read_description, :reveal_description, :update_location_description_due_to_state
   attr_accessor :state, :associated_location, :is_hidden
 
   def initialize(name, description, options = {})
     @name = name
     @description = description.gsub(/\R+/, ' ')
-    @location_description = options[:location_description]
+    @location_description = options[:location_description] || options[:state_descriptions][options[:state]][:location]
     @read_description = options[:read_description]
     # an item gets a 'reveal' description that adds to the location description when it becomes revealed after the open command
     @reveal_description = options[:reveal_description]
@@ -19,5 +19,9 @@ class Item
     # e.g. letter should only display its description if its owner(mailbox)
     # is open
     @is_hidden = options[:is_hidden] || false
+  end
+
+  def update_location_description_due_to_state
+    @location_description = @state_descriptions[@state][:location]
   end
 end

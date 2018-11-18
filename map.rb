@@ -43,7 +43,7 @@ class Map
 
         if within_bounds?(next_y, :y)
           update_current_location(nil, next_y)
-          putsy @current_location.description
+          print_current_location_description
         else
           print_blocked_path_message(direction)
         end
@@ -52,7 +52,7 @@ class Map
 
         if within_bounds?(next_y, :y)
           update_current_location(nil, next_y)
-          putsy @current_location.description
+          print_current_location_description
         else
           print_blocked_path_message(direction)
         end
@@ -61,7 +61,7 @@ class Map
 
         if within_bounds?(next_x, :x)
           update_current_location(next_x, nil)
-          putsy @current_location.description
+          print_current_location_description
         else
           print_blocked_path_message(direction)
         end
@@ -70,7 +70,7 @@ class Map
 
         if within_bounds?(next_x, :x)
           update_current_location(next_x, nil)
-          putsy @current_location.description
+          print_current_location_description
         else
           print_blocked_path_message(direction)
         end
@@ -104,7 +104,7 @@ class Location
       end
     end
 
-    putsy "#{@description}#{item_descriptions.join(' ')}\n"
+    putsy "#{@description} #{item_descriptions.join(' ')}\n"
   end
   #
   # def reconstruct_description

@@ -103,7 +103,7 @@ class Game
   end
 
   def look_around
-    putsy "#{@map.current_location.description}\n"
+    @map.print_current_location_description
   end
 
   def _check_for_item(item_name, target = nil)
@@ -129,8 +129,6 @@ class Game
       @player.add_to_inventory(item)
 
       putsy "You took the #{item.name}."
-
-      @map.current_location.reconstruct_description
     else
       putsy "There isn't a #{item_name} to take."
     end
@@ -142,8 +140,6 @@ class Game
       dropped_item = @player.drop_from_inventory(item)
 
       @map.current_location.items << dropped_item
-
-      @map.current_location.reconstruct_description
     else
       putsy "There isn't a #{item_name} to drop."
     end
@@ -180,9 +176,8 @@ class Game
         open_output_arr = reveal_descriptions.unshift(open_output)
         open_output = open_output_arr.join(' ')
       end
-      putsy open_output
 
-      @map.current_location.reconstruct_description
+      putsy open_output
     else
       putsy "You can't open the #{item.name}."
     end

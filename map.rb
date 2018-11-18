@@ -1,11 +1,11 @@
 class Map
   OUT_OF_BOUNDS_OBSTRUCTION = 'chain link fence'
-  attr_reader :current_location
+  attr_reader :current_location, :print_current_location_description
 
   def initialize(grid)
     @grid = grid
     @current_x = 1
-    @current_y = 1
+    @current_y = 2
     @current_location = @grid[@current_y][@current_x]
   end
 
@@ -25,6 +25,10 @@ class Map
 
   def print_blocked_path_message(direction, obstruction = OUT_OF_BOUNDS_OBSTRUCTION)
     putsy "It looks like a #{obstruction} is blocking your path. You can't go #{direction}."
+  end
+
+  def print_current_location_description
+    @current_location.print_full_description
   end
 
   def go(direction)
@@ -75,11 +79,11 @@ class Map
 end
 
 class Location
-  attr_reader :blocked_paths, :inspect_description
+  attr_reader :blocked_paths, :inspect_description, :print_full_description
   attr_accessor :description, :items
 
   def initialize(description, options = {})
-    @description = description.gsub(/\R+/, ' ')
+    @description = description.gsub(/\R+/, '')
     @description_2= options[:description_2] ? options[:description_2].gsub(/\R+/, ' ') : ''
     @inspect_description = options[:description_2] || ''
     @items = options[:items] || []
@@ -93,13 +97,23 @@ class Location
     @items.delete(item)
   end
 
-  def reconstruct_description
+  def print_full_description
     item_descriptions = @items.map do |item|
       if !item.is_hidden
         item.location_description
       end
     end
 
-    @description = item_descriptions.unshift(@description).join(' ').gsub(/\s+/, ' ')
+    putsy "#{@description}#{item_descriptions.join(' ')}\n"
   end
+  #
+  # def reconstruct_description
+  #   item_descriptions = @items.map do |item|
+  #     if !item.is_hidden
+  #       item.location_description
+  #     end
+  #   end
+  #
+  #   @description = item_descriptions.unshift(@description).join(' ').gsub(/\s+/, ' ')
+  # end
 end

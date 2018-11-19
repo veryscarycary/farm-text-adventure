@@ -1,7 +1,6 @@
+require_relative 'time'
 require_relative 'kernal'
 require_relative 'default_map'
-
-$current_time = '6:00 AM'
 
 COMMANDS = {
   help: {
@@ -94,7 +93,7 @@ class Game
       when :show_location_items
         putsy @map.current_location.items.inspect
       when :show_time
-        putsy $current_time
+        putsy Time.current_time
       else
         putsy "Invalid command. Please use the 'help' command to view your options."
     end
@@ -125,7 +124,12 @@ class Game
     item = _check_for_item(item_name)
 
     if item
-      putsy item.description
+      if item.name == 'watch' ||  item.name == 'clock'
+        putsy "#{item.description} The time reads: #{@time.current_time}"
+        return
+      end
+
+        putsy item.description
     else
       putsy "There isn't a #{item_name} to look at."
     end

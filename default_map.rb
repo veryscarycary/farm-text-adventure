@@ -72,7 +72,7 @@ entry_table_drawer = Item.new(
 
 watch = Item.new(
 'watch',
-"It's an old, antique watch with a copper color to it. It seems to be working just fine. It is currently #{$current_time}",
+"It's an old, antique watch with a copper color to it. It seems to be working just fine.",
   reveal_description: "There is a watch inside the drawer",
   location_description: "There is a watch inside the drawer.",
   is_hidden: true,

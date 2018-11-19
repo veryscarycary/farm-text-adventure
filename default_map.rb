@@ -39,7 +39,7 @@ we have the authority to foreclose your property if we do
 not find evidence of agricultural activities taking
 place at your address. Our investigation will take place
 on October 15, 2018 at 6PM.'",
-  applicable_commands: [:read],
+  applicable_commands: [:take, :drop, :read],
   reveal_description: "There is a letter inside the mailbox.",
   location_description: "There is a letter inside the mailbox.",
   is_hidden: true,
@@ -49,8 +49,7 @@ on October 15, 2018 at 6PM.'",
 entry_table = Item.new(
 'table',
 "The entry table has a drawer that stretches its entire width.",
-  applicable_commands: [:read],
-  location_description: "There is an thin table with a drawer against the wall.",
+  location_description: "There is an thin table with a drawer against the wall."
 )
 
 entry_table_drawer = Item.new(
@@ -73,6 +72,7 @@ entry_table_drawer = Item.new(
 watch = Item.new(
 'watch',
 "It's an old, antique watch with a copper color to it. It seems to be working just fine.",
+  applicable_commands: [:open, :take, :drop],
   reveal_description: "There is a watch inside the drawer",
   location_description: "There is a watch inside the drawer.",
   is_hidden: true,

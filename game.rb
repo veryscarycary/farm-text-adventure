@@ -60,7 +60,13 @@ class Game
       putsy ""
       response = gets.chomp
       parse_user_response(response)
+
+      increment_turn_counter
     end
+  end
+
+  def increment_turn_counter
+    @time.increment_turn_counter
   end
 
   def parse_user_response(response)
@@ -138,10 +144,15 @@ class Game
   def take_item(item_name)
     item = _check_for_item(item_name, :location)
     if item
-      @map.current_location.remove_item(item)
-      @player.add_to_inventory(item)
+      if item.applicable_commands.include?(:take)
+        p item.applicable_commands
+        @map.current_location.remove_item(item)
+        @player.add_to_inventory(item)
 
-      putsy "You took the #{item.name}."
+        putsy "You took the #{item.name}."
+      else
+        putsy "You can't take the #{item.name}."
+      end
     else
       putsy "There isn't a #{item_name} to take."
     end

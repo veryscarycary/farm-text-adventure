@@ -97,7 +97,7 @@ class Game
       when :read
         read_item(additional)
       when :look_around
-        look_around
+        look_around(additional)
       when :look_at
         look_at(additional)
       when :take
@@ -124,8 +124,12 @@ class Game
     @map.current_location.print_full_description
   end
 
-  def look_around
-    @map.print_current_location_description
+  def look_around(additional)
+    if additional.gsub(/ /, '').length > 0
+      putsy "Try using the 'look_around' command by itself."
+    end
+      @map.print_current_location_description
+    else
   end
 
   def _check_for_item(item_name, target = nil)

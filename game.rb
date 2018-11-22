@@ -69,9 +69,17 @@ class Game
     @time.increment_turn_counter
   end
 
+  def _get_command_and_additional(response)
+    hyphenated_command = response.split(' ')[0..1].join('_').to_sym
+    if COMMANDS.include?(hyphenated_command)
+      [hyphenated_command, response.split(' ')[2..-1].join(' ')]
+    else
+      [response.split(' ')[0].to_sym, response.split(' ')[1..-1].join(' ')]
+    end
+  end
+
   def parse_user_response(response)
-    command = response.split(' ')[0].to_sym
-    additional = response.split(' ')[1..-1].join(' ')
+    command, additional = _get_command_and_additional(response)
 
     invoke_command(command, additional)
   end

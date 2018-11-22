@@ -140,7 +140,7 @@ class Game
     @map.current_location.print_full_description
   end
 
-  def look_around(additional)
+  def look_around
     @map.print_current_location_description
   end
 

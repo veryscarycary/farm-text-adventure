@@ -72,9 +72,11 @@ class Game
   def _get_command_and_additional(response)
     hyphenated_command = response.split(' ')[0..1].join('_').to_sym
     if COMMANDS.include?(hyphenated_command)
-      [hyphenated_command, response.split(' ')[2..-1].join(' ')]
+      additional = response.split(' ')[2..-1]
+      [hyphenated_command, additional.nil? ? '' : additional.join(' ')]
     else
-      [response.split(' ')[0].to_sym, response.split(' ')[1..-1].join(' ')]
+      additional = response.split(' ')[1..-1]
+      [response.split(' ')[0].to_sym, additional.nil? ? '' : additional.join(' ')]
     end
   end
 
@@ -85,31 +87,45 @@ class Game
   end
 
   def invoke_command(command, additional)
-    case command
-      when :go
-        @map.go(additional)
-      when :help
-        help
-      when :inventory
-        @player.check_inventory
-      when :open
-        open_item(additional)
-      when :read
-        read_item(additional)
-      when :look_around
-        look_around(additional)
-      when :look_at
-        look_at(additional)
-      when :take
-        take_item(additional)
-      when :drop
-        drop_item(additional)
-      when :show_location_items
-        putsy @map.current_location.items.inspect
-      when :show_time
-        putsy Time.current_time
-      else
-        putsy "Invalid command. Please use the 'help' command to view your options."
+    if COMMANDS.include?(command) && COMMANDS[command][:args].empty?
+      if additional.strip.length > 0
+        putsy "Try using the '#{command}' command by itself."
+        return
+      end
+
+      # commands without arguments
+      case command
+        when :help
+          help
+        when :inventory
+          @player.check_inventory
+        when :look_around
+          look_around
+        when :show_location_items
+          putsy @map.current_location.items.inspect
+        when :show_time
+          putsy Time.current_time
+        else
+          putsy "Invalid command. Please use the 'help' command to view your options."
+      end
+    else
+      # commands with arguments
+      case command
+        when :go
+          @map.go(additional)
+        when :open
+          open_item(additional)
+        when :read
+          read_item(additional)
+        when :look_at
+          look_at(additional)
+        when :take
+          take_item(additional)
+        when :drop
+          drop_item(additional)
+        else
+          putsy "Invalid command. Please use the 'help' command to view your options."
+      end
     end
   end
 
@@ -125,11 +141,7 @@ class Game
   end
 
   def look_around(additional)
-    if additional.gsub(/ /, '').length > 0
-      putsy "Try using the 'look_around' command by itself."
-    end
-      @map.print_current_location_description
-    else
+    @map.print_current_location_description
   end
 
   def _check_for_item(item_name, target = nil)

@@ -78,6 +78,30 @@ watch = Item.new(
   is_hidden: true,
 )
 
+armchair = Item.new(
+'armchair',
+"The armchair is made of a soft leather and has a sheen to it.",
+  applicable_commands: [:use],
+  location_description: "An ornate armchair is positioned in the center of the room.",
+)
+
+tv = Item.new(
+'tv',
+"It's an old CRT style tv. What a bulbous looking thing.",
+  applicable_commands: [:use],
+  state: :off,
+  state_descriptions: {
+    on: {
+      location: 'There is a tv playing here.',
+      item: 'The tv is on.'
+    },
+    off: {
+      location: 'A tv is sitting in the corner.',
+      item: 'The tv is off.'
+    }
+  }
+)
+
 ###
 # Locations
 ###
@@ -121,12 +145,14 @@ blocked_paths: {'south' => {obstruction: 'wall'}})
 
 front_yard = Location.new('
 There is a quaint, southern-style house in front of you toward the south.
-It has a wrap-around porch with a cushioned swing fit for two. There is
-an open gate to your west.
+It has a wrap-around porch with a cushioned swing fit for two.
 ',
 description_2: 'It looks like this mailbox might have been sent some mail.',
 items: [mailbox, letter],
-blocked_paths: {'north' => {obstruction: 'white picket fence'}}
+blocked_paths: {
+  'west' => {obstruction: 'white picket fence'},
+  'east' => {obstruction: 'white picket fence'},
+  'north' => {obstruction: 'locked gate'}}
 )
 
 old_tree = Location.new('
@@ -141,8 +167,12 @@ tractor = Location.new('
 An old tractor is parked next to a shed. It looks like the tractor has seen better days.
 ', blocked_paths: {'south' => {obstruction: 'wall'}})
 
+
 living_room = Location.new('
-', blocked_paths: {'east' => {obstruction: 'wall'}, 'south' => {obstruction: 'wall'}})
+  You step into a finely-decorated living room.
+',
+items: [armchair, tv],
+blocked_paths: {'east' => {obstruction: 'wall'}, 'south' => {obstruction: 'wall'}})
 
 
 

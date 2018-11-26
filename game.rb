@@ -87,45 +87,39 @@ class Game
   end
 
   def invoke_command(command, additional)
-    if COMMANDS.include?(command) && COMMANDS[command][:args].empty?
-      if additional.strip.length > 0
-        putsy "Try using the '#{command}' command by itself."
-        return
-      end
+    if COMMANDS.include?(command) && COMMANDS[command][:args].empty? && additional.strip.length > 0
+      putsy "Try using the '#{command}' command by itself."
+      return
+    end
 
+    case command
       # commands without arguments
-      case command
-        when :help
-          help
-        when :inventory
-          @player.check_inventory
-        when :look_around
-          look_around
-        when :show_location_items
-          putsy @map.current_location.items.inspect
-        when :show_time
-          putsy Time.current_time
-        else
-          putsy "Invalid command. Please use the 'help' command to view your options."
-      end
-    else
-      # commands with arguments
-      case command
-        when :go
-          @map.go(additional)
-        when :open
-          open_item(additional)
-        when :read
-          read_item(additional)
-        when :look_at
-          look_at(additional)
-        when :take
-          take_item(additional)
-        when :drop
-          drop_item(additional)
-        else
-          putsy "Invalid command. Please use the 'help' command to view your options."
-      end
+      when :help
+        help
+      when :inventory
+        @player.check_inventory
+      when :look_around
+        look_around
+      when :debug_location_items
+        putsy @map.current_location.items.inspect
+      when :debug_time
+        putsy @time.current_time
+
+        # commands with arguments
+      when :go
+        @map.go(additional)
+      when :open
+        open_item(additional)
+      when :read
+        read_item(additional)
+      when :look_at
+        look_at(additional)
+      when :take
+        take_item(additional)
+      when :drop
+        drop_item(additional)
+      else
+        putsy "Invalid command. Please use the 'help' command to view your options."
     end
   end
 
@@ -161,7 +155,7 @@ class Game
 
         putsy item.description
     else
-      putsy "There isn't a #{item_name} to look at."
+      putsy "There isn't #{item_name =~ /^[aeiouAEIOU]/ ? 'an' : 'a'} #{item_name} to look at."
     end
   end
 
@@ -178,7 +172,7 @@ class Game
         putsy "You can't take the #{item.name}."
       end
     else
-      putsy "There isn't a #{item_name} to take."
+      putsy "There isn't #{item_name =~ /^[aeiouAEIOU]/ ? 'an' : 'a'} #{item_name} to take."
     end
   end
 
@@ -189,7 +183,7 @@ class Game
 
       @map.current_location.items << dropped_item
     else
-      putsy "There isn't a #{item_name} to drop."
+      putsy "There isn't #{item_name =~ /^[aeiouAEIOU]/ ? 'an' : 'a'} #{item_name} to drop."
     end
   end
 

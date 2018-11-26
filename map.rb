@@ -74,6 +74,8 @@ class Map
         else
           print_blocked_path_message(direction)
         end
+      else
+        putsy "'#{direction}' is not a valid direction. Please use 'north', 'south', 'east', or 'west'!"
     end
   end
 end
@@ -83,9 +85,7 @@ class Location
   attr_accessor :description, :items
 
   def initialize(description, options = {})
-    @description = description.gsub(/\R+/, '')
-    @description_2= options[:description_2] ? options[:description_2].gsub(/\R+/, ' ') : ''
-    @inspect_description = options[:description_2] || ''
+    @description = description.gsub(/\R+/, ' ').strip
     @items = options[:items] || []
     @people = options[:people] || []
     @blocked_paths = options[:blocked_paths] || []
@@ -104,6 +104,7 @@ class Location
       end
     end
 
+    # @description is assumed to have a trailing space
     putsy "#{@description} #{item_descriptions.join(' ')}\n"
   end
   #

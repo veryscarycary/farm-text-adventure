@@ -1,5 +1,5 @@
 house = Item.new(
-'letter',
+'house',
 "It's a southern-style house -- kind of like the one in Little House on the Prairie.",
 )
 
@@ -29,7 +29,7 @@ in large block font. The letter reads, 'It has come to our
 attention that you have been delinquent on your property loan
 payment for more than 6 months. Pursuant to UCC code 018B,
 we have the authority to foreclose your property if we do
-not find evidence of agricultural activities taking
+not find evidence of active farming activities taking
 place at your address. Our investigation will take place
 on October 15, 2018 at 6PM.'",
   applicable_commands: [:take, :drop, :read],

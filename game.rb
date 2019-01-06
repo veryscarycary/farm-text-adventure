@@ -19,6 +19,10 @@ COMMANDS = {
     args: ['item'],
     definition: 'Take an item with you in your personal inventory'
   },
+  use: {
+    args: ['item'],
+    definition: 'Use an item i.e. activate/engage something'
+  },
   open: {
     args: ['target(item/door)'],
     definition: 'Opens the target, whether it be an item or a door'
@@ -110,6 +114,8 @@ class Game
         @map.go(additional)
       when :open
         open_item(additional)
+      when :use
+        use_item(additional)
       when :read
         read_item(additional)
       when :look_at
@@ -224,6 +230,17 @@ class Game
       putsy open_output
     else
       putsy "You can't open the #{item.name}."
+    end
+  end
+
+  def use_item(additional)
+    # if current_location doesn't have the item, check player inventory
+    item = _check_for_item(additional)
+
+    if item
+      item.use
+    else
+      putsy "You can't use the #{item.name}."
     end
   end
 

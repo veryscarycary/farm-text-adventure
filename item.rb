@@ -9,6 +9,7 @@ class Item
     @description = description.gsub(/\R+/, ' ')
     @location_description = options[:location_description] || (options.has_key?(:state_descriptions) ? options[:state_descriptions][options[:state]][:location] : '')
     @read_description = options[:read_description]
+    @use_description = options[:use_description]
     # an item gets a 'reveal' description that adds to the location description when it becomes revealed after the open command
     @reveal_description = options[:reveal_description]
     @applicable_commands = options[:applicable_commands] || []
@@ -24,5 +25,36 @@ class Item
 
   def update_location_description_due_to_state
     @location_description = @state_descriptions[@state][:location]
+  end
+
+  def use
+    case @state
+      when :on
+        toggle_on_off
+      when :off
+        toggle_on_off
+    end
+  end
+
+  def toggle_on_off
+    if @state == :on
+      @state = :off
+      update_location_description_due_to_state
+
+      off_output = "You turned off the #{@name}."
+
+      putsy off_output + @state_descriptions[@state][:trigger]
+
+    elsif @state == :off
+      @state = :on
+      update_location_description_due_to_state
+
+      on_output = "You turned on the #{@name}."
+
+      putsy on_output + @state_descriptions[@state][:trigger]
+
+    else
+      raise Error.new("Item '#{@name}' should not have invoked method toggle_on_off. It likely doesn't have an on or off state.")
+    end
   end
 end

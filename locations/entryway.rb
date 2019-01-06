@@ -1,3 +1,14 @@
+entryway = Item.new(
+'entryway',
+"It seems like a usual entryway with ample walking space and baby blue and white striped wallpaper.",
+location_description: "It seems like a usual entryway with ample walking space and baby blue and white striped wallpaper."
+)
+
+wallpaper = Item.new(
+'wallpaper',
+"The wallpaper has a baby blue color and white stripes. Typical ranch house style.",
+)
+
 entry_table = Item.new(
 'table',
 "The entry table has a drawer that stretches its entire width.",
@@ -32,8 +43,7 @@ watch = Item.new(
 
 
 ENTRYWAY = Location.new('
-You enter the entryway of the house. It seems like a usual entryway with ample
-walking space and baby blue and white striped wallpaper.
+You enter the entryway of the house.
 ',
-items: [entry_table, entry_table_drawer, watch],
+items: [entryway, wallpaper, entry_table, entry_table_drawer, watch],
 blocked_paths: {'south' => {obstruction: 'wall'}})

@@ -7,178 +7,20 @@
 require_relative 'map'
 require_relative 'item'
 
-####
-# items
-####
-
-mailbox = Item.new(
-'mailbox',
-"It's an old-style mailbox with the red lever sticking up.",
-  applicable_commands: [:open],
-  state: :closed,
-  state_descriptions: {
-    open: {
-      location: 'You are standing near an open mailbox.',
-      item: 'The mailbox is open.'
-    },
-    closed: {
-      location: 'You are standing near a mailbox.',
-      item: 'The mailbox is closed.'
-    }
-  }
-)
-
-letter = Item.new(
-'letter',
-"The letter is signed and dated by somebody. It looks pretty official.",
-  read_description: "The letterhead of the message reads 'Perry Ford Bank'
-in large block font. The letter reads, 'It has come to our
-attention that you have been delinquent on your property loan
-payment for more than 6 months. Pursuant to UCC code 018B,
-we have the authority to foreclose your property if we do
-not find evidence of agricultural activities taking
-place at your address. Our investigation will take place
-on October 15, 2018 at 6PM.'",
-  applicable_commands: [:take, :drop, :read],
-  reveal_description: "There is a letter inside the mailbox.",
-  location_description: "There is a letter inside the mailbox.",
-  is_hidden: true,
-)
-
-
-entry_table = Item.new(
-'table',
-"The entry table has a drawer that stretches its entire width.",
-  location_description: "There is an thin table with a drawer against the wall."
-)
-
-entry_table_drawer = Item.new(
-'drawer',
-"It\'s a typical drawer.",
-  applicable_commands: [:open],
-  state: :closed,
-  state_descriptions: {
-    open: {
-      location: 'The table\'s drawer is open.',
-      item: 'The drawer is open.'
-    },
-    closed: {
-      location: '',
-      item: 'The drawer is closed.'
-    }
-  }
-)
-
-watch = Item.new(
-'watch',
-"It's an old, antique watch with a copper color to it. It seems to be working just fine.",
-  applicable_commands: [:open, :take, :drop],
-  reveal_description: "There is a watch inside the drawer",
-  location_description: "There is a watch inside the drawer.",
-  is_hidden: true,
-)
-
-armchair = Item.new(
-'armchair',
-"The armchair is made of a soft leather and has a sheen to it.",
-  applicable_commands: [:use],
-  location_description: "An ornate armchair is positioned in the center of the room.",
-)
-
-tv = Item.new(
-'tv',
-"It's an old CRT style tv. What a bulbous looking thing.",
-  applicable_commands: [:use],
-  state: :off,
-  state_descriptions: {
-    on: {
-      location: 'There is a tv playing here.',
-      item: 'The tv is on.'
-    },
-    off: {
-      location: 'A tv is sitting in the corner.',
-      item: 'The tv is off.'
-    }
-  }
-)
-
 ###
-# Locations
+# require locations
 ###
 
-waterfall = Location.new('
-The sound of rushing water is envelopes your senses.
-Before you lies a large waterfall.
-')
-
-stream = Location.new('
-You stumble across a moving body of water. It looks like a healthy stream that
-any ecosystem could thrive off of.
-')
-
-pond = Location.new('
-You arrive at a pond. The water is very calm here and it makes you feel at
-peace with the world. You see an open gate to your east.
-', blocked_paths: {'south' => {obstruction: 'wall'}})
-
-bedroom = Location.new('
-', blocked_paths: {'west' => {obstruction: 'wall'}, 'south' => {obstruction: 'wall'}})
-
-barn = Location.new('
-You arrive at what looks like a very dilapidated barn. It\'s clear that it
-hasn\'t been used in ages. There are a few old horse stalls here but no sign of horses.
-')
-
-field = Location.new('
-You find yourself in an open field. The sun
-is shining very brightly and you feel a faint breeze on your skin.
-There is a fence to the south.',
-  blocked_paths: {'south' => {obstruction: 'white picket fence'}}
-)
-
-entryway = Location.new('
-You enter the entryway of the house. It seems like a usual entryway with ample
-walking space and baby blue and white striped wallpaper.
-',
-items: [entry_table, entry_table_drawer, watch],
-blocked_paths: {'south' => {obstruction: 'wall'}})
-
-front_yard = Location.new('
-There is a quaint, southern-style house in front of you toward the south.
-It has a wrap-around porch with a cushioned swing fit for two.
-',
-description_2: 'It looks like this mailbox might have been sent some mail.',
-items: [mailbox, letter],
-blocked_paths: {
-  'west' => {obstruction: 'white picket fence'},
-  'east' => {obstruction: 'white picket fence'},
-  'north' => {obstruction: 'locked gate'}}
-)
-
-old_tree = Location.new('
-You see an old tree that looks like it has been through multiple human lifetimes.
-')
-
-dry_earth = Location.new('
-There isn\'t much here. You are standing on a barren plot of land.
-')
-
-tractor = Location.new('
-An old tractor is parked next to a shed. It looks like the tractor has seen better days.
-', blocked_paths: {'south' => {obstruction: 'wall'}})
-
-
-living_room = Location.new('
-  You step into a finely-decorated living room.
-',
-items: [armchair, tv],
-blocked_paths: {'east' => {obstruction: 'wall'}, 'south' => {obstruction: 'wall'}})
-
+Dir[File.dirname(__FILE__) + '/locations/*.rb'].each do |file|
+  path = 'locations/' + File.basename(file, File.extname(file))
+  puts path
+  require_relative path
+end
 
 
 DEFAULT_MAP = Map.new([
-  [waterfall, barn, old_tree],
-  [stream, field, dry_earth],
-  [pond, front_yard, tractor],
-  [bedroom, entryway, living_room]
+  [WATERFALL, BARN, OLD_TREE],
+  [STREAM, FIELD, DRY_EARTH],
+  [POND, FRONT_YARD, TRACTOR],
+  [BEDROOM, ENTRYWAY, LIVING_ROOM]
 ]);

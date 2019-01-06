@@ -7,7 +7,7 @@ class Item
   def initialize(name, description, options = {})
     @name = name
     @description = description.gsub(/\R+/, ' ')
-    @location_description = options[:location_description] || options[:state_descriptions][options[:state]][:location]
+    @location_description = options[:location_description] || (options.has_key?(:state_descriptions) ? options[:state_descriptions][options[:state]][:location] : '')
     @read_description = options[:read_description]
     # an item gets a 'reveal' description that adds to the location description when it becomes revealed after the open command
     @reveal_description = options[:reveal_description]

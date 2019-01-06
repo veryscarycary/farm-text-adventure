@@ -1,7 +1,7 @@
 require_relative 'player'
 
 class Item
-  attr_reader :description, :name, :location_description, :read_description, :reveal_description, :update_location_description_due_to_state, :can_take, :applicable_commands
+  attr_reader :description, :name, :location_description, :read_description, :reveal_description, :state_descriptions, :update_location_description_due_to_state, :can_take, :applicable_commands
   attr_accessor :state, :associated_location, :is_hidden
 
   def initialize(name, description, options = {})
@@ -43,7 +43,7 @@ class Item
 
       off_output = "You turned off the #{@name}."
 
-      putsy off_output + @state_descriptions[@state][:trigger]
+      putsy "#{off_output} #{@state_descriptions[@state][:trigger]}"
 
     elsif @state == :off
       @state = :on
@@ -51,7 +51,7 @@ class Item
 
       on_output = "You turned on the #{@name}."
 
-      putsy on_output + @state_descriptions[@state][:trigger]
+      putsy "#{on_output} #{@state_descriptions[@state][:trigger]}"
 
     else
       raise Error.new("Item '#{@name}' should not have invoked method toggle_on_off. It likely doesn't have an on or off state.")

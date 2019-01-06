@@ -159,7 +159,7 @@ class Game
         return
       end
 
-        putsy item.description
+      putsy item.state ? "#{item.description} #{item.state_descriptions[item.state][:item]}" : item.description
     else
       putsy "There isn't #{item_name =~ /^[aeiouAEIOU]/ ? 'an' : 'a'} #{item_name} to look at."
     end

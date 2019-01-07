@@ -169,7 +169,6 @@ class Game
     item = _check_for_item(item_name, :location)
     if item
       if item.applicable_commands.include?(:take)
-        p item.applicable_commands
         @map.current_location.remove_item(item)
         @player.add_to_inventory(item)
 

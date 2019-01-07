@@ -23,6 +23,10 @@ COMMANDS = {
     args: ['item'],
     definition: 'Use an item i.e. activate/engage something'
   },
+  use_on: {
+    args: ['item'],
+    definition: 'Use an item on another item e.g. use key on lock'
+  },
   open: {
     args: ['target(item/door)'],
     definition: 'Opens the target, whether it be an item or a door'

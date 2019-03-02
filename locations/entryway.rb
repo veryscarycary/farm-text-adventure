@@ -12,7 +12,7 @@ wallpaper = Item.new(
 entry_table = Item.new(
 'table',
 "The entry table has a drawer that stretches its entire width.",
-  location_description: "There is an thin table with a drawer against the wall."
+  location_description: "There is a thin table with a drawer against the wall."
 )
 
 entry_table_drawer = Item.new(

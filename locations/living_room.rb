@@ -30,4 +30,4 @@ LIVING_ROOM = Location.new('
   You step into a finely-decorated living room.
 ',
 items: [armchair, tv],
-blocked_paths: {'east' => {obstruction: 'wall'}, 'south' => {obstruction: 'wall'}})
+blocked_paths: {'east' => {obstruction: 'wall'}, 'south' => {obstruction: 'wall'}, 'north' => {obstruction: 'wall'}})

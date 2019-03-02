@@ -98,11 +98,16 @@ class Location
   end
 
   def print_full_description
-    item_descriptions = @items.map do |item|
+    items_with_descriptions = @items.select do |item|
+      !(item.location_description.nil? || item.location_description.empty?)
+    end
+
+    item_descriptions = items_with_descriptions.map do |item|
       if !item.is_hidden
         item.location_description
       end
     end
+    p item_descriptions.join(' ')
 
     # @description is assumed to have a trailing space
     putsy "#{@description} #{item_descriptions.join(' ')}\n"

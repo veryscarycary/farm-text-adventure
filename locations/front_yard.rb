@@ -64,7 +64,7 @@ FRONT_YARD = Location.new('
 There is a quaint, southern-style house in front of you toward the south.
 ',
 description_2: 'It looks like this mailbox might have been sent some mail.',
-items: [house, mailbox, letter],
+items: [house, gate, mailbox, letter],
 blocked_paths: {
   'west' => {obstruction: 'white picket fence'},
   'east' => {obstruction: 'white picket fence'},

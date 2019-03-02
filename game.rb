@@ -149,9 +149,9 @@ class Game
   end
 
   def _check_for_item(item_name, target = nil)
-    return @map.current_location.items.find {|curr_item| curr_item.name == item_name} if target == :location
-    return @player.inventory.find {|curr_item| curr_item.name == item_name} if target == :inventory
-    @map.current_location.items.find {|curr_item| curr_item.name == item_name} || @player.inventory.find {|curr_item| curr_item.name == item_name}
+    return @map.current_location.items.find {|curr_item| curr_item.has_name?(item_name)} if target == :location
+    return @player.inventory.find {|curr_item| curr_item.has_name?(item_name)} if target == :inventory
+    @map.current_location.items.find {|curr_item| curr_item.has_name?(item_name)} || @player.inventory.find {|curr_item| curr_item.has_name?(item_name)}
   end
 
   def look_at(item_name)

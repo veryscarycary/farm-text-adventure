@@ -3,6 +3,7 @@ bedroom = Item.new('bedroom',
 
 desk = Item.new('desk',
 "It's an old antique desk. I wonder if the owner is a collector.",
+  aliases: ['old desk'],
   location_description: "There is an old desk in the corner of the room."
 )
 

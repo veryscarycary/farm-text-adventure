@@ -6,6 +6,7 @@ class Item
 
   def initialize(name, description, options = {})
     @name = name
+    @aliases = options[:aliases] || []
     @description = description.gsub(/\R+/, ' ')
     @location_description = options[:location_description] || (options.has_key?(:state_descriptions) ? options[:state_descriptions][options[:state]][:location] : '')
     @read_description = options[:read_description]
@@ -34,6 +35,10 @@ class Item
       when :off
         toggle_on_off
     end
+  end
+
+  def has_name?(name)
+    @name == name || @aliases.include?(name)
   end
 
   def toggle_on_off

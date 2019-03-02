@@ -3,6 +3,26 @@ house = Item.new(
 "It's a southern-style house -- kind of like the one in Little House on the Prairie.",
 )
 
+gate = Item.new(
+'gate',
+"It's a southern-style house -- kind of like the one in Little House on the Prairie.",
+aliases: ['locked gate'],
+state: :locked,
+state_descriptions: {
+  locked: {
+    location: 'There is a locked gate to your north.',
+    item: 'The gate is locked.'
+  },
+  open: {
+    location: 'A gate is open to the north.',
+    item: 'The gate is wide open.'
+  },
+  closed: {
+    location: 'A gate is to the north.',
+    item: 'The gate is closed shut.'
+  }
+})
+
 
 mailbox = Item.new(
 'mailbox',

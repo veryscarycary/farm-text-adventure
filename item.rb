@@ -5,7 +5,7 @@ class Item
   attr_accessor :state, :associated_location, :is_hidden
 
   def initialize(name, description, options = {})
-    @name = name
+    @name = name.strip()
     @aliases = options[:aliases] || []
     @description = description.gsub(/\R+/, ' ').squeeze(' ').strip()
     @location_description = options[:location_description] || (options.has_key?(:state_descriptions) ? options[:state_descriptions][options[:state]][:location] : '')

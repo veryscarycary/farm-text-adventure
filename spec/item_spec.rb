@@ -2,6 +2,16 @@ require 'spec_helper'
 
 describe 'Item' do
   context "#initialize" do
+    context "@name" do
+      it "should strip whitespace and carriage returns from description" do
+        item = Item.new('
+          item name
+        ', "Some item.")
+
+        expect(item.name).to eql("item name")
+      end
+    end
+
     context "@description" do
       it "should strip whitespace and carriage returns from description" do
         item = Item.new('item', "
@@ -17,6 +27,37 @@ describe 'Item' do
         ")
 
         expect(item.description).to eql("Some item. It's shiny.")
+      end
+    end
+
+    context "@location_description" do
+      it "should use state_descriptions[:state][:location] if no location description is provided" do
+        item = Item.new('item', "Some item.", {
+          state_descriptions: {
+            open: {
+              location: "State-specific location description."
+            }
+          },
+          state: :open
+        })
+
+        expect(item.description).to eql("Some item.")
+      end
+    end
+
+    context "@is_hidden" do
+      it "should be false by default" do
+        item = Item.new('item', "Some item.")
+
+        expect(item.is_hidden).to eql(false)
+      end
+    end
+
+    context "@can_take" do
+      it "should be true by default" do
+        item = Item.new('item', "Some item.")
+
+        expect(item.can_take).to eql(true)
       end
     end
   end

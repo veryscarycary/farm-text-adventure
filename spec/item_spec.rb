@@ -1,6 +1,25 @@
 require 'spec_helper'
 
 describe 'Item' do
+  context "#initialize" do
+    context "@description" do
+      it "should strip whitespace and carriage returns from description" do
+        item = Item.new('item', "
+          Some item.
+        ")
+
+        expect(item.description).to eql("Some item.")
+      end
+
+      it "should condense all spaces to just single spaces" do
+        item = Item.new('item', "
+          Some item.  It's shiny.
+        ")
+
+        expect(item.description).to eql("Some item. It's shiny.")
+      end
+    end
+  end
 
   context "#has_name?" do
     item = Item.new('machete', 'It\'s a sharp blade', {aliases: ['rusty machete', 'macheetah']})

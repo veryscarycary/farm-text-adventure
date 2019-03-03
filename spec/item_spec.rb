@@ -83,6 +83,37 @@ describe 'Item' do
     end
   end
 
+  context "#use" do
+    item = Item.new('item', "Some item.", {
+      state_descriptions: {
+        on: {
+          location: "On here."
+        },
+        off: {
+          location: "Off here."
+        },
+      },
+      state: :on
+    })
+
+    it "should call toggle_on_off if state is on" do
+      Item.any_instance.stub(:toggle_on_off)
+      item.use
+
+      expect(item).to have_received(:toggle_on_off)
+      Item.any_instance.unstub(:toggle_on_off)
+    end
+
+    it "should call toggle_on_off if state is off" do
+      item.state = :off
+      Item.any_instance.stub(:toggle_on_off)
+      item.use
+
+      expect(item).to have_received(:toggle_on_off)
+      Item.any_instance.unstub(:toggle_on_off)
+    end
+  end
+
   context "#has_name?" do
     item = Item.new('machete', 'It\'s a sharp blade', {aliases: ['rusty machete', 'macheetah']})
 
@@ -104,4 +135,21 @@ describe 'Item' do
       expect(item.has_name?(name)).to eql(false)
     end
   end
+
+  # context "#toggle_on_off" do
+  #   item = Item.new('item', "Some item.", {
+  #     state_descriptions: {
+  #       raging: {
+  #         location: "IT'S RAGING RIGHT NOW"
+  #       }
+  #     },
+  #     state: :raging
+  #   })
+  #
+  #   it "should error if state is neither on or off" do
+  #     # item.toggle_on_off
+  #     #
+  #     expect(item.toggle_on_off).to raise_error()
+  #   end
+  # end
 end

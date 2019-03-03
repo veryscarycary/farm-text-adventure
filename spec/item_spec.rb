@@ -62,6 +62,27 @@ describe 'Item' do
     end
   end
 
+  context "#update_location_description_due_to_state" do
+    item = Item.new('item', "Some item.", {
+      state_descriptions: {
+        open: {
+          location: "Open here."
+        },
+        closed: {
+          location: "Closed here."
+        },
+      },
+      state: :open
+    })
+
+    it "should set location_decription to new matching state location description" do
+      item.state = :closed
+      item.update_location_description_due_to_state
+
+      expect(item.location_description).to eql('Closed here.')
+    end
+  end
+
   context "#has_name?" do
     item = Item.new('machete', 'It\'s a sharp blade', {aliases: ['rusty machete', 'macheetah']})
 

@@ -59,7 +59,7 @@ class Item
       putsy "#{on_output} #{@state_descriptions[@state][:trigger]}"
 
     else
-      raise Error.new("Item '#{@name}' should not have invoked method toggle_on_off. It likely doesn't have an on or off state.")
+      raise "Item '#{@name}' should not have invoked method toggle_on_off. It likely doesn't have an on or off state."
     end
   end
 end

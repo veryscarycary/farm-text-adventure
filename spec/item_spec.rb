@@ -136,20 +136,53 @@ describe 'Item' do
     end
   end
 
-  # context "#toggle_on_off" do
-  #   item = Item.new('item', "Some item.", {
-  #     state_descriptions: {
-  #       raging: {
-  #         location: "IT'S RAGING RIGHT NOW"
-  #       }
-  #     },
-  #     state: :raging
-  #   })
-  #
-  #   it "should error if state is neither on or off" do
-  #     # item.toggle_on_off
-  #     #
-  #     expect(item.toggle_on_off).to raise_error()
-  #   end
-  # end
+  context "#toggle_on_off" do
+    it "should error if state is neither on or off" do
+      item = Item.new('item', "Some item.", {
+        state_descriptions: {
+          raging: {
+            location: "IT'S RAGING RIGHT NOW"
+          }
+        },
+        state: :raging
+        })
+      expect { item.toggle_on_off }.to raise_error
+    end
+
+    it "should turn item off if on" do
+      item = Item.new('item', "Some item.", {
+        state_descriptions: {
+          on: {
+            location: "on"
+          },
+          off: {
+            location: "off"
+          },
+        },
+        state: :on
+      })
+
+      item.toggle_on_off
+
+      expect(item.state).to eql(:off)
+    end
+
+    it "should turn item on if off" do
+      item = Item.new('item', "Some item.", {
+        state_descriptions: {
+          on: {
+            location: "on"
+          },
+          off: {
+            location: "off"
+          },
+        },
+        state: :off
+      })
+
+      item.toggle_on_off
+
+      expect(item.state).to eql(:on)
+    end
+  end
 end

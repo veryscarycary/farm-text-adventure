@@ -107,7 +107,6 @@ class Location
         item.location_description
       end
     end
-    p item_descriptions.join(' ')
 
     # @description is assumed to have a trailing space
     putsy "#{@description} #{item_descriptions.join(' ')}\n"

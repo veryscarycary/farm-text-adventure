@@ -36,7 +36,7 @@ entry_table_drawer = Item.new(
 watch = Item.new(
 'watch',
 "It's an old, antique watch with a copper color to it. It seems to be working just fine.",
-  applicable_commands: [:open, :take, :drop],
+  applicable_commands: [:take, :drop],
   reveal_description: "There is a watch inside the drawer",
   location_description: "There is a watch inside the drawer.",
   is_hidden: true,

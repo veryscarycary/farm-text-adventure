@@ -191,14 +191,16 @@ class Game
       dropped_item = @player.drop_from_inventory(item)
 
       @map.current_location.items << dropped_item
+
+      putsy "You dropped the #{item.name}."
     else
       putsy "There isn't #{item_name =~ /^[aeiouAEIOU]/ ? 'an' : 'a'} #{item_name} to drop."
     end
   end
 
-  def open_item(additional)
+  def open_item(item_name)
     # if current_location doesn't have the item, check player inventory
-    item = _check_for_item(additional)
+    item = _check_for_item(item_name)
 
     def reveal_items(item)
       # Item is in a Location
@@ -217,7 +219,7 @@ class Game
       end
     end
 
-    if item
+    if item && defined?(item.applicable_commands) && item.applicable_commands.include?(:open)
       item.state = :open
       item.update_location_description_due_to_state
 
@@ -231,32 +233,36 @@ class Game
       end
 
       putsy open_output
+    elsif item
+      putsy "You can't open the #{item_name}."
     else
-      putsy "You can't open the #{item.name}."
+      putsy "There is no #{item_name} to open."
     end
   end
 
-  def use_item(additional)
+  def use_item(item_name)
     # if current_location doesn't have the item, check player inventory
-    item = _check_for_item(additional)
+    item = _check_for_item(item_name)
 
-    if item
+    if item && defined?(item.use_description) && !item.use_description.nil?
       item.use
+    elsif item
+      putsy "You can't use the #{item_name}."
     else
-      putsy "You can't use the #{item.name}."
+      putsy "There is no #{item_name} to use."
     end
   end
 
-  def read_item(additional)
+  def read_item(item_name)
     # if current_location doesn't have the item, check player inventory
-    item = _check_for_item(additional)
+    item = _check_for_item(item_name)
 
     if item && defined?(item.read_description) && !item.read_description.nil?
       putsy item.read_description
     elsif item
-      putsy "You can't read the #{additional}"
+      putsy "You can't read the #{item_name}"
     else
-      putsy "There is no #{additional} to read."
+      putsy "There is no #{item_name} to read."
     end
   end
 

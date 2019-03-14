@@ -5,7 +5,7 @@ house = Item.new(
 
 gate = Item.new(
 'gate',
-"It's a southern-style house -- kind of like the one in Little House on the Prairie.",
+"It's a white-picket gate.",
 aliases: ['locked gate'],
 state: :locked,
 state_descriptions: {
@@ -37,7 +37,7 @@ mailbox = Item.new(
     closed: {
       location: 'You are standing near a mailbox.',
       item: 'The mailbox is closed.'
-    }
+    },
   }
 )
 
@@ -58,13 +58,16 @@ on October 15, 2018 at 6PM.'",
   is_hidden: true,
 )
 
+letter.belongs_to = mailbox
+mailbox.owns = [letter]
+
 
 
 FRONT_YARD = Location.new('
 There is a quaint, southern-style house in front of you toward the south.
 ',
 description_2: 'It looks like this mailbox might have been sent some mail.',
-items: [house, gate, mailbox, letter],
+items: [house, gate, mailbox],
 blocked_paths: {
   'west' => {obstruction: 'white picket fence'},
   'east' => {obstruction: 'white picket fence'},

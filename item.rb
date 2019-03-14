@@ -2,7 +2,7 @@ require_relative 'player'
 
 class Item
   attr_reader :description, :name, :location_description, :read_description, :reveal_description, :state_descriptions, :update_location_description_due_to_state, :can_take, :applicable_commands
-  attr_accessor :state, :associated_location, :is_hidden
+  attr_accessor :state, :associated_location, :is_hidden, :belongs_to, :owns
 
   def initialize(name, description, options = {})
     @name = name.strip()
@@ -20,6 +20,8 @@ class Item
     # for purposes of having a link to the thing that owns it so we can check statuses.
     # e.g. letter should only display its description if its owner(mailbox)
     # is open
+    @owns = options[:owns] || []
+    @belongs_to = options[:belongs_to] || nil
     @is_hidden = options[:is_hidden] || false
     @can_take = options[:can_take] || true
   end

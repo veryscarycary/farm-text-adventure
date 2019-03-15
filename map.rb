@@ -97,10 +97,24 @@ class Location
     @items.delete(item)
   end
 
-  def print_full_description
-    items_with_descriptions = @items.select do |item|
-      !(item.location_description.nil? || item.location_description.empty?)
+  # recursive
+  def get_items_with_location_descriptions(items, collection = [])
+    # for each child item
+    items.each do |item|
+      # if has location description
+      # take item
+      collection << item if !(item.location_description.nil? || item.location_description.empty?)
+      # item has children?
+      if !item.owns.empty?
+        get_items_with_location_descriptions(item.owns, collection)
+      end
     end
+
+    collection
+  end
+
+  def print_full_description
+    items_with_descriptions = get_items_with_location_descriptions(@items)
 
     item_descriptions = items_with_descriptions.map do |item|
       if !item.is_hidden

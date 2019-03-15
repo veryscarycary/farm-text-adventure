@@ -37,22 +37,6 @@ class Item
       nil
   end
 
-  # recursive
-  def get_items_with_location_descriptions(items, collection = [])
-    # for each child item
-    items.each do |item|
-      # if has location description
-      # take item
-      collection << item if !(item.location_description.nil? || item.location_description.empty?)
-      # item has children?
-      if !item.owns.empty?
-        get_items_with_location_descriptions(item.owns, collection)
-      end
-    end
-
-    collection
-  end
-
   def use
     case @state
       when :on

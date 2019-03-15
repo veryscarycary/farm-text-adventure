@@ -3,7 +3,7 @@ require 'spec_helper'
 describe 'Item' do
   context "#initialize" do
     context "@name" do
-      it "should strip whitespace and carriage returns from description" do
+      it "should strip whitespace and carriage returns from name" do
         item = Item.new('
           item name
         ', "Some item.")

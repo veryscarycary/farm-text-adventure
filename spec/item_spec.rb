@@ -183,6 +183,33 @@ describe 'Item' do
     end
   end
 
+  context "#get_flattened_nested_items" do
+    item1 = Item.new('hello', '')
+    item2 = Item.new('hilo', '')
+    item3 = Item.new('hello', '')
+    item4 = Item.new('hi', '')
+    item5 = Item.new('hell', '')
+    item6 = Item.new('hi', '')
+    itemA = Item.new('A', '')
+    itemB = Item.new('Same', '')
+    itemC = Item.new('Same', '')
+    item1.owns << item2
+    item1.owns << item3
+    item2.owns << item4
+    item4.owns << item5
+    item4.owns << item6
+    itemA.owns << itemB
+    itemB.owns << itemC
+
+    it "should return an array with itself if it cannot find an item nested within it" do
+      expect(itemC.get_flattened_nested_items).to eql([itemC])
+    end
+
+    it "should return itself and all nested owned items" do
+      expect(item1.get_flattened_nested_items).to eql([item1, item2, item4, item5, item6, item3])
+    end
+  end
+
   context "#toggle_on_off" do
     it "should error if state is neither on or off" do
       item = Item.new('item', "Some item.", {

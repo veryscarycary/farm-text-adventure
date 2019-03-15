@@ -1,7 +1,7 @@
 require_relative 'player'
 
 class Item
-  attr_reader :description, :name, :location_description, :read_description, :reveal_description, :state_descriptions, :update_location_description_due_to_state, :can_take, :applicable_commands
+  attr_reader :description, :name, :location_description, :read_description, :reveal_description, :state_descriptions, :update_location_description_due_to_state, :can_take, :applicable_commands, :get_flattened_nested_items
   attr_accessor :state, :associated_location, :is_hidden, :belongs_to, :owns
 
   def initialize(name, description, options = {})
@@ -26,6 +26,10 @@ class Item
     @can_take = options[:can_take] || true
   end
 
+  def remove_owned_item(item)
+    @owns.delete(item)
+  end
+
   def update_location_description_due_to_state
     @location_description = @state_descriptions[@state][:location]
   end
@@ -35,6 +39,13 @@ class Item
       return self if self.has_name?(item_name)
       self.owns.each {|owned_item| return owned_item.find_nested_item(item_name)}
       nil
+  end
+
+  # recursive
+  def get_flattened_nested_items(collection = [])
+      collection << self
+      self.owns.each {|owned_item| owned_item.get_flattened_nested_items(collection)}
+      collection
   end
 
   def use

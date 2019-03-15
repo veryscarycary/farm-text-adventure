@@ -184,7 +184,13 @@ class Game
     item = _check_for_item(item_name, :location)
     if item
       if item.applicable_commands.include?(:take)
-        @map.current_location.remove_item(item)
+        if item.belongs_to.nil?
+          @map.current_location.remove_item(item)
+        else
+          item.belongs_to.remove_owned_item(item)
+          item.belongs_to = nil;
+        end
+
         @player.add_to_inventory(item)
 
         putsy "You took the #{item.name}."
@@ -215,11 +221,11 @@ class Game
 
     def reveal_items(item)
       # Item is in a Location
-      if item.associated_location
+      # if item.associated_location
         # reveal items
         revealed_items = []
 
-        item.associated_location.items.each do |item|
+        item.get_flattened_nested_items.each do |item|
           if item.is_hidden == true
             item.is_hidden = false
             revealed_items << item
@@ -227,7 +233,7 @@ class Game
         end
 
         revealed_items
-      end
+      # end
     end
 
     if item && defined?(item.applicable_commands) && item.applicable_commands.include?(:open)

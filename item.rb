@@ -30,6 +30,29 @@ class Item
     @location_description = @state_descriptions[@state][:location]
   end
 
+  # recursive
+  def find_nested_item(item_name)
+      return self if self.has_name?(item_name)
+      self.owns.each {|owned_item| return owned_item.find_nested_item(item_name)}
+      nil
+  end
+
+  # recursive
+  def get_items_with_location_descriptions(items, collection = [])
+    # for each child item
+    items.each do |item|
+      # if has location description
+      # take item
+      collection << item if !(item.location_description.nil? || item.location_description.empty?)
+      # item has children?
+      if !item.owns.empty?
+        get_items_with_location_descriptions(item.owns, collection)
+      end
+    end
+
+    collection
+  end
+
   def use
     case @state
       when :on

@@ -148,17 +148,11 @@ class Game
     @map.print_current_location_description
   end
 
-  def _find_nested_item(item, item_name)
-      return item if item.has_name?(item_name)
-      item.owns.each {|owned_item| return _find_nested_item(owned_item, item_name)}
-      nil
-  end
-
   def _check_for_item(item_name, target = nil)
     def _check_in_location(item_name)
       @map.current_location.items.reduce(nil) do |acc, item|
         return acc if !acc.nil?
-        _find_nested_item(item, item_name)
+        item.find_nested_item(item_name)
       end
     end
 

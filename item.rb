@@ -21,6 +21,7 @@ class Item
     # e.g. letter should only display its description if its owner(mailbox)
     # is open
     @owns = options[:owns] || []
+    @owns.each {|item| item.belongs_to = self}
     @belongs_to = options[:belongs_to] || nil
     @is_hidden = options[:is_hidden] || false
     @can_take = options[:can_take] || true

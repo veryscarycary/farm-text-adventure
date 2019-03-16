@@ -53,6 +53,29 @@ describe 'Item' do
       end
     end
 
+    context "@owns" do
+      it "should be empty array by default" do
+        item = Item.new('item', "Some item.")
+
+        expect(item.owns).to eql([])
+      end
+
+      it "should set each owned item's belongs_to property to owner item" do
+        owned_item = Item.new('owned', '')
+        owner = Item.new('item', "Some item.", owns: [owned_item])
+
+        expect(owned_item.belongs_to).to eql(owner)
+      end
+    end
+
+    context "@is_hidden" do
+      it "should be false by default" do
+        item = Item.new('item', "Some item.")
+
+        expect(item.is_hidden).to eql(false)
+      end
+    end
+
     context "@can_take" do
       it "should be true by default" do
         item = Item.new('item', "Some item.")

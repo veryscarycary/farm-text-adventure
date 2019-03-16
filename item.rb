@@ -36,7 +36,7 @@ class Item
 
   # recursive
   def find_nested_item(item_name)
-      return self if self.has_name?(item_name)
+      return self if self.has_name?(item_name) && self.is_hidden == false
       self.owns.each {|owned_item| return owned_item.find_nested_item(item_name)}
       nil
   end

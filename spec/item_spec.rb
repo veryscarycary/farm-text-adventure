@@ -146,6 +146,7 @@ describe 'Item' do
     itemA = Item.new('A', '')
     itemB = Item.new('Same', '')
     itemC = Item.new('Same', '')
+    itemHidden = Item.new('Hidden', '', is_hidden: true)
     item1.owns << item2
     item1.owns << item3
     item2.owns << item4
@@ -180,6 +181,12 @@ describe 'Item' do
       name = 'Same'
 
       expect(itemA.find_nested_item(name)).to eql(itemB)
+    end
+
+    it "should not return an instance of item matching name if item is hidden" do
+      name = 'Hidden'
+
+      expect(itemHidden.find_nested_item(name)).to eql(nil)
     end
   end
 

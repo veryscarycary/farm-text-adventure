@@ -1,4 +1,5 @@
 require_relative 'time'
+require_relative 'save'
 require_relative 'kernal'
 require_relative 'default_map'
 
@@ -47,9 +48,18 @@ COMMANDS = {
     args: [],
     definition: 'Lists the items in your inventory'
   },
+  save: {
+    args: [],
+    definition: 'Saves your progress to a game file'
+  },
+  load: {
+    args: [],
+    definition: 'Loads your saved game'
+  }
 };
 
 class Game
+  include Save
 
   def initialize(player, map = DEFAULT_MAP)
     @player = player
@@ -71,6 +81,30 @@ class Game
 
       increment_turn_counter
     end
+  end
+
+  def save_game
+    putsy "What would you like to name your save file?"
+
+    save_name = gets.chomp
+    self.save(save_name)
+
+    putsy "Your file was successfully saved as '#{save_name}.yml'."
+  end
+
+  def load_game
+    putsy "Which save file would you like to load?"
+
+    Dir[File.dirname(__FILE__) + '/saves/*.yml'].each do |file|
+      save_name = File.basename(file, File.extname(file))
+      putsy save_name
+    end
+    putsy ""
+
+    save_name = gets.chomp
+    puts self.load(save_name)
+
+    putsy "Your save was successfully loaded."
   end
 
   def increment_turn_counter
@@ -104,6 +138,10 @@ class Game
       # commands without arguments
       when :help
         help
+      when :save
+        save_game
+      when :load
+        load_game
       when :inventory
         @player.check_inventory
       when :look_around

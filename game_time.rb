@@ -1,5 +1,5 @@
 
-class Time
+class GameTime
   attr_reader :current_time, :increment_turn_counter
 
   def initialize

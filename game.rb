@@ -1,4 +1,4 @@
-require_relative 'time'
+require_relative 'game_time'
 require_relative 'save'
 require_relative 'kernal'
 require_relative 'default_map'
@@ -59,12 +59,13 @@ COMMANDS = {
 };
 
 class Game
+  attr_accessor :player, :map, :time
   include Save
 
   def initialize(player, map = DEFAULT_MAP)
     @player = player
     @map = map
-    @time = Time.new
+    @time = GameTime.new
   end
 
   def start
@@ -84,27 +85,28 @@ class Game
   end
 
   def save_game
-    putsy "What would you like to name your save file?"
+    putsy "What would you like to name your save file?\n"
 
     save_name = gets.chomp
     self.save(save_name)
 
-    putsy "Your file was successfully saved as '#{save_name}.yml'."
+    putsy "Your file was successfully saved as '#{save_name}'."
   end
 
   def load_game
-    putsy "Which save file would you like to load?"
+    putsy "Which save file would you like to load?\n"
 
     Dir[File.dirname(__FILE__) + '/saves/*.yml'].each do |file|
       save_name = File.basename(file, File.extname(file))
-      putsy save_name
+      puts save_name.yellow
     end
     putsy ""
 
     save_name = gets.chomp
-    puts self.load(save_name)
+    self.load(save_name)
 
     putsy "Your save was successfully loaded."
+    look_around
   end
 
   def increment_turn_counter

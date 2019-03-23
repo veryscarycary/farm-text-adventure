@@ -274,6 +274,7 @@ class Game
         putsy "It seems like you're unable to open the #{item.name} right now."
       else
         item.state = :open
+        item.invoke_state_action(item)
         item.update_location_description_due_to_state
 
         open_output = "You opened the #{item.name}."

@@ -81,14 +81,14 @@ class Map
 end
 
 class Location
-  attr_reader :blocked_paths, :inspect_description, :print_full_description
-  attr_accessor :description, :items
+  attr_reader :inspect_description, :print_full_description
+  attr_accessor :description, :items, :blocked_paths
 
   def initialize(description, options = {})
     @description = description.gsub(/\R+/, ' ').strip
     @items = options[:items] || []
     @people = options[:people] || []
-    @blocked_paths = options[:blocked_paths] || []
+    @blocked_paths = options[:blocked_paths] || {}
 
     @items.each { |item| item.associated_location = self }
   end

@@ -15,6 +15,9 @@ command_restrictions: {
     required_items: [FRONT_GATE_KEY]
   }
 },
+state_actions: {
+  open: lambda {|item| item.associated_location.blocked_paths.delete('north') },
+},
 state_descriptions: {
   locked: {
     location: 'There is a locked gate to your north.',

@@ -11,12 +11,14 @@ class Item
     @location_description = options[:location_description] || (options.has_key?(:state_descriptions) ? options[:state_descriptions][options[:state]][:location] : '')
     @read_description = options[:read_description]
     @use_description = options[:use_description]
+    @associated_location = nil
     # an item gets a 'reveal' description that adds to the location description when it becomes revealed after the open command
     @reveal_description = options[:reveal_description]
     @applicable_commands = options[:applicable_commands] || []
     @state = options[:state] || nil
     @state_descriptions = options[:state_descriptions] || {}
     @command_restrictions = options[:command_restrictions] || {}
+    @state_actions = options[:state_actions] || {}
     # for purposes of having a link to the thing that owns it so we can check statuses.
     # e.g. letter should only display its description if its owner(mailbox)
     # is open
@@ -25,6 +27,10 @@ class Item
     @belongs_to = options[:belongs_to] || nil
     @is_hidden = options[:is_hidden] || false
     @can_take = options[:can_take] || true
+  end
+
+  def invoke_state_action(*args)
+    !@state_actions[@state].nil? && @state_actions[@state].call(*args)
   end
 
   def remove_owned_item(item)

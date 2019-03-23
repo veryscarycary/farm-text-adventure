@@ -159,6 +159,34 @@ describe 'Item' do
     end
   end
 
+  context "#command_restricted?" do
+    item = Item.new('gate', 'It\'s a gate', {
+      state: :locked,
+      command_restrictions: {
+        open: {
+          restricted_states: [:locked],
+        }
+      }
+    })
+
+    it "should return true if command is restricted and the item is in a restricted state" do
+      item.state = :locked
+      expect(item.command_restricted?(:open)).to eql(true)
+    end
+
+    it "should return false if command is restricted but item is not in a restricted state" do
+      item.state = :some_other_state
+      expect(item.command_restricted?(:open)).to eql(false)
+    end
+
+    it "should return false if command is not restricted" do
+      item = Item.new('gate', 'It\'s a gate', {
+        state: :locked,
+      })
+      expect(item.command_restricted?(:open)).to eql(false)
+    end
+  end
+
   context "#find_nested_item" do
     item1 = Item.new('hello', '')
     item2 = Item.new('hilo', '')

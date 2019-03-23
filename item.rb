@@ -50,7 +50,7 @@ class Item
   end
 
   def command_restricted?(command)
-    defined?(@command_restrictions[command]) && @command_restrictions[command][:restricted_states].include?(@state)
+    !@command_restrictions[command].nil? && @command_restrictions[command][:restricted_states].include?(@state)
   end
 
   def use

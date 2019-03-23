@@ -1,5 +1,6 @@
 require_relative 'game_time'
 require_relative 'save'
+require_relative 'utils'
 require_relative 'kernal'
 require_relative 'default_map'
 
@@ -24,10 +25,10 @@ COMMANDS = {
     args: ['item'],
     definition: 'Use an item i.e. activate/engage something'
   },
-  use_on: {
-    args: ['item'],
-    definition: 'Use an item on another item e.g. use key on lock'
-  },
+  # use_on: {
+  #   args: ['item'],
+  #   definition: 'Use an item on another item e.g. use key on lock'
+  # },
   open: {
     args: ['target(item/door)'],
     definition: 'Opens the target, whether it be an item or a door'
@@ -61,6 +62,7 @@ COMMANDS = {
 class Game
   attr_accessor :player, :map, :time
   include Save
+  include Utils
 
   def initialize(player, map = DEFAULT_MAP)
     @player = player
@@ -180,7 +182,7 @@ class Game
 
     COMMANDS.each do |command, command_hash|
       command_and_arg = "#{command}#{" [#{command_hash[:args][0]}]" if command_hash[:args].length > 0}"
-      puts "#{command}#{" [#{command_hash[:args][0]}]" if command_hash[:args].length > 0}#{" " * (longest_command_and_args - command_and_arg.length)}   #{command_hash[:definition]}".yellow
+      puts "#{replace_underscores_with_spaces(command.to_s)}#{" [#{command_hash[:args][0]}]" if command_hash[:args].length > 0}#{" " * (longest_command_and_args - command_and_arg.length)}   #{command_hash[:definition]}".yellow
     end
   end
 

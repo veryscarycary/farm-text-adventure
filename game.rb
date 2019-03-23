@@ -107,6 +107,7 @@ class Game
   end
 
   def _get_command_and_additional(response)
+    return ['', ''] if response == ''
     hyphenated_command = response.split(' ')[0..1].join('_').to_sym
     if COMMANDS.include?(hyphenated_command)
       additional = response.split(' ')[2..-1]

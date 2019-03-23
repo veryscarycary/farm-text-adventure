@@ -123,7 +123,7 @@ class Location
     end
 
     # @description is assumed to have a trailing space
-    putsy "#{@description} #{item_descriptions.join(' ')}\n"
+    putsy "#{@description} #{item_descriptions.join(' ')}"
   end
   #
   # def reconstruct_description

@@ -89,23 +89,16 @@ class Game
 
     save_name = gets.chomp
     self.save(save_name)
-
-    putsy "Your file was successfully saved as '#{save_name}'."
   end
 
   def load_game
     putsy "Which save file would you like to load?\n"
 
-    Dir[File.dirname(__FILE__) + '/saves/*.yml'].each do |file|
-      save_name = File.basename(file, File.extname(file))
-      puts save_name.yellow
-    end
-    putsy ""
+    self.print_save_files
 
     save_name = gets.chomp
     self.load(save_name)
 
-    putsy "Your save was successfully loaded."
     look_around
   end
 

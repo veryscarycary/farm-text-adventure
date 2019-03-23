@@ -1,7 +1,7 @@
 require_relative 'player'
 
 class Item
-  attr_reader :description, :name, :location_description, :read_description, :reveal_description, :state_descriptions, :update_location_description_due_to_state, :can_take, :applicable_commands, :get_flattened_nested_items, :command_restrictions
+  attr_reader :description, :name, :location_description, :use_description, :read_description, :reveal_description, :state_descriptions, :update_location_description_due_to_state, :can_take, :applicable_commands, :get_flattened_nested_items, :command_restrictions
   attr_accessor :state, :associated_location, :is_hidden, :belongs_to, :owns
 
   def initialize(name, description, options = {})
@@ -14,6 +14,7 @@ class Item
     @associated_location = nil
     # an item gets a 'reveal' description that adds to the location description when it becomes revealed after the open command
     @reveal_description = options[:reveal_description]
+    @use_description = options[:use_description]
     @applicable_commands = options[:applicable_commands] || []
     @state = options[:state] || nil
     @state_descriptions = options[:state_descriptions] || {}
@@ -64,6 +65,11 @@ class Item
   end
 
   def use
+    if !@use_description.empty?
+      putsy @use_description
+      return
+    end
+
     case @state
       when :on
         toggle_on_off

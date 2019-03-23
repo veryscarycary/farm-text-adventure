@@ -5,6 +5,20 @@ armchair = Item.new(
   location_description: "An ornate armchair is positioned in the center of the room.",
 )
 
+pendulum = Item.new(
+'pendulum',
+"It's a copper pendulum.",
+)
+
+clock = Item.new(
+'clock',
+"This grandfather clock looks super old but charming. It has a large copper pendulum that swings back and forth.",
+  aliases: ['grandfather clock'],
+  applicable_commands: [:use],
+  location_description: "There is a large grandfather clock up against the wall.",
+  owns: [pendulum]
+)
+
 tv = Item.new(
 'tv',
 "It's an old CRT style tv. What a bulbous looking thing.",
@@ -29,5 +43,5 @@ tv = Item.new(
 LIVING_ROOM = Location.new('
   You step into a finely-decorated living room.
 ',
-items: [armchair, tv],
+items: [clock, armchair, tv],
 blocked_paths: {'east' => {obstruction: 'wall'}, 'south' => {obstruction: 'wall'}, 'north' => {obstruction: 'wall'}})

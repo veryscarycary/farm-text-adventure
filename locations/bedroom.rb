@@ -1,5 +1,14 @@
 bedroom = Item.new('bedroom',
-'It seems pretty cozy in here. There is a tidy, queen-sized bed with four posts up against the center of the wall.')
+'It seems pretty cozy in here.',
+location_description: 'It seems pretty cozy in here.',
+)
+
+bed = Item.new('bed',
+'This bed looks comfy.',
+  location_description: "There is a tidy, queen-sized bed with four posts up against the center of the wall.",
+  use_description: "You snuggle up in the sheets and close your eyes for a bit. Wait, this isn't time for a nap! You hop up out of the bed.",
+  applicable_commands: [:use]
+)
 
 desk = Item.new('desk',
 "It's an old antique desk. I wonder if the owner is a collector.",
@@ -32,7 +41,7 @@ FRONT_GATE_KEY = Item.new('key',
 )
 
 BEDROOM = Location.new('
-You are standing in a bedroom. It seems pretty cozy in here. There is a tidy, queen-sized bed with four posts at each corner up against the center of the wall.
+You are standing in a bedroom.
 ',
-items: [bedroom, desk, coat_rack, hat, FRONT_GATE_KEY, calendar],
+items: [bedroom, bed, desk, coat_rack, hat, FRONT_GATE_KEY, calendar],
 blocked_paths: {'west' => {obstruction: 'wall'}, 'north' => {obstruction: 'wall'}, 'south' => {obstruction: 'wall'}})

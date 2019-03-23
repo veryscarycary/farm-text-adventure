@@ -13,7 +13,6 @@ require_relative 'item'
 
 Dir[File.dirname(__FILE__) + '/locations/*.rb'].each do |file|
   path = 'locations/' + File.basename(file, File.extname(file))
-  puts path
   require_relative path
 end
 

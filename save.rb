@@ -3,6 +3,8 @@ require 'yaml'
 module Save
   def save(save_name)
     File.open("./saves/#{save_name}.yml", "w") { |file| file.write(self.to_yaml) }
+
+    putsy "Your save '#{save_name}' was successfully saved."
   end
 
   def print_save_files

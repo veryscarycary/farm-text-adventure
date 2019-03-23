@@ -1,12 +1,19 @@
 class Map
   OUT_OF_BOUNDS_OBSTRUCTION = 'chain link fence'
-  attr_reader :current_location, :print_current_location_description
+  attr_reader :grid, :current_location, :print_current_location_description
 
   def initialize(grid)
     @grid = grid
     @current_x = 1
     @current_y = 2
     @current_location = @grid[@current_y][@current_x]
+
+    @grid.each do |row|
+      row.each do |location|
+        location.associated_map = self
+      end
+    end
+
   end
 
   def update_current_location(x = nil, y = nil)
@@ -81,20 +88,61 @@ class Map
 end
 
 class Location
-  attr_reader :inspect_description, :print_full_description
-  attr_accessor :description, :items, :blocked_paths
+  attr_reader :inspect_description, :print_full_description, :blocked_paths
+  attr_accessor :description, :items, :associated_map
 
   def initialize(description, options = {})
     @description = description.gsub(/\R+/, ' ').strip
     @items = options[:items] || []
     @people = options[:people] || []
     @blocked_paths = options[:blocked_paths] || {}
+    @associated_map = nil
 
     @items.each { |item| item.associated_location = self }
   end
 
   def remove_item(item)
     @items.delete(item)
+  end
+
+  def remove_obstruction(direction, is_opposite = false)
+    @blocked_paths.delete(direction)
+    return if is_opposite
+    location_x = nil
+    location_y = nil
+
+    opposite_directions = {
+      'north' => 'south',
+      'south' => 'north',
+      'east' => 'west',
+      'west' => 'east',
+    }
+
+    def _get_border_sharing_location(direction, x, y)
+      case direction
+      when 'north'
+        y -= 1
+      when 'south'
+        y += 1
+      when 'east'
+        x += 1
+      when 'west'
+        x -= 1
+      end
+
+      @associated_map.grid[y][x]
+    end
+
+    @associated_map.grid.each_with_index do |row, i|
+      row.each_with_index do |location, j|
+        if self == location
+          location_x = j
+          location_y = i
+        end
+      end
+    end
+
+    _get_border_sharing_location(direction, location_x, location_y).remove_obstruction(opposite_directions[direction], true)
   end
 
   # recursive

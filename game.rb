@@ -254,6 +254,7 @@ class Game
       dropped_item = @player.drop_from_inventory(item)
 
       @map.current_location.items << dropped_item
+      item.update_location_description_due_to_drop
 
       putsy "You dropped the #{item.name}."
     else

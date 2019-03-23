@@ -41,6 +41,10 @@ class Item
     @location_description = @state_descriptions[@state][:location]
   end
 
+  def update_location_description_due_to_drop
+    @location_description = "A #{@name} is on the floor."
+  end
+
   # recursive
   def find_nested_item(item_name)
       return self if self.has_name?(item_name) && self.is_hidden == false

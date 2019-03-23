@@ -18,6 +18,13 @@ hat = Item.new('hat',
   applicable_commands: [:take]
 )
 
+calendar = Item.new('calendar',
+"It's a glossy paper calendar with a large picture of a tractor and cornrows on the top half. Today's date is October 15, 2018.",
+  location_description: "A calendar is hanging up against the wall.",
+  read_description: "Today's date is October 15, 2018.",
+  applicable_commands: [:take, :read]
+)
+
 FRONT_GATE_KEY = Item.new('key',
 "The key looks like your average lock-and-key type of key.",
   location_description: "A key is hanging from one of the coat rack rungs.",
@@ -27,5 +34,5 @@ FRONT_GATE_KEY = Item.new('key',
 BEDROOM = Location.new('
 You are standing in a bedroom. It seems pretty cozy in here. There is a tidy, queen-sized bed with four posts at each corner up against the center of the wall.
 ',
-items: [bedroom, desk, coat_rack, hat, FRONT_GATE_KEY],
+items: [bedroom, desk, coat_rack, hat, FRONT_GATE_KEY, calendar],
 blocked_paths: {'west' => {obstruction: 'wall'}, 'north' => {obstruction: 'wall'}, 'south' => {obstruction: 'wall'}})

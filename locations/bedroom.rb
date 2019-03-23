@@ -18,7 +18,7 @@ hat = Item.new('hat',
   applicable_commands: [:take]
 )
 
-key = Item.new('key',
+FRONT_GATE_KEY = Item.new('key',
 "The key looks like your average lock-and-key type of key.",
   location_description: "A key is hanging from one of the coat rack rungs.",
   applicable_commands: [:take]
@@ -27,5 +27,5 @@ key = Item.new('key',
 BEDROOM = Location.new('
 You are standing in a bedroom. It seems pretty cozy in here. There is a tidy, queen-sized bed with four posts at each corner up against the center of the wall.
 ',
-items: [bedroom, desk, coat_rack, hat, key],
+items: [bedroom, desk, coat_rack, hat, FRONT_GATE_KEY],
 blocked_paths: {'west' => {obstruction: 'wall'}, 'north' => {obstruction: 'wall'}, 'south' => {obstruction: 'wall'}})

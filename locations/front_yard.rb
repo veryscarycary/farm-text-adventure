@@ -7,7 +7,14 @@ gate = Item.new(
 'gate',
 "It's a white-picket gate.",
 aliases: ['locked gate'],
+applicable_commands: [:open],
 state: :locked,
+command_restrictions: {
+  open: {
+    restricted_states: [:locked],
+    required_items: [FRONT_GATE_KEY]
+  }
+},
 state_descriptions: {
   locked: {
     location: 'There is a locked gate to your north.',

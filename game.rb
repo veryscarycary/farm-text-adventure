@@ -270,19 +270,23 @@ class Game
     end
 
     if item && defined?(item.applicable_commands) && item.applicable_commands.include?(:open)
-      item.state = :open
-      item.update_location_description_due_to_state
+      if item.command_restricted?(:open) && _check_for_item(item.command_restrictions[:open][:required_items][0].name, :inventory).nil?
+        putsy "It seems like you're unable to open the #{item.name} right now."
+      else
+        item.state = :open
+        item.update_location_description_due_to_state
 
-      open_output = "You opened the #{item.name}."
+        open_output = "You opened the #{item.name}."
 
-      revealed_items = reveal_items(item)
-      if revealed_items.length > 0
-        reveal_descriptions = revealed_items.map {|item| item.reveal_description }
-        open_output_arr = reveal_descriptions.unshift(open_output)
-        open_output = open_output_arr.join(' ')
+        revealed_items = reveal_items(item)
+        if revealed_items.length > 0
+          reveal_descriptions = revealed_items.map {|item| item.reveal_description }
+          open_output_arr = reveal_descriptions.unshift(open_output)
+          open_output = open_output_arr.join(' ')
+        end
+
+        putsy open_output
       end
-
-      putsy open_output
     elsif item
       putsy "You can't open the #{item_name}."
     else

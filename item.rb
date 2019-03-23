@@ -1,7 +1,7 @@
 require_relative 'player'
 
 class Item
-  attr_reader :description, :name, :location_description, :read_description, :reveal_description, :state_descriptions, :update_location_description_due_to_state, :can_take, :applicable_commands, :get_flattened_nested_items
+  attr_reader :description, :name, :location_description, :read_description, :reveal_description, :state_descriptions, :update_location_description_due_to_state, :can_take, :applicable_commands, :get_flattened_nested_items, :command_restrictions
   attr_accessor :state, :associated_location, :is_hidden, :belongs_to, :owns
 
   def initialize(name, description, options = {})
@@ -14,9 +14,9 @@ class Item
     # an item gets a 'reveal' description that adds to the location description when it becomes revealed after the open command
     @reveal_description = options[:reveal_description]
     @applicable_commands = options[:applicable_commands] || []
-    @associated_location = options[:associated_location] || nil
     @state = options[:state] || nil
     @state_descriptions = options[:state_descriptions] || {}
+    @command_restrictions = options[:command_restrictions] || {}
     # for purposes of having a link to the thing that owns it so we can check statuses.
     # e.g. letter should only display its description if its owner(mailbox)
     # is open
@@ -47,6 +47,10 @@ class Item
       collection << self
       self.owns.each {|owned_item| owned_item.get_flattened_nested_items(collection)}
       collection
+  end
+
+  def command_restricted?(command)
+    defined?(@command_restrictions[command]) && @command_restrictions[command][:restricted_states].include?(@state)
   end
 
   def use

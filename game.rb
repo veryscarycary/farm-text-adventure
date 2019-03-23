@@ -169,8 +169,18 @@ class Game
 
   def help
     putsy "Commands:\n"
+    commands_and_args = []
+    longest_command_and_args = 0
+
+    # Get longest length before hand, so we get even spacing
     COMMANDS.each do |command, command_hash|
-      puts "#{command}#{" [#{command_hash[:args][0]}]" if command_hash[:args].length > 0}  -  #{command_hash[:definition]}".yellow
+      command_and_arg = "#{command}#{" [#{command_hash[:args][0]}]" if command_hash[:args].length > 0}"
+      longest_command_and_args = command_and_arg.length if command_and_arg.length > longest_command_and_args
+    end
+
+    COMMANDS.each do |command, command_hash|
+      command_and_arg = "#{command}#{" [#{command_hash[:args][0]}]" if command_hash[:args].length > 0}"
+      puts "#{command}#{" [#{command_hash[:args][0]}]" if command_hash[:args].length > 0}#{" " * (longest_command_and_args - command_and_arg.length)}   #{command_hash[:definition]}".yellow
     end
   end
 

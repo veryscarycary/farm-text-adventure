@@ -1,3 +1,73 @@
+TRACTOR_KEY = ''
+
+engine = Item.new(
+  'engine',
+  "The engine is big complicated steel block. Everything looks intact, but it looks like it hasn't been run in ages.",
+  applicable_commands: [:open],
+  # location_description: "An old tractor is parked next to a shed. It looks like the tractor has seen better days.",
+  state: :broken,
+  state_descriptions: {
+    broken: {
+      location: 'The dusty-looking engine is exposed.',
+      item: "The engine doesn't look too healthy."
+    },
+    fixed: {
+      location: '',
+      item: 'The engine is looking healthy.'
+    }
+  },
+)
+
+hood = Item.new(
+  'hood',
+  "The hood is made of heavy old steel. They don't make 'em like they used to.",
+  applicable_commands: [:open],
+  # location_description: "An old tractor is parked next to a shed. It looks like the tractor has seen better days.",
+  state: :closed,
+  state_descriptions: {
+    open: {
+      location: 'The tractor\'s hood is open.',
+      item: 'The hood is open.'
+    },
+    closed: {
+      location: '',
+      item: 'The hood is closed.'
+    }
+  },
+  owns: [engine]
+)
+
+
+tractor = Item.new(
+  'tractor',
+  "I bet this tractor makes plowing land a breeze.",
+  applicable_commands: [:use],
+  owns: [hood],
+  # location_description: "An old tractor is parked next to a shed. It looks like the tractor has seen better days.",
+  use_description: '',
+  state: :broken,
+  command_restrictions: {
+    use: {
+      restricted_states: [:broken],
+      required_items: [TRACTOR_KEY]
+    }
+  },
+  # state_actions: {
+  #   open: lambda {|item| item.associated_location.remove_obstruction('north') },
+  # },
+  state_descriptions: {
+    broken: {
+      location: 'An old tractor is parked next to a shed. It looks like the tractor has seen better days.',
+      item: 'The tractor looks pretty borked. It could use some love underneath the hood.'
+    },
+    fixed: {
+      location: 'An old tractor is parked next to a shed. It looks pretty healthy.',
+      item: 'The tractor looks pretty healthy. It looks ready to go.'
+    },
+  }
+)
+
 TRACTOR = Location.new('
-An old tractor is parked next to a shed. It looks like the tractor has seen better days.
-', blocked_paths: {'south' => {obstruction: 'wall'}})
+',
+items: [tractor, hood, engine],
+blocked_paths: {'south' => {obstruction: 'wall'}})

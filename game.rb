@@ -316,7 +316,11 @@ class Game
     if item && defined?(item.use_description) && !item.use_description.nil?
       item.use
     elsif item
-      putsy "You can't use the #{item_name}."
+      if item.name == 'watch' ||  item.name == 'clock'
+        putsy "#{item.description} The time reads: #{@time.current_time}"
+      else
+        putsy "You can't use the #{item_name}."
+      end
     else
       putsy "There is no #{item_name} to use."
     end

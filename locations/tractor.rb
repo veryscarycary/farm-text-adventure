@@ -1,10 +1,10 @@
 TRACTOR_KEY = ''
+MOTOR_OIL = ''
 
 engine = Item.new(
   'engine',
   "The engine is big complicated steel block. Everything looks intact, but it looks like it hasn't been run in ages.",
-  applicable_commands: [:open],
-  # location_description: "An old tractor is parked next to a shed. It looks like the tractor has seen better days.",
+  applicable_commands: [],
   state: :broken,
   state_descriptions: {
     broken: {
@@ -12,17 +12,17 @@ engine = Item.new(
       item: "The engine doesn't look too healthy."
     },
     fixed: {
-      location: '',
+      location: 'The engine is looking healthy.',
       item: 'The engine is looking healthy.'
     }
   },
+  is_hidden: true,
 )
 
 hood = Item.new(
   'hood',
   "The hood is made of heavy old steel. They don't make 'em like they used to.",
   applicable_commands: [:open],
-  # location_description: "An old tractor is parked next to a shed. It looks like the tractor has seen better days.",
   state: :closed,
   state_descriptions: {
     open: {
@@ -30,7 +30,7 @@ hood = Item.new(
       item: 'The hood is open.'
     },
     closed: {
-      location: '',
+      location: 'The tractor\'s hood is closed.',
       item: 'The hood is closed.'
     }
   },
@@ -43,18 +43,14 @@ tractor = Item.new(
   "I bet this tractor makes plowing land a breeze.",
   applicable_commands: [:use],
   owns: [hood],
-  # location_description: "An old tractor is parked next to a shed. It looks like the tractor has seen better days.",
   use_description: '',
   state: :broken,
   command_restrictions: {
     use: {
       restricted_states: [:broken],
-      required_items: [TRACTOR_KEY]
+      required_items: [TRACTOR_KEY, MOTOR_OIL]
     }
   },
-  # state_actions: {
-  #   open: lambda {|item| item.associated_location.remove_obstruction('north') },
-  # },
   state_descriptions: {
     broken: {
       location: 'An old tractor is parked next to a shed. It looks like the tractor has seen better days.',
@@ -67,7 +63,9 @@ tractor = Item.new(
   }
 )
 
-TRACTOR = Location.new('
-',
-items: [tractor, hood, engine],
-blocked_paths: {'south' => {obstruction: 'wall'}})
+TRACTOR = Location.new('',
+items: [tractor],
+blocked_paths: {
+  'south' => {obstruction: 'wall'},
+  'west' => {obstruction: 'white picket fence'}
+})

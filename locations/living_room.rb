@@ -12,10 +12,11 @@ pendulum = Item.new(
 
 clock = Item.new(
 'clock',
-"This grandfather clock looks super old but charming. It has a large copper pendulum that swings back and forth.",
+"This grandfather clock looks super old but charming. It has a large copper pendulum that swings back and forth. The time reads: #{TIME.current_time}",
   aliases: ['grandfather clock'],
   applicable_commands: [:use],
   location_description: "There is a large grandfather clock up against the wall.",
+  use_description: "The time reads: #{TIME.current_time}",
   owns: [pendulum]
 )
 

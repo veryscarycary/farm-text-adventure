@@ -11,10 +11,11 @@ wallpaper = Item.new(
 
 watch = Item.new(
   'watch',
-  "It's an old, antique watch with a copper color to it. It seems to be working just fine.",
+  "It's an old, antique watch with a copper color to it. It seems to be working just fine. The time reads: #{TIME.current_time}",
   applicable_commands: [:take, :drop],
   reveal_description: "There is a watch inside the drawer",
   location_description: "There is a watch inside the drawer.",
+  use_description: "The time reads: #{TIME.current_time}",
   is_hidden: true,
 )
 

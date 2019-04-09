@@ -2,6 +2,8 @@ require_relative 'game_time'
 require_relative 'save'
 require_relative 'utils'
 require_relative 'kernal'
+TIME = GameTime.new
+# some items need access to global time, so it needs to be loaded first
 require_relative 'default_map'
 
 COMMANDS = {
@@ -67,7 +69,7 @@ class Game
   def initialize(player, map = DEFAULT_MAP)
     @player = player
     @map = map
-    @time = GameTime.new
+    @time = TIME
   end
 
   def start
@@ -215,11 +217,6 @@ class Game
     item = _check_for_item(item_name)
 
     if item
-      if item.name == 'watch' ||  item.name == 'clock'
-        putsy "#{item.description} The time reads: #{@time.current_time}"
-        return
-      end
-
       putsy item.state ? "#{item.description} #{item.state_descriptions[item.state][:item]}" : item.description
     else
       putsy "There isn't #{item_name =~ /^[aeiouAEIOU]/ ? 'an' : 'a'} #{item_name} to look at."
@@ -316,11 +313,7 @@ class Game
     if item && defined?(item.use_description) && !item.use_description.nil?
       item.use
     elsif item
-      if item.name == 'watch' ||  item.name == 'clock'
-        putsy "#{item.description} The time reads: #{@time.current_time}"
-      else
-        putsy "You can't use the #{item_name}."
-      end
+      putsy "You can't use the #{item_name}."
     else
       putsy "There is no #{item_name} to use."
     end

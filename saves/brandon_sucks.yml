@@ -1,0 +1,675 @@
+--- !ruby/object:Game
+player: !ruby/object:Player
+  inventory:
+  - &5 !ruby/object:Item
+    name: key
+    aliases: []
+    description: The key looks like your average lock-and-key type of key.
+    location_description: A key is hanging from one of the coat rack rungs.
+    read_description: 
+    use_description: 
+    associated_location: &1 !ruby/object:Location
+      description: You are standing in a bedroom.
+      items:
+      - !ruby/object:Item
+        name: bedroom
+        aliases: []
+        description: It seems pretty cozy in here.
+        location_description: It seems pretty cozy in here.
+        read_description: 
+        use_description: 
+        associated_location: *1
+        reveal_description: 
+        applicable_commands: []
+        state: 
+        state_descriptions: {}
+        command_restrictions: {}
+        state_actions: {}
+        owns: []
+        belongs_to: 
+        is_hidden: false
+        can_take: true
+      - !ruby/object:Item
+        name: bed
+        aliases: []
+        description: This bed looks comfy.
+        location_description: There is a tidy, queen-sized bed with four posts up
+          against the center of the wall.
+        read_description: 
+        use_description: You snuggle up in the sheets and close your eyes for a bit.
+          Wait, this isn't time for a nap! You hop up out of the bed.
+        associated_location: *1
+        reveal_description: 
+        applicable_commands:
+        - :use
+        state: 
+        state_descriptions: {}
+        command_restrictions: {}
+        state_actions: {}
+        owns: []
+        belongs_to: 
+        is_hidden: false
+        can_take: true
+      - !ruby/object:Item
+        name: desk
+        aliases:
+        - old desk
+        description: It's an old antique desk. I wonder if the owner is a collector.
+        location_description: There is an old desk in the corner of the room.
+        read_description: 
+        use_description: 
+        associated_location: *1
+        reveal_description: 
+        applicable_commands: []
+        state: 
+        state_descriptions: {}
+        command_restrictions: {}
+        state_actions: {}
+        owns: []
+        belongs_to: 
+        is_hidden: false
+        can_take: true
+      - !ruby/object:Item
+        name: coat rack
+        aliases: []
+        description: The coat rack is a thin panel that's screwed into the wall.
+        location_description: A coat rack is screwed into one of the walls.
+        read_description: 
+        use_description: 
+        associated_location: *1
+        reveal_description: 
+        applicable_commands: []
+        state: 
+        state_descriptions: {}
+        command_restrictions: {}
+        state_actions: {}
+        owns: []
+        belongs_to: 
+        is_hidden: false
+        can_take: true
+      - !ruby/object:Item
+        name: hat
+        aliases: []
+        description: It's a leather hat.
+        location_description: A hat is hanging from one of the coat rack rungs.
+        read_description: 
+        use_description: 
+        associated_location: *1
+        reveal_description: 
+        applicable_commands:
+        - :take
+        state: 
+        state_descriptions: {}
+        command_restrictions: {}
+        state_actions: {}
+        owns: []
+        belongs_to: 
+        is_hidden: false
+        can_take: true
+      - !ruby/object:Item
+        name: calendar
+        aliases: []
+        description: It's a glossy paper calendar with a large picture of a tractor
+          and cornrows on the top half. Today's date is October 15, 2018.
+        location_description: A calendar is hanging up against the wall.
+        read_description: Today's date is October 15, 2018.
+        use_description: 
+        associated_location: *1
+        reveal_description: 
+        applicable_commands:
+        - :take
+        - :read
+        state: 
+        state_descriptions: {}
+        command_restrictions: {}
+        state_actions: {}
+        owns: []
+        belongs_to: 
+        is_hidden: false
+        can_take: true
+      people: []
+      blocked_paths:
+        west:
+          :obstruction: wall
+        north:
+          :obstruction: wall
+        south:
+          :obstruction: wall
+      associated_map: &2 !ruby/object:Map
+        grid:
+        - - !ruby/object:Location
+            description: The sound of rushing water is envelopes your senses. Before
+              you lies a large waterfall.
+            items: []
+            people: []
+            blocked_paths: {}
+            associated_map: *2
+          - &3 !ruby/object:Location
+            description: You arrive at what looks like a very dilapidated barn. It's
+              clear that it hasn't been used in ages. There are a few old horse stalls
+              here but no sign of horses.
+            items:
+            - !ruby/object:Item
+              name: bucket
+              aliases: []
+              description: It's an old rusty bucket.
+              location_description: There is a bucket sitting against one of the stalls.
+              read_description: 
+              use_description: 
+              associated_location: *3
+              reveal_description: 
+              applicable_commands:
+              - :take
+              - :drop
+              state: 
+              state_descriptions: {}
+              command_restrictions: {}
+              state_actions: {}
+              owns: []
+              belongs_to: 
+              is_hidden: false
+              can_take: true
+            people: []
+            blocked_paths: {}
+            associated_map: *2
+          - !ruby/object:Location
+            description: You see an old tree that looks like it has been through multiple
+              human lifetimes.
+            items: []
+            people: []
+            blocked_paths: {}
+            associated_map: *2
+        - - !ruby/object:Location
+            description: You stumble across a moving body of water. It looks like
+              a healthy stream that any ecosystem could thrive off of.
+            items: []
+            people: []
+            blocked_paths: {}
+            associated_map: *2
+          - !ruby/object:Location
+            description: You find yourself in an open field. The sun is shining very
+              brightly and you feel a faint breeze on your skin. There is a fence
+              to the south.
+            items: []
+            people: []
+            blocked_paths: {}
+            associated_map: *2
+          - !ruby/object:Location
+            description: There isn't much here. You are standing on a barren plot
+              of land.
+            items: []
+            people: []
+            blocked_paths: {}
+            associated_map: *2
+        - - !ruby/object:Location
+            description: You arrive at a pond. The water is very calm here and it
+              makes you feel at peace with the world.
+            items: []
+            people: []
+            blocked_paths:
+              east:
+                :obstruction: white picket fence
+            associated_map: *2
+          - &4 !ruby/object:Location
+            description: There is a quaint, southern-style house in front of you toward
+              the south.
+            items:
+            - !ruby/object:Item
+              name: house
+              aliases: []
+              description: It's a southern-style house -- kind of like the one in
+                Little House on the Prairie.
+              location_description: ''
+              read_description: 
+              use_description: 
+              associated_location: *4
+              reveal_description: 
+              applicable_commands: []
+              state: 
+              state_descriptions: {}
+              command_restrictions: {}
+              state_actions: {}
+              owns: []
+              belongs_to: 
+              is_hidden: false
+              can_take: true
+            - !ruby/object:Item
+              name: gate
+              aliases:
+              - locked gate
+              description: It's a white-picket gate.
+              location_description: A gate is open to the north.
+              read_description: 
+              use_description: 
+              associated_location: *4
+              reveal_description: 
+              applicable_commands:
+              - :open
+              state: :open
+              state_descriptions:
+                :locked:
+                  :location: There is a locked gate to your north.
+                  :item: The gate is locked.
+                :open:
+                  :location: A gate is open to the north.
+                  :item: The gate is wide open.
+                :closed:
+                  :location: A gate is to the north.
+                  :item: The gate is closed shut.
+              command_restrictions:
+                :open:
+                  :restricted_states:
+                  - :locked
+                  :required_items:
+                  - *5
+              state_actions:
+                :open: lambda {|item| item.associated_location.remove_obstruction('north')
+                  }
+              owns: []
+              belongs_to: 
+              is_hidden: false
+              can_take: true
+            - &6 !ruby/object:Item
+              name: mailbox
+              aliases: []
+              description: It's an old-style mailbox with the red lever sticking up.
+              location_description: You are standing near a mailbox.
+              read_description: 
+              use_description: 
+              associated_location: *4
+              reveal_description: 
+              applicable_commands:
+              - :open
+              state: :closed
+              state_descriptions:
+                :open:
+                  :location: You are standing near an open mailbox.
+                  :item: The mailbox is open.
+                :closed:
+                  :location: You are standing near a mailbox.
+                  :item: The mailbox is closed.
+              command_restrictions: {}
+              state_actions: {}
+              owns:
+              - !ruby/object:Item
+                name: letter
+                aliases: []
+                description: The letter is signed and dated by somebody. It looks
+                  pretty official.
+                location_description: There is a letter inside the mailbox.
+                read_description: |-
+                  The letterhead of the message reads 'Perry Ford Bank'
+                  in large block font. The letter reads, 'It has come to our
+                  attention that you have been delinquent on your property loan
+                  payment for more than 6 months. Pursuant to UCC code 018B,
+                  we have the authority to foreclose your property if we do
+                  not find evidence of active farming activities taking
+                  place at your address. Our investigation will take place
+                  on October 15, 2018 at 6PM.'
+                use_description: 
+                associated_location: 
+                reveal_description: There is a letter inside the mailbox.
+                applicable_commands:
+                - :take
+                - :drop
+                - :read
+                state: 
+                state_descriptions: {}
+                command_restrictions: {}
+                state_actions: {}
+                owns: []
+                belongs_to: *6
+                is_hidden: true
+                can_take: true
+              belongs_to: 
+              is_hidden: false
+              can_take: true
+            people: []
+            blocked_paths:
+              west:
+                :obstruction: white picket fence
+              east:
+                :obstruction: white picket fence
+            associated_map: *2
+          - &7 !ruby/object:Location
+            description: ''
+            items:
+            - &9 !ruby/object:Item
+              name: tractor
+              aliases: []
+              description: I bet this tractor makes plowing land a breeze.
+              location_description: An old tractor is parked next to a shed. It looks
+                like the tractor has seen better days.
+              read_description: 
+              use_description: ''
+              associated_location: *7
+              reveal_description: 
+              applicable_commands:
+              - :use
+              state: :broken
+              state_descriptions:
+                :broken:
+                  :location: An old tractor is parked next to a shed. It looks like
+                    the tractor has seen better days.
+                  :item: The tractor looks pretty borked. It could use some love underneath
+                    the hood.
+                :fixed:
+                  :location: An old tractor is parked next to a shed. It looks pretty
+                    healthy.
+                  :item: The tractor looks pretty healthy. It looks ready to go.
+              command_restrictions:
+                :use:
+                  :restricted_states:
+                  - :broken
+                  :required_items:
+                  - ''
+                  - ''
+              state_actions: {}
+              owns:
+              - &8 !ruby/object:Item
+                name: hood
+                aliases: []
+                description: The hood is made of heavy old steel. They don't make
+                  'em like they used to.
+                location_description: The tractor's hood is closed.
+                read_description: 
+                use_description: 
+                associated_location: 
+                reveal_description: 
+                applicable_commands:
+                - :open
+                state: :closed
+                state_descriptions:
+                  :open:
+                    :location: The tractor's hood is open.
+                    :item: The hood is open.
+                  :closed:
+                    :location: The tractor's hood is closed.
+                    :item: The hood is closed.
+                command_restrictions: {}
+                state_actions: {}
+                owns:
+                - !ruby/object:Item
+                  name: engine
+                  aliases: []
+                  description: The engine is big complicated steel block. Everything
+                    looks intact, but it looks like it hasn't been run in ages.
+                  location_description: The dusty-looking engine is exposed.
+                  read_description: 
+                  use_description: 
+                  associated_location: 
+                  reveal_description: 
+                  applicable_commands: []
+                  state: :broken
+                  state_descriptions:
+                    :broken:
+                      :location: The dusty-looking engine is exposed.
+                      :item: The engine doesn't look too healthy.
+                    :fixed:
+                      :location: The engine is looking healthy.
+                      :item: The engine is looking healthy.
+                  command_restrictions: {}
+                  state_actions: {}
+                  owns: []
+                  belongs_to: *8
+                  is_hidden: true
+                  can_take: true
+                belongs_to: *9
+                is_hidden: false
+                can_take: true
+              belongs_to: 
+              is_hidden: false
+              can_take: true
+            people: []
+            blocked_paths:
+              south:
+                :obstruction: wall
+              west:
+                :obstruction: white picket fence
+            associated_map: *2
+        - - *1
+          - &10 !ruby/object:Location
+            description: You enter the entryway of the house.
+            items:
+            - !ruby/object:Item
+              name: entryway
+              aliases: []
+              description: It seems like a usual entryway with ample walking space
+                and baby blue and white striped wallpaper.
+              location_description: It seems like a usual entryway with ample walking
+                space and baby blue and white striped wallpaper.
+              read_description: 
+              use_description: 
+              associated_location: *10
+              reveal_description: 
+              applicable_commands: []
+              state: 
+              state_descriptions: {}
+              command_restrictions: {}
+              state_actions: {}
+              owns: []
+              belongs_to: 
+              is_hidden: false
+              can_take: true
+            - !ruby/object:Item
+              name: wallpaper
+              aliases: []
+              description: The wallpaper has a baby blue color and white stripes.
+                Typical ranch house style.
+              location_description: ''
+              read_description: 
+              use_description: 
+              associated_location: *10
+              reveal_description: 
+              applicable_commands: []
+              state: 
+              state_descriptions: {}
+              command_restrictions: {}
+              state_actions: {}
+              owns: []
+              belongs_to: 
+              is_hidden: false
+              can_take: true
+            - &12 !ruby/object:Item
+              name: table
+              aliases: entry table
+              description: The entry table has a drawer that stretches its entire
+                width.
+              location_description: There is a thin table with a drawer against the
+                wall.
+              read_description: 
+              use_description: 
+              associated_location: *10
+              reveal_description: 
+              applicable_commands: []
+              state: 
+              state_descriptions: {}
+              command_restrictions: {}
+              state_actions: {}
+              owns:
+              - &11 !ruby/object:Item
+                name: drawer
+                aliases: []
+                description: It's a typical drawer.
+                location_description: ''
+                read_description: 
+                use_description: 
+                associated_location: 
+                reveal_description: 
+                applicable_commands:
+                - :open
+                state: :closed
+                state_descriptions:
+                  :open:
+                    :location: The table's drawer is open.
+                    :item: The drawer is open.
+                  :closed:
+                    :location: ''
+                    :item: The drawer is closed.
+                command_restrictions: {}
+                state_actions: {}
+                owns:
+                - !ruby/object:Item
+                  name: watch
+                  aliases: []
+                  description: 'It''s an old, antique watch with a copper color to
+                    it. It seems to be working just fine. The time reads: 6:00 AM'
+                  location_description: There is a watch inside the drawer.
+                  read_description: 
+                  use_description: 'The time reads: 6:00 AM'
+                  associated_location: 
+                  reveal_description: There is a watch inside the drawer
+                  applicable_commands:
+                  - :take
+                  - :drop
+                  state: 
+                  state_descriptions: {}
+                  command_restrictions: {}
+                  state_actions: {}
+                  owns: []
+                  belongs_to: *11
+                  is_hidden: true
+                  can_take: true
+                belongs_to: *12
+                is_hidden: false
+                can_take: true
+              belongs_to: 
+              is_hidden: false
+              can_take: true
+            people: []
+            blocked_paths:
+              south:
+                :obstruction: wall
+            associated_map: *2
+          - &13 !ruby/object:Location
+            description: You step into a finely-decorated living room.
+            items:
+            - &14 !ruby/object:Item
+              name: clock
+              aliases:
+              - grandfather clock
+              description: 'This grandfather clock looks super old but charming. It
+                has a large copper pendulum that swings back and forth. The time reads:
+                6:00 AM'
+              location_description: There is a large grandfather clock up against
+                the wall.
+              read_description: 
+              use_description: 'The time reads: 6:00 AM'
+              associated_location: *13
+              reveal_description: 
+              applicable_commands:
+              - :use
+              state: 
+              state_descriptions: {}
+              command_restrictions: {}
+              state_actions: {}
+              owns:
+              - !ruby/object:Item
+                name: pendulum
+                aliases: []
+                description: It's a copper pendulum.
+                location_description: ''
+                read_description: 
+                use_description: 
+                associated_location: 
+                reveal_description: 
+                applicable_commands: []
+                state: 
+                state_descriptions: {}
+                command_restrictions: {}
+                state_actions: {}
+                owns: []
+                belongs_to: *14
+                is_hidden: false
+                can_take: true
+              belongs_to: 
+              is_hidden: false
+              can_take: true
+            - !ruby/object:Item
+              name: armchair
+              aliases: []
+              description: The armchair is made of a soft leather and has a sheen
+                to it.
+              location_description: An ornate armchair is positioned in the center
+                of the room.
+              read_description: 
+              use_description: 
+              associated_location: *13
+              reveal_description: 
+              applicable_commands:
+              - :use
+              state: 
+              state_descriptions: {}
+              command_restrictions: {}
+              state_actions: {}
+              owns: []
+              belongs_to: 
+              is_hidden: false
+              can_take: true
+            - !ruby/object:Item
+              name: tv
+              aliases: []
+              description: It's an old CRT style tv. What a bulbous looking thing.
+              location_description: A tv is sitting in the corner.
+              read_description: 
+              use_description: 
+              associated_location: *13
+              reveal_description: 
+              applicable_commands:
+              - :use
+              state: :off
+              state_descriptions:
+                :on:
+                  :trigger: It quickly illuminates with a THRUMMMMM and shows a congressman
+                    standing tall behind a podium. He announces over a crowd, "If
+                    we do not resolve our nation's dire food shortage issues quickly,
+                    we will have a troublesome winter. Our population growth has been
+                    at critical levels for years. This year, we may be at a tipping
+                    point."
+                  :location: There is a tv playing here.
+                  :item: The tv shows a congressman standing tall behind a podium.
+                    He announces over a crowd, "If we do not resolve our nation's
+                    dire food shortage issues quickly, we will have a troublesome
+                    winter. Our population growth has been at critical levels for
+                    years. This year, we may be at a tipping point."
+                :off:
+                  :trigger: The tv switches off as quickly as it turned on, with a
+                    residual horizonal white line fading in the center of the screen.
+                  :location: A tv is sitting in the corner.
+                  :item: The tv is off.
+              command_restrictions: {}
+              state_actions: {}
+              owns: []
+              belongs_to: 
+              is_hidden: false
+              can_take: true
+            people: []
+            blocked_paths:
+              east:
+                :obstruction: wall
+              south:
+                :obstruction: wall
+              north:
+                :obstruction: wall
+            associated_map: *2
+        current_x: 1
+        current_y: 2
+        current_location: *4
+    reveal_description: 
+    applicable_commands:
+    - :take
+    state: 
+    state_descriptions: {}
+    command_restrictions: {}
+    state_actions: {}
+    owns: []
+    belongs_to: 
+    is_hidden: false
+    can_take: true
+map: *2
+time: !ruby/object:GameTime
+  hour: 6
+  minute: 4
+  am_pm: AM
+  turn_counter: 8
+  current_time: 6:04 AM

@@ -16,7 +16,7 @@ command_restrictions: {
   }
 },
 state_actions: {
-  open: lambda {|item| item.associated_location.remove_obstruction('north') },
+  open: "lambda {|item| item.associated_location.remove_obstruction('north') }",
 },
 state_descriptions: {
   locked: {

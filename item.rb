@@ -31,7 +31,10 @@ class Item
   end
 
   def invoke_state_action(*args)
-    !@state_actions[@state].nil? && @state_actions[@state].call(*args)
+    if !@state_actions[@state].nil?
+      lamb = eval @state_actions[@state]
+      lamb.call(*args)
+    end
   end
 
   def remove_owned_item(item)

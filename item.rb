@@ -68,7 +68,7 @@ class Item
   end
 
   def use
-    if !@use_description.empty?
+    if !@use_description.nil?
       putsy @use_description
       return
     end

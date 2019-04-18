@@ -1,3 +1,10 @@
+OPPOSITE_DIRECTIONS = {
+  'north' => 'south',
+  'south' => 'north',
+  'east' => 'west',
+  'west' => 'east',
+}
+
 class Map
   OUT_OF_BOUNDS_OBSTRUCTION = 'chain link fence'
   attr_reader :grid, :current_location, :print_current_location_description
@@ -8,12 +15,18 @@ class Map
     @current_y = 2
     @current_location = @grid[@current_y][@current_x]
 
-    @grid.each do |row|
-      row.each do |location|
+    @grid.each_with_index do |row, i|
+      row.each_with_index do |location, j|
         location.associated_map = self
+        # make sure each path is blocked on both sides
+        location.blocked_paths.keys.each do |direction|
+          border_sharing_location = location.get_border_sharing_location(direction, j, i)
+          if !border_sharing_location.nil? && border_sharing_location.blocked_paths[OPPOSITE_DIRECTIONS[direction]].nil?
+            border_sharing_location.blocked_paths[OPPOSITE_DIRECTIONS[direction]] = location.blocked_paths[direction]
+          end
+        end
       end
     end
-
   end
 
   def update_current_location(x = nil, y = nil)
@@ -105,33 +118,9 @@ class Location
     @items.delete(item)
   end
 
-  def remove_obstruction(direction, is_opposite = false)
-    @blocked_paths.delete(direction)
-    return if is_opposite
+  def _find_location_coords_on_map
     location_x = nil
     location_y = nil
-
-    opposite_directions = {
-      'north' => 'south',
-      'south' => 'north',
-      'east' => 'west',
-      'west' => 'east',
-    }
-
-    def _get_border_sharing_location(direction, x, y)
-      case direction
-      when 'north'
-        y -= 1
-      when 'south'
-        y += 1
-      when 'east'
-        x += 1
-      when 'west'
-        x -= 1
-      end
-
-      @associated_map.grid[y][x]
-    end
 
     @associated_map.grid.each_with_index do |row, i|
       row.each_with_index do |location, j|
@@ -142,7 +131,33 @@ class Location
       end
     end
 
-    _get_border_sharing_location(direction, location_x, location_y).remove_obstruction(opposite_directions[direction], true)
+    raise "This location is not found on the map! #{self}" if location_x.nil? || location_y.nil?
+    return [location_x, location_y]
+  end
+
+  def get_border_sharing_location(direction, x, y)
+    # puts "x: #{x}, y: #{y}"
+    case direction
+    when 'north'
+      y -= 1
+    when 'south'
+      y += 1
+    when 'east'
+      x += 1
+    when 'west'
+      x -= 1
+    end
+
+    @associated_map.grid[y].nil? ? nil : @associated_map.grid[y][x]
+  end
+
+  def remove_obstruction(direction, is_opposite = false)
+    @blocked_paths.delete(direction)
+    return if is_opposite
+
+    location_x, location_y = _find_location_coords_on_map
+
+    get_border_sharing_location(direction, location_x, location_y).remove_obstruction(OPPOSITE_DIRECTIONS[direction], true)
   end
 
   # recursive

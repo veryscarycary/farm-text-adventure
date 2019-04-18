@@ -9,10 +9,10 @@ class Map
   OUT_OF_BOUNDS_OBSTRUCTION = 'chain link fence'
   attr_reader :grid, :current_location, :print_current_location_description
 
-  def initialize(grid)
+  def initialize(grid, current_x = 1, current_y = 2)
     @grid = grid
-    @current_x = 1
-    @current_y = 2
+    @current_x = current_x
+    @current_y = current_y
     @current_location = @grid[@current_y][@current_x]
 
     @grid.each_with_index do |row, i|

@@ -1,5 +1,46 @@
 require 'spec_helper'
 
+describe 'Map' do
+  context "#initialize" do
+    context "@grid" do
+      it "should automatically match blocked_paths with surrounding locations" do
+        loc1 = Location.new('', {
+          blocked_paths: {'south' => {obstruction: 'wall'}}
+        })
+        loc2 = Location.new('')
+        loc3 = Location.new('')
+        loc4 = Location.new('', {
+          blocked_paths: {'west' => {obstruction: 'wall'}, 'north' => {obstruction: 'gate'}}
+        })
+        map = Map.new([
+          [loc1, loc2],
+          [loc3, loc4],
+        ], 0, 0);
+
+        expect(loc3.blocked_paths['north']).to eql({obstruction: 'wall'})
+        expect(loc3.blocked_paths['east']).to eql({obstruction: 'wall'})
+        expect(loc2.blocked_paths['south']).to eql({obstruction: 'gate'})
+        expect(loc2.blocked_paths['west']).to eql(nil)
+      end
+
+      it "should not automatically match blocked_path if other side has an obstruction already " do
+        loc1 = Location.new('', {
+          blocked_paths: {'east' => {obstruction: 'wall'}}
+        })
+        loc2 = Location.new('', {
+          blocked_paths: {'west' => {obstruction: 'something already'}}
+        })
+        map = Map.new([
+          [loc1, loc2],
+        ], 0, 0);
+
+        expect(loc1.blocked_paths['east']).to eql({obstruction: 'wall'})
+        expect(loc2.blocked_paths['west']).to eql({obstruction: 'something already'})
+      end
+    end
+  end
+end
+
 describe 'Location' do
   context "#initialize" do
     context "@description" do

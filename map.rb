@@ -58,41 +58,41 @@ class Map
     end
 
     case direction
-      when 'north' || 'n'
+      when 'north', 'n'
         next_y = @current_y - 1
 
         if within_bounds?(next_y, :y)
           update_current_location(nil, next_y)
           print_current_location_description
         else
-          print_blocked_path_message(direction)
+          print_blocked_path_message('north')
         end
-      when 'south' || 's'
+      when 'south', 's'
         next_y = @current_y + 1
 
         if within_bounds?(next_y, :y)
           update_current_location(nil, next_y)
           print_current_location_description
         else
-          print_blocked_path_message(direction)
+          print_blocked_path_message('south')
         end
-      when 'west' || 'w'
+      when 'west', 'w'
         next_x = @current_x - 1
 
         if within_bounds?(next_x, :x)
           update_current_location(next_x, nil)
           print_current_location_description
         else
-          print_blocked_path_message(direction)
+          print_blocked_path_message('west')
         end
-      when 'east' || 'e'
+      when 'east', 'e'
         next_x = @current_x + 1
 
         if within_bounds?(next_x, :x)
           update_current_location(next_x, nil)
           print_current_location_description
         else
-          print_blocked_path_message(direction)
+          print_blocked_path_message('east')
         end
       else
         putsy "'#{direction}' is not a valid direction. Please use 'north', 'south', 'east', or 'west'!"

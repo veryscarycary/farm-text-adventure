@@ -13,7 +13,7 @@ COMMANDS = {
   },
   go: {
     args: ['direction'],
-    definition: 'Moves your player in the chosen direction (north/n, south/s, east/e, west/w) around the map'
+    definition: 'Moves your player in the chosen direction (north/n, south/s, east/e, west/w) around the map. Tip: Simply type the direction by itself to navigate'
   },
   read: {
     args: ['item'],
@@ -150,6 +150,16 @@ class Game
         putsy @map.current_location.items.inspect
       when :debug_time
         putsy @time.current_time
+
+      # quick travel
+      when :north, :n
+        @map.go('north')
+      when :south, :s
+        @map.go('south')
+      when :east, :e
+        @map.go('east')
+      when :west, :w
+        @map.go('west')
 
         # commands with arguments
       when :go

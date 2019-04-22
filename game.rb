@@ -13,7 +13,7 @@ COMMANDS = {
   },
   go: {
     args: ['direction'],
-    definition: 'Moves your player in the chosen direction (north/south/east/west) around the map'
+    definition: 'Moves your player in the chosen direction (north/n, south/s, east/e, west/w) around the map'
   },
   read: {
     args: ['item'],

@@ -58,7 +58,7 @@ class Map
     end
 
     case direction
-      when 'north'
+      when 'north' || 'n'
         next_y = @current_y - 1
 
         if within_bounds?(next_y, :y)
@@ -67,7 +67,7 @@ class Map
         else
           print_blocked_path_message(direction)
         end
-      when 'south'
+      when 'south' || 's'
         next_y = @current_y + 1
 
         if within_bounds?(next_y, :y)
@@ -76,7 +76,7 @@ class Map
         else
           print_blocked_path_message(direction)
         end
-      when 'west'
+      when 'west' || 'w'
         next_x = @current_x - 1
 
         if within_bounds?(next_x, :x)
@@ -85,7 +85,7 @@ class Map
         else
           print_blocked_path_message(direction)
         end
-      when 'east'
+      when 'east' || 'e'
         next_x = @current_x + 1
 
         if within_bounds?(next_x, :x)

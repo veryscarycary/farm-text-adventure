@@ -1,5 +1,32 @@
 TRACTOR_KEY = ''
-MOTOR_OIL = ''
+
+motor_oil = Item.new(
+  'oil',
+  "The shed is a rusty wind-damaged old thing. There might be something useful in here.",
+  aliases: ['motor oil', 'jug'],
+  applicable_commands: [:use],
+  reveal_description: "There's a jug of motor oil in the shed.",
+  location_description: "There's a jug of motor oil here.",
+  is_hidden: true,
+)
+
+shed = Item.new(
+  'shed',
+  "The shed is a rusty wind-damaged old thing. There might be something useful in here.",
+  applicable_commands: [:open],
+  state: :closed,
+  state_descriptions: {
+    open: {
+      location: '',
+      item: 'The shed is open.'
+    },
+    closed: {
+      location: '',
+      item: "The shed is closed."
+    },
+  },
+  owns: [motor_oil],
+)
 
 engine = Item.new(
   'engine',
@@ -48,7 +75,7 @@ tractor = Item.new(
   command_restrictions: {
     use: {
       restricted_states: [:broken],
-      required_items: [TRACTOR_KEY, MOTOR_OIL]
+      required_items: [TRACTOR_KEY, motor_oil]
     }
   },
   state_descriptions: {
@@ -64,7 +91,7 @@ tractor = Item.new(
 )
 
 TRACTOR = Location.new('',
-items: [tractor],
+items: [tractor, shed],
 blocked_paths: {
   'south' => {obstruction: 'wall'},
   'west' => {obstruction: 'white picket fence'}

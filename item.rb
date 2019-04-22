@@ -81,6 +81,10 @@ class Item
     end
   end
 
+  def use_on(target_item)
+    putsy "Use_on putsy test"
+  end
+
   def has_name?(name)
     @name == name || @aliases.include?(name)
   end

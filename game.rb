@@ -27,10 +27,10 @@ COMMANDS = {
     args: ['item'],
     definition: 'Use an item i.e. activate/engage something'
   },
-  # use_on: {
-  #   args: ['item'],
-  #   definition: 'Use an item on another item e.g. use key on lock'
-  # },
+  'use [item] on': {
+    args: ['item'],
+    definition: 'Use an item on another item e.g. use key on lock'
+  },
   open: {
     args: ['target(item/door)'],
     definition: 'Opens the target, whether it be an item or a door'
@@ -316,7 +316,14 @@ class Game
     end
   end
 
-  def use_item(item_name)
+  def use_item(additional)
+    additionalSplit = additional.split(' ')
+    if additionalSplit[1] == 'on'
+      use_item_on_item(additionalSplit[0], additionalSplit[2])
+      return
+    end
+    
+    item_name = additional
     # if current_location doesn't have the item, check player inventory
     item = _check_for_item(item_name)
 
@@ -324,6 +331,24 @@ class Game
       item.use
     elsif item
       putsy "You can't use the #{item_name}."
+    else
+      putsy "There is no #{item_name} to use."
+    end
+  end
+
+  def use_item_on_item(item_name, target_item_name)
+    # if current_location doesn't have the item, check player inventory
+    item = _check_for_item(item_name)
+    target_item = _check_for_item(target_item_name)
+
+    if item && defined?(item.applicable_commands) && item.applicable_commands.include?(:use_on)
+      if target_item
+        item.use_on(target_item)
+      else
+        putsy "There is no #{target_item_name} to apply the #{item_name} to."
+      end
+    elsif item
+      putsy "You can't apply the #{item_name} to the #{target_item_name}."
     else
       putsy "There is no #{item_name} to use."
     end

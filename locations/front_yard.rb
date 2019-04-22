@@ -62,7 +62,7 @@ we have the authority to foreclose your property if we do
 not find evidence of active farming activities taking
 place at your address. Our investigation will take place
 on October 15, 2018 at 6PM.'",
-  applicable_commands: [:take, :drop, :read],
+  applicable_commands: [:take, :drop, :read, :use_on],
   reveal_description: "There is a letter inside the mailbox.",
   location_description: "There is a letter inside the mailbox.",
   is_hidden: true,

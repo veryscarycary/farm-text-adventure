@@ -2,9 +2,9 @@ TRACTOR_KEY = ''
 
 motor_oil = Item.new(
   'oil',
-  "The shed is a rusty wind-damaged old thing. There might be something useful in here.",
+  "It's the golden elixer that machines love so much.",
   aliases: ['motor oil', 'jug'],
-  applicable_commands: [:use],
+  applicable_commands: [:use, :take],
   reveal_description: "There's a jug of motor oil in the shed.",
   location_description: "There's a jug of motor oil here.",
   is_hidden: true,
@@ -80,17 +80,17 @@ tractor = Item.new(
   },
   state_descriptions: {
     broken: {
-      location: 'An old tractor is parked next to a shed. It looks like the tractor has seen better days.',
+      location: 'It looks like the tractor has seen better days.',
       item: 'The tractor looks pretty borked. It could use some love underneath the hood.'
     },
     fixed: {
-      location: 'An old tractor is parked next to a shed. It looks pretty healthy.',
+      location: 'It looks pretty healthy.',
       item: 'The tractor looks pretty healthy. It looks ready to go.'
     },
   }
 )
 
-TRACTOR = Location.new('',
+TRACTOR = Location.new('An old tractor is parked next to a shed.',
 items: [tractor, shed],
 blocked_paths: {
   'south' => {obstruction: 'wall'},

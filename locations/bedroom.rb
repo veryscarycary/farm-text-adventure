@@ -37,7 +37,10 @@ calendar = Item.new('calendar',
 FRONT_GATE_KEY = Item.new('key',
 "The key looks like your average lock-and-key type of key.",
   location_description: "A key is hanging from one of the coat rack rungs.",
-  applicable_commands: [:take]
+  applicable_commands: [:take, :use_on],
+  use_on_doing_actions: {
+    gate: "lambda {|item| GAME._destroy_item(item.name); putsy 'You used the key on the gate. It is no longer in your inventory.' }"
+  }
 )
 
 BEDROOM = Location.new('

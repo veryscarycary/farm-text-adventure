@@ -1,7 +1,7 @@
 require_relative 'player'
 
 class Item
-  attr_reader :description, :name, :location_description, :use_description, :read_description, :reveal_description, :state_descriptions, :update_location_description_due_to_state, :can_take, :applicable_commands, :get_flattened_nested_items, :command_restrictions
+  attr_reader :description, :name, :location_description, :use_description, :read_description, :reveal_description, :state_descriptions, :update_location_description_due_to_state, :can_take, :applicable_commands, :get_flattened_nested_items, :command_restrictions, :use_on_doing_actions, :use_on_receiving_actions
   attr_accessor :state, :associated_location, :is_hidden, :belongs_to, :owns
 
   def initialize(name, description, options = {})
@@ -19,7 +19,10 @@ class Item
     @state = options[:state] || nil
     @state_descriptions = options[:state_descriptions] || {}
     @command_restrictions = options[:command_restrictions] || {}
+
     @state_actions = options[:state_actions] || {}
+    @use_on_doing_actions = options[:use_on_doing_actions] || {}
+    @use_on_receiving_actions = options[:use_on_receiving_actions] || {}
     # for purposes of having a link to the thing that owns it so we can check statuses.
     # e.g. letter should only display its description if its owner(mailbox)
     # is open
@@ -28,13 +31,6 @@ class Item
     @belongs_to = options[:belongs_to] || nil
     @is_hidden = options[:is_hidden] || false
     @can_take = options[:can_take] || true
-  end
-
-  def invoke_state_action(*args)
-    if !@state_actions[@state].nil?
-      lamb = eval @state_actions[@state]
-      lamb.call(*args)
-    end
   end
 
   def remove_owned_item(item)
@@ -82,7 +78,35 @@ class Item
   end
 
   def use_on(target_item)
-    putsy "Use_on putsy test"
+    target_item.invoke_use_on_receiving_action(self)
+    invoke_use_on_doing_action(target_item)
+  end
+
+  # what this item will do when used ON a certain target item
+  def invoke_use_on_doing_action(receiving_item, *args)
+
+    if !@use_on_doing_actions[receiving_item.name.to_sym].nil?
+      lamb = eval @use_on_doing_actions[receiving_item.name.to_sym]
+      lamb.call(self)
+    end
+  end
+
+  # what this item will do when used on BY a certain target item
+  def invoke_use_on_receiving_action(doing_item, *args)
+
+    if !@use_on_receiving_actions[doing_item.name.to_sym].nil?
+      lamb = eval @use_on_receiving_actions[doing_item.name.to_sym]
+      lamb.call(self)
+    else
+      putsy "The #{self.name} was unaffected by the #{doing_item.name}"
+    end
+  end
+
+  def invoke_state_action(*args)
+    if !@state_actions[@state].nil?
+      lamb = eval @state_actions[@state]
+      lamb.call(*args)
+    end
   end
 
   def has_name?(name)

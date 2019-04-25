@@ -4,7 +4,7 @@ motor_oil = Item.new(
   'oil',
   "It's the golden elixer that machines love so much.",
   aliases: ['motor oil', 'jug'],
-  applicable_commands: [:use, :take],
+  applicable_commands: [:use, :use_on, :take],
   reveal_description: "There's a jug of motor oil in the shed.",
   location_description: "There's a jug of motor oil here.",
   is_hidden: true,
@@ -43,6 +43,10 @@ engine = Item.new(
       item: 'The engine is looking healthy.'
     }
   },
+  use_on_receiving_actions: {
+    oil: "lambda {|item| item.state = :fixed; putsy 'You pour the oil into the engine and it seems to slurp it right up. Now if I can just get this thing to start...'}"
+  },
+  reveal_description: "A dusty old engine sits before you. It looks like it could at least use some lubrication.",
   is_hidden: true,
 )
 

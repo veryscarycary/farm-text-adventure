@@ -269,6 +269,14 @@ class Game
     end
   end
 
+  def _destroy_item(item_name)
+    inventory_item = _check_for_item(item_name, :inventory)
+    location_item = _check_for_item(item_name, :location)
+
+    @player.drop_from_inventory(inventory_item) if inventory_item
+    @map.current_location.remove_item(location_item) if location_item
+  end
+
   def open_item(item_name)
     # if current_location doesn't have the item, check player inventory
     item = _check_for_item(item_name)
@@ -318,16 +326,17 @@ class Game
 
   def use_item(additional)
     additionalSplit = additional.split(' ')
-    if additionalSplit[1] == 'on'
-      use_item_on_item(additionalSplit[0], additionalSplit[2])
+    if additionalSplit.include?('on')
+      onIndex = additionalSplit.index('on')
+      use_item_on_item(additionalSplit[0...onIndex].join(' '), additionalSplit[(onIndex+1)..-1].join(' '))
       return
     end
-    
+
     item_name = additional
     # if current_location doesn't have the item, check player inventory
     item = _check_for_item(item_name)
 
-    if item && defined?(item.use_description) && !item.use_description.nil?
+    if item && defined?(item.applicable_commands) && item.applicable_commands.include?(:use) && defined?(item.use_description) && !item.use_description.nil?
       item.use
     elsif item
       putsy "You can't use the #{item_name}."
@@ -341,14 +350,16 @@ class Game
     item = _check_for_item(item_name)
     target_item = _check_for_item(target_item_name)
 
-    if item && defined?(item.applicable_commands) && item.applicable_commands.include?(:use_on)
+    if item
       if target_item
-        item.use_on(target_item)
+        if defined?(item.applicable_commands) && item.applicable_commands.include?(:use_on)
+          item.use_on(target_item)
+        else
+          putsy "You can't apply the #{item_name} to the #{target_item_name}."
+        end
       else
         putsy "There is no #{target_item_name} to apply the #{item_name} to."
       end
-    elsif item
-      putsy "You can't apply the #{item_name} to the #{target_item_name}."
     else
       putsy "There is no #{item_name} to use."
     end
@@ -376,7 +387,8 @@ class Game
   end
 end
 
+GAME = Game.new(PLAYER_1)
+
 if __FILE__ == $PROGRAM_NAME
-  g = Game.new(PLAYER_1)
-  g.start
+  GAME.start
 end

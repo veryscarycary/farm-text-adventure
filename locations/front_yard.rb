@@ -13,10 +13,13 @@ command_restrictions: {
   open: {
     restricted_states: [:locked],
     required_items: [FRONT_GATE_KEY]
-  }
+  },
 },
 state_actions: {
   open: "lambda {|item| item.associated_location.remove_obstruction('north') }",
+},
+use_on_receiving_actions: {
+  key: "lambda {|item| GAME.open_item(item.name) }",
 },
 state_descriptions: {
   locked: {
@@ -62,7 +65,7 @@ we have the authority to foreclose your property if we do
 not find evidence of active farming activities taking
 place at your address. Our investigation will take place
 on October 15, 2018 at 6PM.'",
-  applicable_commands: [:take, :drop, :read, :use_on],
+  applicable_commands: [:take, :drop, :read],
   reveal_description: "There is a letter inside the mailbox.",
   location_description: "There is a letter inside the mailbox.",
   is_hidden: true,

@@ -13,7 +13,7 @@ BUCKET = Item.new('bucket',
     },
   },
   use_on_doing_actions: {
-    water: "lambda {|receiving_item| self.state = :full; self.owns.push(receiving_item); putsy 'You fill the bucket with water.' }"
+    water: "lambda {|receiving_item| self.state = :full; self.owns << receiving_item; putsy 'You fill the bucket with water.' }"
   },
   owns: [],
 )

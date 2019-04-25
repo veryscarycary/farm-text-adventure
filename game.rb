@@ -245,6 +245,9 @@ class Game
         end
 
         @player.add_to_inventory(item)
+        item.owns.each do |owned_item|
+          @player.add_to_inventory(owned_item)
+        end
 
         putsy "You took the #{item.name}."
       else
@@ -259,6 +262,10 @@ class Game
     item = _check_for_item(item_name, :inventory)
     if item
       dropped_item = @player.drop_from_inventory(item)
+      dropped_item.owns.each do |owned_item|
+        found_owned_item = _check_for_item(owned_item.name, :inventory)
+        @player.drop_from_inventory(found_owned_item)
+      end
 
       @map.current_location.items << dropped_item
       item.update_location_description_due_to_drop

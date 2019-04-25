@@ -4,7 +4,7 @@ class Item
   attr_reader :description, :name, :location_description, :use_description, :read_description, :reveal_description, :state_descriptions, :update_location_description_due_to_state, :can_take, :applicable_commands, :get_flattened_nested_items, :command_restrictions, :use_on_doing_actions, :use_on_receiving_actions
   attr_accessor :state, :associated_location, :is_hidden, :belongs_to, :owns
 
-  def initialize(name, description, options = {})
+  def initialize(name, description = '', options = {})
     @name = name.strip()
     @aliases = options[:aliases] || []
     @description = description.gsub(/\R+/, ' ').squeeze(' ').strip()

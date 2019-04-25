@@ -87,7 +87,7 @@ class Item
 
     if !@use_on_doing_actions[receiving_item.name.to_sym].nil?
       lamb = eval @use_on_doing_actions[receiving_item.name.to_sym]
-      lamb.call(self)
+      lamb.call(receiving_item)
     end
   end
 
@@ -96,7 +96,7 @@ class Item
 
     if !@use_on_receiving_actions[doing_item.name.to_sym].nil?
       lamb = eval @use_on_receiving_actions[doing_item.name.to_sym]
-      lamb.call(self)
+      lamb.call(doing_item)
     else
       putsy "The #{self.name} was unaffected by the #{doing_item.name}"
     end

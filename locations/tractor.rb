@@ -44,7 +44,7 @@ engine = Item.new(
     }
   },
   use_on_receiving_actions: {
-    oil: "lambda {|item| item.state = :fixed; putsy 'You pour the oil into the engine and it seems to slurp it right up. Now if I can just get this thing to start...'}"
+    oil: "lambda {|doing_item| self.state = :fixed; putsy 'You pour the oil into the engine and it seems to slurp it right up. Now if I can just get this thing to start...'}"
   },
   reveal_description: "A dusty old engine sits before you. It looks like it could at least use some lubrication.",
   is_hidden: true,
@@ -79,7 +79,7 @@ tractor = Item.new(
   command_restrictions: {
     use: {
       restricted_states: [:broken],
-      required_items: [TRACTOR_KEY, motor_oil]
+      required_items: [TRACTOR_KEY]
     }
   },
   state_descriptions: {

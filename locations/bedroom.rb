@@ -39,7 +39,7 @@ FRONT_GATE_KEY = Item.new('key',
   location_description: "A key is hanging from one of the coat rack rungs.",
   applicable_commands: [:take, :use_on],
   use_on_doing_actions: {
-    gate: "lambda {|item| GAME._destroy_item(item.name); putsy 'You used the key on the gate. It is no longer in your inventory.' }"
+    gate: "lambda {|receiving_item| GAME._destroy_item(self.name); putsy 'You used the key on the gate. It is no longer in your inventory.' }"
   }
 )
 

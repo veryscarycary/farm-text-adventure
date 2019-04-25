@@ -19,7 +19,7 @@ state_actions: {
   open: "lambda {|item| item.associated_location.remove_obstruction('north') }",
 },
 use_on_receiving_actions: {
-  key: "lambda {|item| GAME.open_item(item.name) }",
+  key: "lambda {|doing_item| GAME.open_item(self.name) }",
 },
 state_descriptions: {
   locked: {

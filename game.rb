@@ -238,6 +238,7 @@ class Game
     if item
       if item.applicable_commands.include?(:take)
         if item.belongs_to.nil?
+          p item
           @map.current_location.remove_item(item)
         else
           item.belongs_to.remove_owned_item(item)
@@ -245,7 +246,7 @@ class Game
         end
 
         @player.add_to_inventory(item)
-        item.owns.each do |owned_item|
+        item.get_flattened_nested_items.each do |owned_item|
           @player.add_to_inventory(owned_item)
         end
 

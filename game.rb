@@ -238,7 +238,6 @@ class Game
     if item
       if item.applicable_commands.include?(:take)
         if item.belongs_to.nil?
-          p item
           @map.current_location.remove_item(item)
         else
           item.belongs_to.remove_owned_item(item)
@@ -261,13 +260,19 @@ class Game
   def drop_item(item_name)
     item = _check_for_item(item_name, :inventory)
     if item
+      if !item.belongs_to.nil?
+        item.belongs_to.remove_owned_item(item)
+        item.belongs_to = nil
+      end
+
       dropped_item = @player.drop_from_inventory(item)
+
       dropped_item.owns.each do |owned_item|
         found_owned_item = _check_for_item(owned_item.name, :inventory)
         @player.drop_from_inventory(found_owned_item)
       end
 
-      @map.current_location.items << dropped_item
+      @map.current_location.add_item(dropped_item)
       item.update_location_description_due_to_drop
 
       putsy "You dropped the #{item.name}."

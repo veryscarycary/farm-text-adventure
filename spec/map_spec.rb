@@ -54,6 +54,20 @@ describe 'Location' do
     end
   end
 
+  context "#add_item" do
+    it "should add an item to the current location" do
+      mockItem = instance_double('Item', :name => 'rock', :applicable_commands => [:take, :drop], :owns => [] )
+
+      location = Location.new('house', {
+        items: []
+      })
+
+      location.add_item(mockItem)
+
+      expect(location.items).to eql([mockItem])
+    end
+  end
+
   context "#get_items_with_location_descriptions" do
     it "should return an empty array if no items are found with location descriptions" do
       location = Location.new('house', {

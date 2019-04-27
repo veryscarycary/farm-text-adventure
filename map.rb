@@ -114,6 +114,10 @@ class Location
     @items.each { |item| item.associated_location = self }
   end
 
+  def add_item(item)
+    @items << item
+  end
+
   def remove_item(item)
     @items.delete(item)
   end

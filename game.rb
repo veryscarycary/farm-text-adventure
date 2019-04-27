@@ -257,23 +257,24 @@ class Game
   end
 
   def drop_item(item_name)
+    dropped_nested_items = []
     item = _check_for_item(item_name, :inventory)
     if item
       if !item.belongs_to.nil?
         item.belongs_to.remove_owned_item(item)
       end
 
-      dropped_item = @player.drop_from_inventory(item)
-
-      dropped_item.owns.each do |owned_item|
+      item.get_flattened_nested_items.each do |owned_item|
         found_owned_item = _check_for_item(owned_item.name, :inventory)
         @player.drop_from_inventory(found_owned_item)
+        found_owned_item.update_location_description_due_to_drop
+        dropped_nested_items << owned_item unless found_owned_item == item
       end
 
-      @map.current_location.add_item(dropped_item)
-      item.update_location_description_due_to_drop
+      @map.current_location.add_item(item)
 
       putsy "You dropped the #{item.name}."
+      putsy "#{build_items_string(dropped_nested_items, true).capitalize} #{build_items_string(dropped_nested_items, true).include?('and ') ? 'were' : 'was'} dropped along with the #{item.name}." if !dropped_nested_items.empty?
     else
       putsy "There isn't #{item_name =~ /^[aeiouAEIOU]/ ? 'an' : 'a'} #{item_name} to drop."
     end

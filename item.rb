@@ -47,7 +47,7 @@ class Item
   end
 
   def update_location_description_due_to_drop
-    @location_description = "A #{@name} is on the floor."
+    @location_description = @belongs_to.nil? ? "A #{@name} is on the floor." : "A #{@name} is with the #{@belongs_to.name}."
   end
 
   # recursive

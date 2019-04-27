@@ -241,7 +241,6 @@ class Game
           @map.current_location.remove_item(item)
         else
           item.belongs_to.remove_owned_item(item)
-          item.belongs_to = nil;
         end
 
         item.get_flattened_nested_items.each do |owned_item|
@@ -262,7 +261,6 @@ class Game
     if item
       if !item.belongs_to.nil?
         item.belongs_to.remove_owned_item(item)
-        item.belongs_to = nil
       end
 
       dropped_item = @player.drop_from_inventory(item)

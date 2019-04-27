@@ -74,7 +74,7 @@ describe 'Game' do
         expect(mockLocation).to have_received(:remove_item).with(mockItem)
       end
 
-      it "should remove item from it's owner item if it's a nested item" do
+      it "should remove owership, if it's a nested item" do
         allow(mockItem).to receive(:belongs_to).and_return(mockOwnerItem)
 
         Game.any_instance.stub(:_check_for_item).and_return(mockItem)
@@ -84,7 +84,6 @@ describe 'Game' do
         expect(map).not_to have_received(:current_location)
         expect(mockLocation).not_to have_received(:remove_item).with(mockItem)
         expect(mockOwnerItem).to have_received(:remove_owned_item).with(mockItem)
-        expect(mockItem).to have_received(:belongs_to=).with(nil)
       end
   end
 
@@ -125,16 +124,6 @@ describe 'Game' do
       end
 
       it "should remove ownership, if it's a nested item" do
-        allow(mockItem).to receive(:belongs_to).and_return(mockOwnerItem)
-
-        Game.any_instance.stub(:_check_for_item).and_return(mockItem)
-
-        game.drop_item(mockItem.name)
-
-        expect(mockItem).to have_received(:belongs_to=).with(nil)
-      end
-
-      it "should remove item from it's owner item if it's a nested item" do
         allow(mockItem).to receive(:belongs_to).and_return(mockOwnerItem)
 
         Game.any_instance.stub(:_check_for_item).and_return(mockItem)

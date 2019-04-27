@@ -4,8 +4,12 @@ WATER = Item.new('water',
   applicable_commands: [:drop, :use_on],
   use_on_receiving_actions: {
     bucket: "lambda do |doing_item|
-      new_water = WATER.clone
-      new_water.belongs_to = doing_item; GAME.player.add_to_inventory(new_water)
+      doing_item.state = :full
+      new_water = self.clone
+      doing_item.owns << new_water
+      doing_item.owns[-1].belongs_to = doing_item
+      GAME.player.add_to_inventory(new_water)
+      putsy 'You fill the bucket with water.'
     end"
   },
 )

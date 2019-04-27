@@ -12,15 +12,6 @@ BUCKET = Item.new('bucket',
       item: 'The bucket is empty.'
     },
   },
-  use_on_doing_actions: {
-    water: "lambda do |receiving_item|
-      unless receiving_item.aliases.include?('rapid water')
-        self.state = :full
-        self.owns << receiving_item
-        putsy 'You fill the bucket with water.'
-      end
-    end"
-  },
   ownership_actions: {
     owns: {
       empty_array: "lambda {|owned_item| self.state = :empty; putsy 'The bucket is now empty.' }"

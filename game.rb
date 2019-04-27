@@ -265,10 +265,12 @@ class Game
       end
 
       item.get_flattened_nested_items.each do |owned_item|
-        found_owned_item = _check_for_item(owned_item.name, :inventory)
-        @player.drop_from_inventory(found_owned_item)
-        found_owned_item.update_location_description_due_to_drop
-        dropped_nested_items << owned_item unless found_owned_item == item
+        # found_owned_item = _check_for_item(owned_item.name, :inventory)
+        @player.drop_from_inventory(owned_item)
+        owned_item.update_location_description_due_to_drop
+        dropped_nested_items << owned_item unless owned_item == item
+
+        p !owned_item.belongs_to.nil? && owned_item.belongs_to.name
       end
 
       @map.current_location.add_item(item)

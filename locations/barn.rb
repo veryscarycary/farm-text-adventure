@@ -17,7 +17,7 @@ BUCKET = Item.new('bucket',
   },
   ownership_actions: {
     owns: {
-      empty_array: "lambda {|receiving_item| self.state = :empty; putsy 'The bucket is now empty.' }"
+      empty_array: "lambda {|owned_item| self.state = :empty; putsy 'The bucket is now empty.' }"
     },
   },
   owns: [],

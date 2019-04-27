@@ -66,7 +66,6 @@ describe 'Game' do
       end
 
       it "should remove item from location if the item doesn't belong to another item" do
-        # item = Item.new('rock', '', { applicable_commands: [:take, :drop] })
         Game.any_instance.stub(:_check_for_item).and_return(mockItem)
 
         game.take_item(mockItem.name)
@@ -135,8 +134,17 @@ describe 'Game' do
         expect(mockItem).to have_received(:belongs_to=).with(nil)
       end
 
+      it "should remove item from it's owner item if it's a nested item" do
+        allow(mockItem).to receive(:belongs_to).and_return(mockOwnerItem)
+
+        Game.any_instance.stub(:_check_for_item).and_return(mockItem)
+
+        game.drop_item(mockItem.name)
+
+        expect(mockOwnerItem).to have_received(:remove_owned_item).with(mockItem)
+      end
+
       it "should add item to location" do
-        # item = Item.new('rock', '', { applicable_commands: [:take, :drop] })
         Game.any_instance.stub(:_check_for_item).and_return(mockItem)
 
         game.drop_item(mockItem.name)
@@ -144,20 +152,5 @@ describe 'Game' do
         expect(map).to have_received(:current_location)
         expect(mockLocation).to have_received(:add_item).with(mockItem)
       end
-      #
-      # it "should remove item from it's owner item if it's a nested item" do
-      #   # I needed a real Item here because I don't know how to set a stub method on a double after it's already been
-      #   # declared, which I need to do here to get the items to link to each other
-      #   mockItem = Item.new('rock', '', { applicable_commands: [:take, :drop], belongs_to: nil })
-      #   mockOwnerItem = Item.new('box', '', { applicable_commands: [:take, :drop], owns: [mockItem] })
-      #   mockItem.belongs_to = mockOwnerItem
-      #
-      #   Game.any_instance.stub(:_check_for_item).and_return(mockItem)
-      #
-      #   game.take_item(mockItem.name)
-      #
-      #   expect(map).not_to have_received(:current_location)
-      #   expect(mockLocation).not_to have_received(:remove_item).with(mockItem)
-      # end
   end
 end

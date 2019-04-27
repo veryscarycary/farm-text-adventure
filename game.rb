@@ -245,7 +245,6 @@ class Game
           item.belongs_to = nil;
         end
 
-        @player.add_to_inventory(item)
         item.get_flattened_nested_items.each do |owned_item|
           @player.add_to_inventory(owned_item)
         end

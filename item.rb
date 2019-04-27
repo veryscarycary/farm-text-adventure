@@ -21,7 +21,7 @@ class Item
     @command_restrictions = options[:command_restrictions] || {}
 
     @state_actions = options[:state_actions] || {}
-    @ownership_actions = options[:state_actions] || {}
+    @ownership_actions = options[:ownership_actions] || {}
     @use_on_doing_actions = options[:use_on_doing_actions] || {}
     @use_on_receiving_actions = options[:use_on_receiving_actions] || {}
     # for purposes of having a link to the thing that owns it so we can check statuses.
@@ -35,8 +35,11 @@ class Item
   end
 
   def remove_owned_item(item)
-    item.belongs_to = nil
     @owns.delete(item)
+    item.belongs_to = nil
+
+    invoke_owns_ownership_action(item)
+    item.invoke_belongs_to_ownership_action(self)
   end
 
   def update_location_description_due_to_state
@@ -82,6 +85,26 @@ class Item
   def use_on(target_item)
     target_item.invoke_use_on_receiving_action(self)
     invoke_use_on_doing_action(target_item)
+  end
+
+  # what this item will do when it loses/gains an item
+  def invoke_owns_ownership_action(owned_item, *args)
+    if !@ownership_actions[:owns].nil?
+      if !@ownership_actions[:owns][:empty_array].nil? && @owns.empty?
+        lamb = eval @ownership_actions[:owns][:empty_array]
+        lamb.call(owned_item)
+      end
+    end
+  end
+
+  # what this item will do when it becomes owned or no longer owned
+  def invoke_belongs_to_ownership_action(owner_item, *args)
+    if !@ownership_actions[:belongs_to].nil?
+      if !@ownership_actions[:belongs_to][:nil].nil? && @belongs_to.nil?
+        lamb = eval @ownership_actions[:belongs_to][:nil]
+        lamb.call(owner_item)
+      end
+    end
   end
 
   # what this item will do when used ON a certain target item

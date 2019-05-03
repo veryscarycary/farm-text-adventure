@@ -227,7 +227,9 @@ class Game
     item = _check_for_item(item_name)
 
     if item
-      putsy item.state ? "#{item.description} #{item.state_descriptions[item.state][:item]}" : item.description
+      time_description = item.requires_time ? " The time reads: #{@time.current_time}." : ''
+      look_at_description = item.state ? "#{item.description} #{item.state_descriptions[item.state][:item]}#{time_description}" : "#{item.description}#{time_description}"
+      putsy look_at_description
     else
       putsy "There isn't #{item_name =~ /^[aeiouAEIOU]/ ? 'an' : 'a'} #{item_name} to look at."
     end
@@ -349,8 +351,8 @@ class Game
     # if current_location doesn't have the item, check player inventory
     item = _check_for_item(item_name)
 
-    if item && defined?(item.applicable_commands) && item.applicable_commands.include?(:use) && defined?(item.use_description) && !item.use_description.nil?
-      item.use
+    if item && defined?(item.applicable_commands) && item.applicable_commands.include?(:use)
+      item.use_redirect.nil? ? item.use : invoke_command(item.use_redirect)
     elsif item
       putsy "You can't use the #{item_name}."
     else

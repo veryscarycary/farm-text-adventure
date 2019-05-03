@@ -1,7 +1,7 @@
 require_relative 'player'
 
 class Item
-  attr_reader :description, :name, :aliases, :location_description, :use_description, :read_description, :reveal_description, :state_descriptions, :update_location_description_due_to_state, :can_take, :applicable_commands, :get_flattened_nested_items, :command_restrictions, :use_on_doing_actions, :use_on_receiving_actions
+  attr_reader :description, :name, :aliases, :location_description, :use_description, :read_description, :reveal_description, :state_descriptions, :update_location_description_due_to_state, :can_take, :applicable_commands, :get_flattened_nested_items, :command_restrictions, :use_on_doing_actions, :use_on_receiving_actions, :requires_time, :use_redirect
   attr_accessor :state, :associated_location, :is_hidden, :belongs_to, :owns
 
   def initialize(name, description = '', options = {})
@@ -15,6 +15,7 @@ class Item
     # an item gets a 'reveal' description that adds to the location description when it becomes revealed after the open command
     @reveal_description = options[:reveal_description]
     @use_description = options[:use_description]
+    @use_redirect = options[:use_redirect]
     @applicable_commands = options[:applicable_commands] || []
     @state = options[:state] || nil
     @state_descriptions = options[:state_descriptions] || {}
@@ -30,6 +31,7 @@ class Item
     @owns = options[:owns] || []
     @owns.each {|item| item.belongs_to = self}
     @belongs_to = options[:belongs_to] || nil
+    @requires_time = options[:requires_time] || false
     @is_hidden = options[:is_hidden] || false
     @can_take = options[:can_take] || true
   end
@@ -70,7 +72,7 @@ class Item
 
   def use
     if !@use_description.nil?
-      putsy @use_description
+      putsy @requires_time ? "#{@use_description} The time reads: #{TIME.current_time}." : @use_description
       return
     end
 

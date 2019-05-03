@@ -72,7 +72,7 @@ class Item
 
   def use
     if !@use_description.nil?
-      putsy @requires_time ? "#{@use_description} The time reads: #{TIME.current_time}." : @use_description
+      putsy @use_description
       return
     end
 

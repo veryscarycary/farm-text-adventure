@@ -14,10 +14,10 @@ watch = Item.new(
   "It's an old, antique watch with a copper color to it. It seems to be working just fine.",
   # appends 'The time reads: #{TIME.current_time}' to description and use description'
   requires_time: true,
+  use_redirect: :look_at,
   applicable_commands: [:take, :drop, :use],
   reveal_description: "There is a watch inside the drawer",
   location_description: "There is a watch inside the drawer.",
-  use_description: "You look at the watch.",
   is_hidden: true,
 )
 

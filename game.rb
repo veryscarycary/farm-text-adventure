@@ -352,7 +352,7 @@ class Game
     item = _check_for_item(item_name)
 
     if item && defined?(item.applicable_commands) && item.applicable_commands.include?(:use)
-      item.use_redirect.nil? ? item.use : invoke_command(item.use_redirect)
+      item.use_redirect.nil? ? item.use : invoke_command(item.use_redirect, item_name)
     elsif item
       putsy "You can't use the #{item_name}."
     else

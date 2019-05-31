@@ -49,11 +49,11 @@ One of the main responsibilities of Game is to take commands from the user. Comm
 
 ## GameTime
 
-This keeps track of the current time in the game. It is initializes early and make into a constant so it can be available in the global scope in any file.
+This keeps track of the current time in the game. It is initialized early as a constant so it can be available in the global scope in any file.
 
 ## Player
 
-Currently, there is only support for 1 player in this game. The main significance of player is that it has a private inventory that the user can access during the game. The user can add and remove items from this inventory.
+Currently, there is only support for 1 player in the game. The main significance of player is that it has a private inventory that the user can access during the game. The user can add and remove items from this inventory.
 
 ## Map
 
@@ -65,4 +65,4 @@ Location has detailed information of a particular place that is within a spot on
 
 ## Item
 
-Item contains all of the detailed information of particular item, including its name, description, if it's hidden, if it contains(owns) other items, etc.
+Item contains all of the detailed information of a particular item, including its name, description, if it's hidden, if it contains(owns) other items, etc.

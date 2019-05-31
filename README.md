@@ -25,7 +25,7 @@ Mac
 This game was developed with the intention of being able to plug in different story lines / games with
 minimal code changes to the core functionality.
 
-# Story line Code
+## Story line Code
 
 Each story line will be represented by location pieces that will be plugged into the the map. In the current file structure,
 this can be seen in the default_map.rb file. The default_map.rb file requires the needed locations from the locations/ directory which will hold all of the story-specific locations, items, and other story code.

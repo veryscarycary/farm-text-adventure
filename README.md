@@ -16,7 +16,7 @@ Mac
 1.  git clone repo
 2.  if rbenv(or similar) are not installed, type `gem install colorize --user-install`
     or
-3.  if colorize is not the only dependency, type `gem install bundle --user-install`. type `bundle install`.
+3.  if colorize is not the only dependency, type `gem install bundler --user-install`. type `bundle install`.
 4.  if the shell you are using doesn't have a black background, you should go to preferences to set it to black.
 5.  ruby game.rb
 

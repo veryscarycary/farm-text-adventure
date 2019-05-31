@@ -30,7 +30,7 @@ minimal code changes to the core functionality.
 Each story line will be represented by location pieces that will be plugged into the the map. In the current file structure,
 this can be seen in the default_map.rb file. The default_map.rb file requires the needed locations from the locations/ directory which will hold all of the story-specific locations, items, and other story code.
 
-# Core
+## Core
 
 The core functionality is spread across a few central classes:
 
@@ -41,28 +41,28 @@ The core functionality is spread across a few central classes:
 - Location
 - Item
 
-# Game
+## Game
 
 Game is responsible for driving the main game process. It initializes the game and all of its connecting pieces and reaches into the other classes when it needs to take actions.
 
 One of the main responsibilities of Game is to take commands from the user. Commands are registered here and are directed into actions here.
 
-# GameTime
+## GameTime
 
 This keeps track of the current time in the game. It is initializes early and make into a constant so it can be available in the global scope in any file.
 
-# Player
+## Player
 
 Currently, there is only support for 1 player in this game. The main significance of player is that it has a private inventory that the user can access during the game. The user can add and remove items from this inventory.
 
-# Map
+## Map
 
 Map is essentially a grid(multidimensional array) that is only concerned with managing its x and y movement.
 
-# Location
+## Location
 
 Location has detailed information of a particular place that is within a spot on the Map. It contains descriptions and items and can set boundaries that the player cannot travel through.
 
-# Item
+## Item
 
 Item contains all of the detailed information of particular item, including its name, description, if it's hidden, if it contains(owns) other items, etc.

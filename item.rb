@@ -74,7 +74,6 @@ class Item
   def use
     if !@use_description.nil?
       putsy @use_description
-      return
     end
 
     if !@use_action.nil?

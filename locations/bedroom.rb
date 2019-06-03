@@ -6,7 +6,8 @@ location_description: 'It seems pretty cozy in here.',
 bed = Item.new('bed',
 'This bed looks comfy.',
   location_description: "There is a tidy, queen-sized bed with four posts up against the center of the wall.",
-  use_description: "You snuggle up in the sheets and close your eyes for a bit. Wait, this isn't time for a nap! You hop up out of the bed.",
+  use_description: "You snuggle up in the sheets and close your eyes for a bit. \n\nHow long was I asleep for? I have work to do.",
+  use_action: "lambda { TIME.increment_time(60) }",
   applicable_commands: [:use]
 )
 

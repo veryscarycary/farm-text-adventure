@@ -106,6 +106,26 @@ describe 'Item' do
     end
   end
 
+  context "#invoke_use_action" do
+    it "should invoke the item's use_action if it has one" do
+      item = Item.new('item', "Some item.", {
+        use_action: "lambda { return 10 }"
+      })
+
+      result = item.invoke_use_action
+
+      expect(result).to eql(10)
+    end
+
+    it "should not invoke the item's use_action if it doesn't have one" do
+      item = Item.new('item', "Some item.")
+
+      result = item.invoke_use_action
+
+      expect(result).to eql(nil)
+    end
+  end
+
   context "#use" do
     item = Item.new('item', "Some item.", {
       state_descriptions: {

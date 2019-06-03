@@ -23,6 +23,7 @@ class Item
 
     @state_actions = options[:state_actions] || {}
     @ownership_actions = options[:ownership_actions] || {}
+    @use_action = options[:use_action] || nil
     @use_on_doing_actions = options[:use_on_doing_actions] || {}
     @use_on_receiving_actions = options[:use_on_receiving_actions] || {}
     # for purposes of having a link to the thing that owns it so we can check statuses.
@@ -76,6 +77,10 @@ class Item
       return
     end
 
+    if !@use_action.nil?
+      invoke_use_action
+    end
+
     case @state
       when :on
         toggle_on_off
@@ -87,6 +92,13 @@ class Item
   def use_on(target_item)
     target_item.invoke_use_on_receiving_action(self)
     invoke_use_on_doing_action(target_item)
+  end
+
+  def invoke_use_action
+    if !@use_action.nil?
+      lamb = eval @use_action
+      lamb.call
+    end
   end
 
   # what this item will do when it loses/gains an item

@@ -1,7 +1,7 @@
 --- !ruby/object:Game
 player: !ruby/object:Player
   inventory:
-  - &8 !ruby/object:Item
+  - &9 !ruby/object:Item
     name: key
     aliases: []
     description: The key looks like your average lock-and-key type of key.
@@ -20,16 +20,19 @@ player: !ruby/object:Player
         use_description: 
         associated_location: *1
         reveal_description: 
+        use_redirect: 
         applicable_commands: []
         state: 
         state_descriptions: {}
         command_restrictions: {}
         state_actions: {}
         ownership_actions: {}
+        use_action: 
         use_on_doing_actions: {}
         use_on_receiving_actions: {}
         owns: []
         belongs_to: 
+        requires_time: false
         is_hidden: false
         can_take: true
       - !ruby/object:Item
@@ -39,10 +42,11 @@ player: !ruby/object:Player
         location_description: There is a tidy, queen-sized bed with four posts up
           against the center of the wall.
         read_description: 
-        use_description: You snuggle up in the sheets and close your eyes for a bit.
-          Wait, this isn't time for a nap! You hop up out of the bed.
+        use_description: "You snuggle up in the sheets and close your eyes for a bit.
+          \n\nHow long was I asleep for? I have work to do."
         associated_location: *1
         reveal_description: 
+        use_redirect: 
         applicable_commands:
         - :use
         state: 
@@ -50,10 +54,12 @@ player: !ruby/object:Player
         command_restrictions: {}
         state_actions: {}
         ownership_actions: {}
+        use_action: lambda { TIME.increment_time(60) }
         use_on_doing_actions: {}
         use_on_receiving_actions: {}
         owns: []
         belongs_to: 
+        requires_time: false
         is_hidden: false
         can_take: true
       - !ruby/object:Item
@@ -66,16 +72,19 @@ player: !ruby/object:Player
         use_description: 
         associated_location: *1
         reveal_description: 
+        use_redirect: 
         applicable_commands: []
         state: 
         state_descriptions: {}
         command_restrictions: {}
         state_actions: {}
         ownership_actions: {}
+        use_action: 
         use_on_doing_actions: {}
         use_on_receiving_actions: {}
         owns: []
         belongs_to: 
+        requires_time: false
         is_hidden: false
         can_take: true
       - !ruby/object:Item
@@ -87,16 +96,19 @@ player: !ruby/object:Player
         use_description: 
         associated_location: *1
         reveal_description: 
+        use_redirect: 
         applicable_commands: []
         state: 
         state_descriptions: {}
         command_restrictions: {}
         state_actions: {}
         ownership_actions: {}
+        use_action: 
         use_on_doing_actions: {}
         use_on_receiving_actions: {}
         owns: []
         belongs_to: 
+        requires_time: false
         is_hidden: false
         can_take: true
       - !ruby/object:Item
@@ -108,6 +120,7 @@ player: !ruby/object:Player
         use_description: 
         associated_location: *1
         reveal_description: 
+        use_redirect: 
         applicable_commands:
         - :take
         state: 
@@ -115,10 +128,12 @@ player: !ruby/object:Player
         command_restrictions: {}
         state_actions: {}
         ownership_actions: {}
+        use_action: 
         use_on_doing_actions: {}
         use_on_receiving_actions: {}
         owns: []
         belongs_to: 
+        requires_time: false
         is_hidden: false
         can_take: true
       - !ruby/object:Item
@@ -131,6 +146,7 @@ player: !ruby/object:Player
         use_description: 
         associated_location: *1
         reveal_description: 
+        use_redirect: 
         applicable_commands:
         - :take
         - :read
@@ -139,17 +155,19 @@ player: !ruby/object:Player
         command_restrictions: {}
         state_actions: {}
         ownership_actions: {}
+        use_action: 
         use_on_doing_actions: {}
         use_on_receiving_actions: {}
         owns: []
         belongs_to: 
+        requires_time: false
         is_hidden: false
         can_take: true
       people: []
       blocked_paths:
         west:
           :obstruction: wall
-        north: &6
+        north: &7
           :obstruction: wall
         south:
           :obstruction: wall
@@ -169,6 +187,7 @@ player: !ruby/object:Player
               use_description: 
               associated_location: *2
               reveal_description: 
+              use_redirect: 
               applicable_commands:
               - :use_on
               state: 
@@ -176,6 +195,7 @@ player: !ruby/object:Player
               command_restrictions: {}
               state_actions: {}
               ownership_actions: {}
+              use_action: 
               use_on_doing_actions: {}
               use_on_receiving_actions:
                 :bucket: |-
@@ -184,16 +204,54 @@ player: !ruby/object:Player
                       end
               owns: []
               belongs_to: 
+              requires_time: false
               is_hidden: false
               can_take: true
             people: []
             blocked_paths: {}
             associated_map: *3
-          - &19 !ruby/object:Location
+          - &4 !ruby/object:Location
             description: You arrive at what looks like a very dilapidated barn. It's
               clear that it hasn't been used in ages. There are a few old horse stalls
               here but no sign of horses.
-            items: []
+            items:
+            - !ruby/object:Item
+              name: bucket
+              aliases: []
+              description: It's an old rusty bucket.
+              location_description: There is an empty bucket sitting against one of
+                the stalls.
+              read_description: 
+              use_description: 
+              associated_location: *4
+              reveal_description: 
+              use_redirect: 
+              applicable_commands:
+              - :take
+              - :drop
+              - :use_on
+              state: :empty
+              state_descriptions:
+                :full:
+                  :location: ''
+                  :item: The bucket is filled with water.
+                :empty:
+                  :location: There is an empty bucket sitting against one of the stalls.
+                  :item: The bucket is empty.
+              command_restrictions: {}
+              state_actions: {}
+              ownership_actions:
+                :owns:
+                  :empty_array: lambda {|owned_item| self.state = :empty; putsy 'The
+                    bucket is now empty.' }
+              use_action: 
+              use_on_doing_actions: {}
+              use_on_receiving_actions: {}
+              owns: []
+              belongs_to: 
+              requires_time: false
+              is_hidden: false
+              can_take: true
             people: []
             blocked_paths: {}
             associated_map: *3
@@ -204,7 +262,7 @@ player: !ruby/object:Player
             people: []
             blocked_paths: {}
             associated_map: *3
-        - - &4 !ruby/object:Location
+        - - &5 !ruby/object:Location
             description: You stumble across a moving body of water.
             items:
             - !ruby/object:Item
@@ -217,8 +275,9 @@ player: !ruby/object:Player
                   any ecosystem could thrive off of.
               read_description: 
               use_description: 
-              associated_location: *4
+              associated_location: *5
               reveal_description: 
+              use_redirect: 
               applicable_commands:
               - :use_on
               state: 
@@ -226,6 +285,7 @@ player: !ruby/object:Player
               command_restrictions: {}
               state_actions: {}
               ownership_actions: {}
+              use_action: 
               use_on_doing_actions: {}
               use_on_receiving_actions:
                 :bucket: |-
@@ -234,6 +294,7 @@ player: !ruby/object:Player
                       end
               owns: []
               belongs_to: 
+              requires_time: false
               is_hidden: false
               can_take: true
             people: []
@@ -254,7 +315,7 @@ player: !ruby/object:Player
             people: []
             blocked_paths: {}
             associated_map: *3
-        - - &5 !ruby/object:Location
+        - - &6 !ruby/object:Location
             description: You arrive at a pond.
             items:
             - !ruby/object:Item
@@ -265,8 +326,9 @@ player: !ruby/object:Player
                 at peace with the world.
               read_description: 
               use_description: 
-              associated_location: *5
+              associated_location: *6
               reveal_description: 
+              use_redirect: 
               applicable_commands:
               - :drop
               - :use_on
@@ -275,6 +337,7 @@ player: !ruby/object:Player
               command_restrictions: {}
               state_actions: {}
               ownership_actions: {}
+              use_action: 
               use_on_doing_actions: {}
               use_on_receiving_actions:
                 :bucket: |-
@@ -288,15 +351,16 @@ player: !ruby/object:Player
                       end
               owns: []
               belongs_to: 
+              requires_time: false
               is_hidden: false
               can_take: true
             people: []
             blocked_paths:
               east:
                 :obstruction: white picket fence
-              south: *6
+              south: *7
             associated_map: *3
-          - &7 !ruby/object:Location
+          - &8 !ruby/object:Location
             description: There is a quaint, southern-style house in front of you toward
               the south.
             items:
@@ -308,18 +372,21 @@ player: !ruby/object:Player
               location_description: ''
               read_description: 
               use_description: 
-              associated_location: *7
+              associated_location: *8
               reveal_description: 
+              use_redirect: 
               applicable_commands: []
               state: 
               state_descriptions: {}
               command_restrictions: {}
               state_actions: {}
               ownership_actions: {}
+              use_action: 
               use_on_doing_actions: {}
               use_on_receiving_actions: {}
               owns: []
               belongs_to: 
+              requires_time: false
               is_hidden: false
               can_take: true
             - !ruby/object:Item
@@ -330,8 +397,9 @@ player: !ruby/object:Player
               location_description: A gate is open to the north.
               read_description: 
               use_description: 
-              associated_location: *7
+              associated_location: *8
               reveal_description: 
+              use_redirect: 
               applicable_commands:
               - :open
               state: :open
@@ -350,27 +418,30 @@ player: !ruby/object:Player
                   :restricted_states:
                   - :locked
                   :required_items:
-                  - *8
+                  - *9
               state_actions:
                 :open: lambda {|item| item.associated_location.remove_obstruction('north')
                   }
               ownership_actions: {}
+              use_action: 
               use_on_doing_actions: {}
               use_on_receiving_actions:
                 :key: lambda {|doing_item| GAME.open_item(self.name) }
               owns: []
               belongs_to: 
+              requires_time: false
               is_hidden: false
               can_take: true
-            - &9 !ruby/object:Item
+            - &10 !ruby/object:Item
               name: mailbox
               aliases: []
               description: It's an old-style mailbox with the red lever sticking up.
               location_description: You are standing near a mailbox.
               read_description: 
               use_description: 
-              associated_location: *7
+              associated_location: *8
               reveal_description: 
+              use_redirect: 
               applicable_commands:
               - :open
               state: :closed
@@ -384,6 +455,7 @@ player: !ruby/object:Player
               command_restrictions: {}
               state_actions: {}
               ownership_actions: {}
+              use_action: 
               use_on_doing_actions: {}
               use_on_receiving_actions: {}
               owns:
@@ -405,6 +477,7 @@ player: !ruby/object:Player
                 use_description: 
                 associated_location: 
                 reveal_description: There is a letter inside the mailbox.
+                use_redirect: 
                 applicable_commands:
                 - :take
                 - :drop
@@ -414,13 +487,16 @@ player: !ruby/object:Player
                 command_restrictions: {}
                 state_actions: {}
                 ownership_actions: {}
+                use_action: 
                 use_on_doing_actions: {}
                 use_on_receiving_actions: {}
                 owns: []
-                belongs_to: *9
+                belongs_to: *10
+                requires_time: false
                 is_hidden: true
                 can_take: true
               belongs_to: 
+              requires_time: false
               is_hidden: false
               can_take: true
             people: []
@@ -430,18 +506,19 @@ player: !ruby/object:Player
               east:
                 :obstruction: white picket fence
             associated_map: *3
-          - &10 !ruby/object:Location
+          - &11 !ruby/object:Location
             description: An old tractor is parked next to a shed.
             items:
-            - &12 !ruby/object:Item
+            - &13 !ruby/object:Item
               name: tractor
               aliases: []
               description: I bet this tractor makes plowing land a breeze.
               location_description: It looks like the tractor has seen better days.
               read_description: 
               use_description: ''
-              associated_location: *10
+              associated_location: *11
               reveal_description: 
+              use_redirect: 
               applicable_commands:
               - :use
               state: :broken
@@ -461,10 +538,11 @@ player: !ruby/object:Player
                   - ''
               state_actions: {}
               ownership_actions: {}
+              use_action: 
               use_on_doing_actions: {}
               use_on_receiving_actions: {}
               owns:
-              - &11 !ruby/object:Item
+              - &12 !ruby/object:Item
                 name: hood
                 aliases: []
                 description: The hood is made of heavy old steel. They don't make
@@ -474,6 +552,7 @@ player: !ruby/object:Player
                 use_description: 
                 associated_location: 
                 reveal_description: 
+                use_redirect: 
                 applicable_commands:
                 - :open
                 state: :closed
@@ -487,6 +566,7 @@ player: !ruby/object:Player
                 command_restrictions: {}
                 state_actions: {}
                 ownership_actions: {}
+                use_action: 
                 use_on_doing_actions: {}
                 use_on_receiving_actions: {}
                 owns:
@@ -501,6 +581,7 @@ player: !ruby/object:Player
                   associated_location: 
                   reveal_description: A dusty old engine sits before you. It looks
                     like it could at least use some lubrication.
+                  use_redirect: 
                   applicable_commands: []
                   state: :broken
                   state_descriptions:
@@ -513,22 +594,26 @@ player: !ruby/object:Player
                   command_restrictions: {}
                   state_actions: {}
                   ownership_actions: {}
+                  use_action: 
                   use_on_doing_actions: {}
                   use_on_receiving_actions:
                     :oil: lambda {|doing_item| self.state = :fixed; putsy 'You pour
                       the oil into the engine and it seems to slurp it right up. Now
                       if I can just get this thing to start...'}
                   owns: []
-                  belongs_to: *11
+                  belongs_to: *12
+                  requires_time: false
                   is_hidden: true
                   can_take: true
-                belongs_to: *12
+                belongs_to: *13
+                requires_time: false
                 is_hidden: false
                 can_take: true
               belongs_to: 
+              requires_time: false
               is_hidden: false
               can_take: true
-            - &13 !ruby/object:Item
+            - &14 !ruby/object:Item
               name: shed
               aliases: []
               description: The shed is a rusty wind-damaged old thing. There might
@@ -536,8 +621,9 @@ player: !ruby/object:Player
               location_description: ''
               read_description: 
               use_description: 
-              associated_location: *10
+              associated_location: *11
               reveal_description: 
+              use_redirect: 
               applicable_commands:
               - :open
               state: :closed
@@ -551,6 +637,7 @@ player: !ruby/object:Player
               command_restrictions: {}
               state_actions: {}
               ownership_actions: {}
+              use_action: 
               use_on_doing_actions: {}
               use_on_receiving_actions: {}
               owns:
@@ -565,8 +652,8 @@ player: !ruby/object:Player
                 use_description: 
                 associated_location: 
                 reveal_description: There's a jug of motor oil in the shed.
+                use_redirect: 
                 applicable_commands:
-                - :use
                 - :use_on
                 - :take
                 state: 
@@ -574,13 +661,16 @@ player: !ruby/object:Player
                 command_restrictions: {}
                 state_actions: {}
                 ownership_actions: {}
+                use_action: 
                 use_on_doing_actions: {}
                 use_on_receiving_actions: {}
                 owns: []
-                belongs_to: *13
+                belongs_to: *14
+                requires_time: false
                 is_hidden: true
                 can_take: true
               belongs_to: 
+              requires_time: false
               is_hidden: false
               can_take: true
             people: []
@@ -591,7 +681,7 @@ player: !ruby/object:Player
                 :obstruction: white picket fence
             associated_map: *3
         - - *1
-          - &14 !ruby/object:Location
+          - &15 !ruby/object:Location
             description: You enter the entryway of the house.
             items:
             - !ruby/object:Item
@@ -603,18 +693,21 @@ player: !ruby/object:Player
                 space and baby blue and white striped wallpaper.
               read_description: 
               use_description: 
-              associated_location: *14
+              associated_location: *15
               reveal_description: 
+              use_redirect: 
               applicable_commands: []
               state: 
               state_descriptions: {}
               command_restrictions: {}
               state_actions: {}
               ownership_actions: {}
+              use_action: 
               use_on_doing_actions: {}
               use_on_receiving_actions: {}
               owns: []
               belongs_to: 
+              requires_time: false
               is_hidden: false
               can_take: true
             - !ruby/object:Item
@@ -625,21 +718,24 @@ player: !ruby/object:Player
               location_description: ''
               read_description: 
               use_description: 
-              associated_location: *14
+              associated_location: *15
               reveal_description: 
+              use_redirect: 
               applicable_commands: []
               state: 
               state_descriptions: {}
               command_restrictions: {}
               state_actions: {}
               ownership_actions: {}
+              use_action: 
               use_on_doing_actions: {}
               use_on_receiving_actions: {}
               owns: []
               belongs_to: 
+              requires_time: false
               is_hidden: false
               can_take: true
-            - &16 !ruby/object:Item
+            - &17 !ruby/object:Item
               name: table
               aliases: entry table
               description: The entry table has a drawer that stretches its entire
@@ -648,18 +744,20 @@ player: !ruby/object:Player
                 wall.
               read_description: 
               use_description: 
-              associated_location: *14
+              associated_location: *15
               reveal_description: 
+              use_redirect: 
               applicable_commands: []
               state: 
               state_descriptions: {}
               command_restrictions: {}
               state_actions: {}
               ownership_actions: {}
+              use_action: 
               use_on_doing_actions: {}
               use_on_receiving_actions: {}
               owns:
-              - &15 !ruby/object:Item
+              - &16 !ruby/object:Item
                 name: drawer
                 aliases: []
                 description: It's a typical drawer.
@@ -668,6 +766,7 @@ player: !ruby/object:Player
                 use_description: 
                 associated_location: 
                 reveal_description: 
+                use_redirect: 
                 applicable_commands:
                 - :open
                 state: :closed
@@ -681,37 +780,44 @@ player: !ruby/object:Player
                 command_restrictions: {}
                 state_actions: {}
                 ownership_actions: {}
+                use_action: 
                 use_on_doing_actions: {}
                 use_on_receiving_actions: {}
                 owns:
                 - !ruby/object:Item
                   name: watch
                   aliases: []
-                  description: 'It''s an old, antique watch with a copper color to
-                    it. It seems to be working just fine. The time reads: 6:00 AM'
+                  description: It's an old, antique watch with a copper color to it.
+                    It seems to be working just fine.
                   location_description: There is a watch inside the drawer.
                   read_description: 
-                  use_description: 'The time reads: 6:00 AM'
+                  use_description: 
                   associated_location: 
                   reveal_description: There is a watch inside the drawer
+                  use_redirect: :look_at
                   applicable_commands:
                   - :take
                   - :drop
+                  - :use
                   state: 
                   state_descriptions: {}
                   command_restrictions: {}
                   state_actions: {}
                   ownership_actions: {}
+                  use_action: 
                   use_on_doing_actions: {}
                   use_on_receiving_actions: {}
                   owns: []
-                  belongs_to: *15
+                  belongs_to: *16
+                  requires_time: true
                   is_hidden: true
                   can_take: true
-                belongs_to: *16
+                belongs_to: *17
+                requires_time: false
                 is_hidden: false
                 can_take: true
               belongs_to: 
+              requires_time: false
               is_hidden: false
               can_take: true
             people: []
@@ -719,22 +825,22 @@ player: !ruby/object:Player
               south:
                 :obstruction: wall
             associated_map: *3
-          - &17 !ruby/object:Location
+          - &18 !ruby/object:Location
             description: You step into a finely-decorated living room.
             items:
-            - &18 !ruby/object:Item
+            - &19 !ruby/object:Item
               name: clock
               aliases:
               - grandfather clock
-              description: 'This grandfather clock looks super old but charming. It
-                has a large copper pendulum that swings back and forth. The time reads:
-                6:00 AM'
+              description: This grandfather clock looks super old but charming. It
+                has a large copper pendulum that swings back and forth.
               location_description: There is a large grandfather clock up against
                 the wall.
               read_description: 
-              use_description: 'The time reads: 6:00 AM'
-              associated_location: *17
+              use_description: 
+              associated_location: *18
               reveal_description: 
+              use_redirect: :look_at
               applicable_commands:
               - :use
               state: 
@@ -742,6 +848,7 @@ player: !ruby/object:Player
               command_restrictions: {}
               state_actions: {}
               ownership_actions: {}
+              use_action: 
               use_on_doing_actions: {}
               use_on_receiving_actions: {}
               owns:
@@ -754,19 +861,23 @@ player: !ruby/object:Player
                 use_description: 
                 associated_location: 
                 reveal_description: 
+                use_redirect: 
                 applicable_commands: []
                 state: 
                 state_descriptions: {}
                 command_restrictions: {}
                 state_actions: {}
                 ownership_actions: {}
+                use_action: 
                 use_on_doing_actions: {}
                 use_on_receiving_actions: {}
                 owns: []
-                belongs_to: *18
+                belongs_to: *19
+                requires_time: false
                 is_hidden: false
                 can_take: true
               belongs_to: 
+              requires_time: true
               is_hidden: false
               can_take: true
             - !ruby/object:Item
@@ -778,8 +889,9 @@ player: !ruby/object:Player
                 of the room.
               read_description: 
               use_description: 
-              associated_location: *17
+              associated_location: *18
               reveal_description: 
+              use_redirect: 
               applicable_commands:
               - :use
               state: 
@@ -787,10 +899,12 @@ player: !ruby/object:Player
               command_restrictions: {}
               state_actions: {}
               ownership_actions: {}
+              use_action: 
               use_on_doing_actions: {}
               use_on_receiving_actions: {}
               owns: []
               belongs_to: 
+              requires_time: false
               is_hidden: false
               can_take: true
             - !ruby/object:Item
@@ -800,8 +914,9 @@ player: !ruby/object:Player
               location_description: A tv is sitting in the corner.
               read_description: 
               use_description: 
-              associated_location: *17
+              associated_location: *18
               reveal_description: 
+              use_redirect: 
               applicable_commands:
               - :use
               state: :off
@@ -827,10 +942,12 @@ player: !ruby/object:Player
               command_restrictions: {}
               state_actions: {}
               ownership_actions: {}
+              use_action: 
               use_on_doing_actions: {}
               use_on_receiving_actions: {}
               owns: []
               belongs_to: 
+              requires_time: false
               is_hidden: false
               can_take: true
             people: []
@@ -842,10 +959,11 @@ player: !ruby/object:Player
               north:
                 :obstruction: wall
             associated_map: *3
-        current_x: 0
+        current_x: 2
         current_y: 2
-        current_location: *5
+        current_location: *11
     reveal_description: 
+    use_redirect: 
     applicable_commands:
     - :take
     - :use_on
@@ -854,45 +972,14 @@ player: !ruby/object:Player
     command_restrictions: {}
     state_actions: {}
     ownership_actions: {}
+    use_action: 
     use_on_doing_actions:
       :gate: lambda {|receiving_item| GAME._destroy_item(self.name); putsy 'You used
         the key on the gate. It is no longer in your inventory.' }
     use_on_receiving_actions: {}
     owns: []
     belongs_to: 
-    is_hidden: false
-    can_take: true
-  - !ruby/object:Item
-    name: bucket
-    aliases: []
-    description: It's an old rusty bucket.
-    location_description: There is an empty bucket sitting against one of the stalls.
-    read_description: 
-    use_description: 
-    associated_location: *19
-    reveal_description: 
-    applicable_commands:
-    - :take
-    - :drop
-    - :use_on
-    state: :empty
-    state_descriptions:
-      :full:
-        :location: ''
-        :item: The bucket is filled with water.
-      :empty:
-        :location: There is an empty bucket sitting against one of the stalls.
-        :item: The bucket is empty.
-    command_restrictions: {}
-    state_actions: {}
-    ownership_actions:
-      :owns:
-        :empty_array: lambda {|owned_item| self.state = :empty; putsy 'The bucket
-          is now empty.' }
-    use_on_doing_actions: {}
-    use_on_receiving_actions: {}
-    owns: []
-    belongs_to: 
+    requires_time: false
     is_hidden: false
     can_take: true
 map: *3

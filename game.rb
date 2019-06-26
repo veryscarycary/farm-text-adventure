@@ -117,12 +117,13 @@ class Game
     @time.increment_turn_counter
   end
 
+
   def _get_command_and_additional(response)
     return ['', ''] if response == ''
-    hyphenated_command = response.split(' ')[0..1].join('_').to_sym
-    if COMMANDS.include?(hyphenated_command)
+    underscored_command = response.split(' ')[0..1].join('_').to_sym
+    if COMMANDS.include?(underscored_command)
       additional = response.split(' ')[2..-1]
-      [hyphenated_command, additional.nil? ? '' : additional.join(' ')]
+      [underscored_command, additional.nil? ? '' : additional.join(' ')]
     else
       additional = response.split(' ')[1..-1]
       [response.split(' ')[0].to_sym, additional.nil? ? '' : additional.join(' ')]
@@ -352,8 +353,6 @@ class Game
   end
 
   def use_item(additional)
-    puts "top of use item"
-    puts additional
     additionalSplit = additional.split(' ')
     if additionalSplit.include?('on')
       onIndex = additionalSplit.index('on')

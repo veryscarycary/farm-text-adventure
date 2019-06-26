@@ -4,7 +4,7 @@ motor_oil = Item.new(
   'oil',
   "It's the golden elixer that machines love so much.",
   aliases: ['motor oil', 'jug'],
-  applicable_commands: [:use, :use_on, :take],
+  applicable_commands: [:use_on, :take],
   reveal_description: "There's a jug of motor oil in the shed.",
   location_description: "There's a jug of motor oil here.",
   is_hidden: true,

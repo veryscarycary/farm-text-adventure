@@ -134,12 +134,23 @@ describe 'Game' do
       end
 
       it "should add item to location" do
-        Game.any_instance.stub(:_check_for_item).and_return(mockItem)
+        Game.any_instance.stub(:_check_for_item).with(mockItem.name, :inventory).and_return(mockItem)
+        Game.any_instance.stub(:_check_for_item).with(mockItem.name, :location).and_return(nil)
 
         game.drop_item(mockItem.name)
 
         expect(map).to have_received(:current_location)
         expect(mockLocation).to have_received(:add_item).with(mockItem)
+      end
+
+      it "should not add item to location if item is already found in the location" do
+        Game.any_instance.stub(:_check_for_item).with(mockItem.name, :inventory).and_return(mockItem)
+        Game.any_instance.stub(:_check_for_item).with(mockItem.name, :location).and_return(mockItem)
+
+        game.drop_item(mockItem.name)
+
+        expect(map).not_to have_received(:current_location)
+        expect(mockLocation).not_to have_received(:add_item).with(mockItem)
       end
   end
 end

@@ -275,7 +275,10 @@ class Game
         p !owned_item.belongs_to.nil? && owned_item.belongs_to.name
       end
 
-      @map.current_location.add_item(item)
+      # there is not support for duplicate items currently
+      unless _check_for_item(item_name, :location)
+        @map.current_location.add_item(item)
+      end
 
       putsy "You dropped the #{item.name}."
       putsy "#{build_items_string(dropped_nested_items, true).capitalize} #{build_items_string(dropped_nested_items, true).include?('and ') ? 'were' : 'was'} dropped along with the #{item.name}." if !dropped_nested_items.empty?

@@ -133,7 +133,8 @@ class Game
   end
 
   def parse_user_response(response)
-    command, additional = _get_command_and_additional(response)
+    lowercase_response = response.downcase
+    command, additional = _get_command_and_additional(lowercase_response)
 
     invoke_command(command, additional)
   end

@@ -52,11 +52,11 @@ COMMANDS = {
     definition: 'Lists the items in your inventory'
   },
   save: {
-    args: [],
+    args: ['game_save'],
     definition: 'Saves your progress to a game file'
   },
   load: {
-    args: [],
+    args: ['game_save'],
     definition: 'Loads your saved game'
   }
 };
@@ -88,19 +88,26 @@ class Game
     end
   end
 
-  def save_game
-    putsy "What would you like to name your save file?\n"
+  def save_game(save_name)
+    if save_name.empty?
+      putsy "What would you like to name your save file?\n"
 
-    save_name = gets.chomp
+      save_name = gets.chomp
+    end
+
     self.save(save_name)
   end
 
-  def load_game
-    putsy "Which save file would you like to load?\n"
+  def load_game(save_name)
+    if save_name.empty?
+      putsy "Which save file would you like to load?\n"
 
-    self.print_save_files
+      self.print_save_files
 
-    save_name = gets.chomp
+      save_name = gets.chomp
+      save_name = save_name[5..-1] if save_name.start_with?('load ') == 0
+    end
+
     self.load(save_name)
 
     look_around
@@ -138,10 +145,8 @@ class Game
       # commands without arguments
       when :help
         help
-      when :save
-        save_game
-      when :load
-        load_game
+      # when :load
+      #   load_game
       when :inventory
         @player.check_inventory
       when :look_around
@@ -164,6 +169,10 @@ class Game
         # commands with arguments
       when :go
         @map.go(additional)
+      when :save
+        save_game(additional)
+      when :load
+        load_game(additional)
       when :open
         open_item(additional)
       when :use
@@ -343,6 +352,8 @@ class Game
   end
 
   def use_item(additional)
+    puts "top of use item"
+    puts additional
     additionalSplit = additional.split(' ')
     if additionalSplit.include?('on')
       onIndex = additionalSplit.index('on')
@@ -354,8 +365,10 @@ class Game
     # if current_location doesn't have the item, check player inventory
     item = _check_for_item(item_name)
 
-    if item && defined?(item.applicable_commands) && item.applicable_commands.include?(:use)
+    if item && item.applicable_commands.include?(:use)
       item.use_redirect.nil? ? item.use : invoke_command(item.use_redirect, item_name)
+    elsif item && item.applicable_commands.include?(:use_on)
+      putsy "You can't use the #{item_name} by itself but maybe you can use it on something else."
     elsif item
       putsy "You can't use the #{item_name}."
     else

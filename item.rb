@@ -97,7 +97,10 @@ class Item
     if !@use_action.nil?
       lamb = eval @use_action
       lamb.call
+      return true
     end
+
+    false
   end
 
   # what this item will do when it loses/gains an item
@@ -116,8 +119,11 @@ class Item
       if !@ownership_actions[:belongs_to][:nil].nil? && @belongs_to.nil?
         lamb = eval @ownership_actions[:belongs_to][:nil]
         lamb.call(owner_item)
+        return true
       end
     end
+
+    false
   end
 
   # what this item will do when used ON a certain target item
@@ -126,7 +132,10 @@ class Item
     if !@use_on_doing_actions[receiving_item.name.to_sym].nil?
       lamb = eval @use_on_doing_actions[receiving_item.name.to_sym]
       lamb.call(receiving_item)
+      return true
     end
+
+    false
   end
 
   # what this item will do when used on BY a certain target item
@@ -135,16 +144,22 @@ class Item
     if !@use_on_receiving_actions[doing_item.name.to_sym].nil?
       lamb = eval @use_on_receiving_actions[doing_item.name.to_sym]
       lamb.call(doing_item)
+      return true
     else
       putsy "The #{self.name} was unaffected by the #{doing_item.name}"
     end
+
+    false
   end
 
   def invoke_state_action(*args)
     if !@state_actions[@state].nil?
       lamb = eval @state_actions[@state]
       lamb.call(*args)
+      return true
     end
+
+    false
   end
 
   def has_name?(name)

@@ -96,6 +96,12 @@ tractor = Item.new(
 
 TRACTOR = Location.new('An old tractor is parked next to a shed.',
 items: [tractor, shed],
+custom_commands: {
+  drive_tractor: {
+    description: "DRIVE_THE_TRACTOR?",
+    action: "lambda {}",
+  },
+},
 blocked_paths: {
   'south' => {obstruction: 'wall'},
   'west' => {obstruction: 'white picket fence'}

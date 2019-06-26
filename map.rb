@@ -101,7 +101,7 @@ class Map
 end
 
 class Location
-  attr_reader :inspect_description, :print_full_description, :blocked_paths
+  attr_reader :inspect_description, :print_full_description, :blocked_paths, :custom_commands
   attr_accessor :description, :items, :associated_map
 
   def initialize(description, options = {})
@@ -109,6 +109,7 @@ class Location
     @items = options[:items] || []
     @people = options[:people] || []
     @blocked_paths = options[:blocked_paths] || {}
+    @custom_commands = options[:custom_commands] || {}
     @associated_map = nil
 
     @items.each { |item| item.associated_location = self }
@@ -120,6 +121,16 @@ class Location
 
   def remove_item(item)
     @items.delete(item)
+  end
+
+  def invoke_custom_command(command)
+    if !@custom_commands[command].nil?
+      lamb = eval @custom_commands[command][:action]
+      lamb.call
+      return true
+    end
+
+    false
   end
 
   def _find_location_coords_on_map
@@ -190,7 +201,7 @@ class Location
     end
 
     # @description is assumed to have a trailing space
-    putsy "#{@description} #{item_descriptions.join(' ')}"
+    putsy "#{@description} #{item_descriptions.join(' ')}#{!@custom_commands.empty? ? @custom_commands[@custom_commands.keys[0]][:description] : ''}"
   end
   #
   # def reconstruct_description

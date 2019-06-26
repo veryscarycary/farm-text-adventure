@@ -116,17 +116,19 @@ class Game
   def increment_turn_counter
     @time.increment_turn_counter
   end
-
+# @map.current_location.custom_commands
+#   if
 
   def _get_command_and_additional(response)
     return ['', ''] if response == ''
+    # join their spaces into an underscored command for processing
     underscored_command = response.split(' ')[0..1].join('_').to_sym
     if COMMANDS.include?(underscored_command)
       additional = response.split(' ')[2..-1]
-      [underscored_command, additional.nil? ? '' : additional.join(' ')]
+      [underscored_command, additional.join(' ')]
     else
       additional = response.split(' ')[1..-1]
-      [response.split(' ')[0].to_sym, additional.nil? ? '' : additional.join(' ')]
+      [response.split(' ')[0].to_sym, additional.join(' ')]
     end
   end
 
@@ -136,11 +138,17 @@ class Game
     invoke_command(command, additional)
   end
 
+  def invoke_custom_location_command(command)
+    @map.current_location.invoke_custom_command(command)
+  end
+
   def invoke_command(command, additional)
     if COMMANDS.include?(command) && COMMANDS[command][:args].empty? && additional.strip.length > 0
       putsy "Try using the '#{command}' command by itself."
       return
     end
+
+    return if invoke_custom_location_command(command)
 
     case command
       # commands without arguments

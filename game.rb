@@ -105,7 +105,7 @@ class Game
       self.print_save_files
 
       save_name = gets.chomp
-      save_name = save_name[5..-1] if save_name.start_with?('load ') == 0
+      save_name = save_name[5..-1] if save_name.start_with?('load ')
     end
 
     self.load(save_name)

@@ -176,18 +176,21 @@ class Item
     @name == name || @aliases.include?(name)
   end
 
+  def update_state(state)
+    @state = state
+    update_location_description_due_to_state
+  end
+
   def toggle_on_off
     if @state == :on
-      @state = :off
-      update_location_description_due_to_state
+      update_state(:off)
 
       off_output = "You turned off the #{@name}."
 
       putsy "#{off_output} #{@state_descriptions[@state][:trigger]}"
 
     elsif @state == :off
-      @state = :on
-      update_location_description_due_to_state
+      update_state(:on)
 
       on_output = "You turned on the #{@name}."
 

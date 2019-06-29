@@ -180,6 +180,8 @@ class Game
         look_around
       when :debug_location_items
         puts @map.current_location.items.each {|item| item.get_flattened_nested_items.each {|item| p item.name}}
+      when :debug_item_location_description
+        puts _check_for_item(additional) ? _check_for_item(additional).location_description : 'item hidden or not found'
       when :debug_item_state
         puts _check_for_item(additional) ? _check_for_item(additional).state : 'item hidden or not found'
       when :debug_time

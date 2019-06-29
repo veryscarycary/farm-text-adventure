@@ -4,7 +4,6 @@ TRACTOR_KEY = Item.new(
   aliases: ['key', 'metal key' ,'fat metal key'],
   applicable_commands: [:use_on, :take],
   location_description: "There's a key sitting on the shelf.",
-  use_on_receivers: ['tractor'],
   reveal_description: "There's a key sitting on the shelf in the shed.",
   is_hidden: true,
 )
@@ -53,7 +52,7 @@ engine = Item.new(
     }
   },
   use_on_receiving_actions: {
-    oil: "lambda {|doing_item| self.state = :fixed; putsy 'You pour the oil into the engine and it seems to slurp it right up. Now if I can just get this thing to start...'}",
+    oil: "lambda {|doing_item| self.state = :fixed; self.belongs_to.belongs_to.state = :fixed; putsy 'You pour the oil into the engine and it seems to slurp it right up. Now if I can just get this thing to start...'}",
   },
   reveal_description: "A dusty old engine sits before you. It looks like it could at least use some lubrication.",
   is_hidden: true,
@@ -95,7 +94,6 @@ tractor = Item.new(
       required_items: [TRACTOR_KEY]
     }
   },
-  use_on_doers: ['tractor key'],
   use_on_receiving_actions: {
     key: "lambda do |doing_item|
       if self.state == :broken
@@ -118,7 +116,7 @@ tractor = Item.new(
   }
 )
 
-TRACTOR = Location.new('An old tractor with a plow attached to it is parked next to a shed.',
+TRACTOR = Location.new('tractor','An old tractor with a plow attached to it is parked next to a shed.',
 items: [tractor, shed],
 blocked_paths: {
   'south' => {obstruction: 'wall'},

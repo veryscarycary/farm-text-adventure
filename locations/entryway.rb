@@ -47,7 +47,7 @@ entry_table = Item.new(
   owns: [entry_table_drawer]
 )
 
-ENTRYWAY = Location.new('
+ENTRYWAY = Location.new('entryway', '
 You enter the entryway of the house.
 ',
 items: [entryway, wallpaper, entry_table],

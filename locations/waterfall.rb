@@ -10,7 +10,7 @@ water = Item.new('water',
   },
 )
 
-WATERFALL = Location.new('
+WATERFALL = Location.new('waterfall', '
 The sound of rushing water is envelopes your senses.
 Before you lies a large waterfall.
 ',

@@ -76,7 +76,7 @@ mailbox.owns = [letter]
 
 
 
-FRONT_YARD = Location.new('
+FRONT_YARD = Location.new('front yard','
 There is a quaint, southern-style house in front of you toward the south.
 ',
 description_2: 'It looks like this mailbox might have been sent some mail.',

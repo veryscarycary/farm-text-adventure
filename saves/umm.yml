@@ -5,10 +5,11 @@ player: !ruby/object:Player
     name: key
     aliases: []
     description: The key looks like your average lock-and-key type of key.
-    location_description: A key is hanging from one of the coat rack rungs.
+    location_description: A key is on the floor.
     read_description: 
     use_description: 
     associated_location: &1 !ruby/object:Location
+      name: bedroom
       description: You are standing in a bedroom.
       items:
       - !ruby/object:Item
@@ -172,9 +173,11 @@ player: !ruby/object:Player
         south:
           :obstruction: wall
       custom_commands: {}
+      narrative_events: []
       associated_map: &3 !ruby/object:Map
         grid:
         - - &2 !ruby/object:Location
+            name: waterfall
             description: The sound of rushing water is envelopes your senses. Before
               you lies a large waterfall.
             items:
@@ -211,8 +214,10 @@ player: !ruby/object:Player
             people: []
             blocked_paths: {}
             custom_commands: {}
+            narrative_events: []
             associated_map: *3
           - &4 !ruby/object:Location
+            name: barn
             description: You arrive at what looks like a very dilapidated barn. It's
               clear that it hasn't been used in ages. There are a few old horse stalls
               here but no sign of horses.
@@ -257,16 +262,20 @@ player: !ruby/object:Player
             people: []
             blocked_paths: {}
             custom_commands: {}
+            narrative_events: []
             associated_map: *3
           - !ruby/object:Location
+            name: old tree
             description: You see an old tree that looks like it has been through multiple
               human lifetimes.
             items: []
             people: []
             blocked_paths: {}
             custom_commands: {}
+            narrative_events: []
             associated_map: *3
         - - &5 !ruby/object:Location
+            name: stream
             description: You stumble across a moving body of water.
             items:
             - !ruby/object:Item
@@ -304,8 +313,10 @@ player: !ruby/object:Player
             people: []
             blocked_paths: {}
             custom_commands: {}
+            narrative_events: []
             associated_map: *3
           - !ruby/object:Location
+            name: field
             description: You find yourself in an open field. The sun is shining very
               brightly and you feel a faint breeze on your skin. There is a fence
               to the south.
@@ -313,16 +324,62 @@ player: !ruby/object:Player
             people: []
             blocked_paths: {}
             custom_commands: {}
+            narrative_events: []
             associated_map: *3
           - !ruby/object:Location
+            name: dry earth
             description: There isn't much here. You are standing on a barren plot
               of land.
-            items: []
+            items:
+            - &12 !ruby/object:Item
+              name: tractor key
+              aliases:
+              - key
+              - metal key
+              - fat metal key
+              description: It's the a fat metal key.
+              location_description: A tractor key is on the floor.
+              read_description: 
+              use_description: 
+              associated_location: 
+              reveal_description: There's a key sitting on the shelf in the shed.
+              use_redirect: 
+              applicable_commands:
+              - :use_on
+              - :take
+              state: 
+              state_descriptions: {}
+              command_restrictions: {}
+              state_actions: {}
+              ownership_actions: {}
+              use_action: 
+              use_on_doing_actions: {}
+              use_on_receiving_actions: {}
+              owns: []
+              belongs_to: 
+              requires_time: false
+              is_hidden: false
+              can_take: true
             people: []
             blocked_paths: {}
             custom_commands: {}
+            narrative_events:
+            - :name: plow_earth
+              :condition: |-
+                lambda do |current_location|
+                      tractor = self._check_for_item('tractor')
+                      !!tractor && tractor.state == :fixed
+                    end
+              :action: |-
+                lambda do |current_location|
+                      putsy "You drive the tractor across the dry earth and watch as the plow attachment shreds and folds the soil beneath you. The soil has been properly plowed.\n\nJust as you finish plowing the soil. You hear the engine struggle and lock up abruptly. Uh oh, this may have been the machine's last voyage."
+                      tractor = self._check_for_item("tractor")
+                      tractor.state = :broken
+                      self.player.remove_following_item(tractor)
+                    end
             associated_map: *3
         - - &6 !ruby/object:Location
+            name: pond
             description: You arrive at a pond.
             items:
             - !ruby/object:Item
@@ -367,8 +424,10 @@ player: !ruby/object:Player
                 :obstruction: white picket fence
               south: *7
             custom_commands: {}
+            narrative_events: []
             associated_map: *3
           - &8 !ruby/object:Location
+            name: front yard
             description: There is a quaint, southern-style house in front of you toward
               the south.
             items:
@@ -514,12 +573,14 @@ player: !ruby/object:Player
               east:
                 :obstruction: white picket fence
             custom_commands: {}
+            narrative_events: []
             associated_map: *3
           - &11 !ruby/object:Location
+            name: tractor
             description: An old tractor with a plow attached to it is parked next
               to a shed.
             items:
-            - &15 !ruby/object:Item
+            - &14 !ruby/object:Item
               name: tractor
               aliases: []
               description: I bet this tractor makes plowing land a breeze.
@@ -531,7 +592,7 @@ player: !ruby/object:Player
               use_redirect: 
               applicable_commands:
               - :use
-              state: :broken
+              state: :fixed
               state_descriptions:
                 :broken:
                   :location: It looks like the tractor has seen better days.
@@ -545,97 +606,7 @@ player: !ruby/object:Player
                   :restricted_states:
                   - :broken
                   :required_items:
-                  - &13 !ruby/object:Item
-                    name: tractor key
-                    aliases:
-                    - key
-                    - metal key
-                    - fat metal key
-                    description: It's the a fat metal key.
-                    location_description: There's a key sitting on the shelf.
-                    read_description: 
-                    use_description: 
-                    associated_location: 
-                    reveal_description: There's a key sitting on the shelf in the
-                      shed.
-                    use_redirect: 
-                    applicable_commands:
-                    - :use_on
-                    - :take
-                    state: 
-                    state_descriptions: {}
-                    command_restrictions: {}
-                    state_actions: {}
-                    ownership_actions: {}
-                    use_action: 
-                    use_on_doing_actions: {}
-                    use_on_receiving_actions: {}
-                    owns: []
-                    belongs_to: &12 !ruby/object:Item
-                      name: shed
-                      aliases: []
-                      description: The shed is a rusty wind-damaged old thing. There
-                        might be something useful in here.
-                      location_description: ''
-                      read_description: 
-                      use_description: 
-                      associated_location: *11
-                      reveal_description: 
-                      use_redirect: 
-                      applicable_commands:
-                      - :open
-                      state: :closed
-                      state_descriptions:
-                        :open:
-                          :location: ''
-                          :item: The shed is open.
-                        :closed:
-                          :location: ''
-                          :item: The shed is closed.
-                      command_restrictions: {}
-                      state_actions: {}
-                      ownership_actions: {}
-                      use_action: 
-                      use_on_doing_actions: {}
-                      use_on_receiving_actions: {}
-                      owns:
-                      - !ruby/object:Item
-                        name: oil
-                        aliases:
-                        - motor oil
-                        - jug
-                        description: It's the golden elixer that machines love so
-                          much.
-                        location_description: There's a jug of motor oil here.
-                        read_description: 
-                        use_description: 
-                        associated_location: 
-                        reveal_description: There's a jug of motor oil in the shed.
-                        use_redirect: 
-                        applicable_commands:
-                        - :use_on
-                        - :take
-                        state: 
-                        state_descriptions: {}
-                        command_restrictions: {}
-                        state_actions: {}
-                        ownership_actions: {}
-                        use_action: 
-                        use_on_doing_actions: {}
-                        use_on_receiving_actions: {}
-                        owns: []
-                        belongs_to: *12
-                        requires_time: false
-                        is_hidden: true
-                        can_take: true
-                      - *13
-                      belongs_to: 
-                      requires_time: false
-                      is_hidden: false
-                      can_take: true
-                    requires_time: false
-                    is_hidden: true
-                    can_take: true
+                  - *12
               state_actions: {}
               ownership_actions: {}
               use_action: 
@@ -648,12 +619,12 @@ player: !ruby/object:Player
                   Where would you like to go now?'; GAME.player.add_following_item(self);\n
                   \     end\n    end\n    "
               owns:
-              - &14 !ruby/object:Item
+              - &13 !ruby/object:Item
                 name: hood
                 aliases: []
                 description: The hood is made of heavy old steel. They don't make
                   'em like they used to.
-                location_description: The tractor's hood is closed.
+                location_description: The tractor's hood is open.
                 read_description: 
                 use_description: 
                 associated_location: 
@@ -661,7 +632,7 @@ player: !ruby/object:Player
                 use_redirect: 
                 applicable_commands:
                 - :open
-                state: :closed
+                state: :open
                 state_descriptions:
                   :open:
                     :location: The tractor's hood is open.
@@ -689,7 +660,7 @@ player: !ruby/object:Player
                     like it could at least use some lubrication.
                   use_redirect: 
                   applicable_commands: []
-                  state: :broken
+                  state: :fixed
                   state_descriptions:
                     :broken:
                       :location: The dusty-looking engine is exposed.
@@ -707,11 +678,11 @@ player: !ruby/object:Player
                       = :fixed; putsy 'You pour the oil into the engine and it seems
                       to slurp it right up. Now if I can just get this thing to start...'}
                   owns: []
-                  belongs_to: *14
+                  belongs_to: *13
                   requires_time: false
-                  is_hidden: true
+                  is_hidden: false
                   can_take: true
-                belongs_to: *15
+                belongs_to: *14
                 requires_time: false
                 is_hidden: false
                 can_take: true
@@ -735,6 +706,66 @@ player: !ruby/object:Player
                 use_on_doing_actions: {}
                 use_on_receiving_actions: {}
                 owns: []
+                belongs_to: *14
+                requires_time: false
+                is_hidden: false
+                can_take: true
+              belongs_to: 
+              requires_time: false
+              is_hidden: false
+              can_take: true
+            - &15 !ruby/object:Item
+              name: shed
+              aliases: []
+              description: The shed is a rusty wind-damaged old thing. There might
+                be something useful in here.
+              location_description: ''
+              read_description: 
+              use_description: 
+              associated_location: *11
+              reveal_description: 
+              use_redirect: 
+              applicable_commands:
+              - :open
+              state: :open
+              state_descriptions:
+                :open:
+                  :location: ''
+                  :item: The shed is open.
+                :closed:
+                  :location: ''
+                  :item: The shed is closed.
+              command_restrictions: {}
+              state_actions: {}
+              ownership_actions: {}
+              use_action: 
+              use_on_doing_actions: {}
+              use_on_receiving_actions: {}
+              owns:
+              - !ruby/object:Item
+                name: oil
+                aliases:
+                - motor oil
+                - jug
+                description: It's the golden elixer that machines love so much.
+                location_description: There's a jug of motor oil here.
+                read_description: 
+                use_description: 
+                associated_location: 
+                reveal_description: There's a jug of motor oil in the shed.
+                use_redirect: 
+                applicable_commands:
+                - :use_on
+                - :take
+                state: 
+                state_descriptions: {}
+                command_restrictions: {}
+                state_actions: {}
+                ownership_actions: {}
+                use_action: 
+                use_on_doing_actions: {}
+                use_on_receiving_actions: {}
+                owns: []
                 belongs_to: *15
                 requires_time: false
                 is_hidden: false
@@ -743,7 +774,6 @@ player: !ruby/object:Player
               requires_time: false
               is_hidden: false
               can_take: true
-            - *12
             people: []
             blocked_paths:
               south:
@@ -751,9 +781,11 @@ player: !ruby/object:Player
               west:
                 :obstruction: white picket fence
             custom_commands: {}
+            narrative_events: []
             associated_map: *3
         - - *1
           - &16 !ruby/object:Location
+            name: entryway
             description: You enter the entryway of the house.
             items:
             - !ruby/object:Item
@@ -897,8 +929,10 @@ player: !ruby/object:Player
               south:
                 :obstruction: wall
             custom_commands: {}
+            narrative_events: []
             associated_map: *3
           - &19 !ruby/object:Location
+            name: living room
             description: You step into a finely-decorated living room.
             items:
             - &20 !ruby/object:Item
@@ -1032,6 +1066,7 @@ player: !ruby/object:Player
               north:
                 :obstruction: wall
             custom_commands: {}
+            narrative_events: []
             associated_map: *3
         current_x: 2
         current_y: 2
@@ -1056,11 +1091,12 @@ player: !ruby/object:Player
     requires_time: false
     is_hidden: false
     can_take: true
-  following_items: []
+  following_items:
+  - *14
 map: *3
 time: !ruby/object:GameTime
   hour: 6
-  minute: 5
+  minute: 16
   am_pm: AM
-  turn_counter: 11
-  current_time: 6:05 AM
+  turn_counter: 33
+  current_time: 6:16 AM

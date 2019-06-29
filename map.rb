@@ -101,15 +101,17 @@ class Map
 end
 
 class Location
-  attr_reader :inspect_description, :print_full_description, :blocked_paths, :custom_commands
+  attr_reader :name, :inspect_description, :print_full_description, :blocked_paths, :custom_commands, :narrative_events
   attr_accessor :description, :items, :associated_map
 
-  def initialize(description, options = {})
+  def initialize(name, description, options = {})
+    @name = name
     @description = description.gsub(/\R+/, ' ').strip
     @items = options[:items] || []
     @people = options[:people] || []
     @blocked_paths = options[:blocked_paths] || {}
     @custom_commands = options[:custom_commands] || {}
+    @narrative_events = options[:narrative_events] || []
     @associated_map = nil
 
     @items.each { |item| item.associated_location = self }
@@ -202,6 +204,7 @@ class Location
 
     # @description is assumed to have a trailing space
     putsy "#{@description} #{item_descriptions.join(' ')}#{!@custom_commands.empty? ? @custom_commands[@custom_commands.keys[0]][:description] : ''}"
+
   end
   #
   # def reconstruct_description

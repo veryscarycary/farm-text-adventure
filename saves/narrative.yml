@@ -172,6 +172,7 @@ player: !ruby/object:Player
         south:
           :obstruction: wall
       custom_commands: {}
+      narrative_events: []
       associated_map: &3 !ruby/object:Map
         grid:
         - - &2 !ruby/object:Location
@@ -211,6 +212,7 @@ player: !ruby/object:Player
             people: []
             blocked_paths: {}
             custom_commands: {}
+            narrative_events: []
             associated_map: *3
           - &4 !ruby/object:Location
             description: You arrive at what looks like a very dilapidated barn. It's
@@ -257,6 +259,7 @@ player: !ruby/object:Player
             people: []
             blocked_paths: {}
             custom_commands: {}
+            narrative_events: []
             associated_map: *3
           - !ruby/object:Location
             description: You see an old tree that looks like it has been through multiple
@@ -265,6 +268,7 @@ player: !ruby/object:Player
             people: []
             blocked_paths: {}
             custom_commands: {}
+            narrative_events: []
             associated_map: *3
         - - &5 !ruby/object:Location
             description: You stumble across a moving body of water.
@@ -304,6 +308,7 @@ player: !ruby/object:Player
             people: []
             blocked_paths: {}
             custom_commands: {}
+            narrative_events: []
             associated_map: *3
           - !ruby/object:Location
             description: You find yourself in an open field. The sun is shining very
@@ -313,14 +318,16 @@ player: !ruby/object:Player
             people: []
             blocked_paths: {}
             custom_commands: {}
+            narrative_events: []
             associated_map: *3
-          - !ruby/object:Location
+          - &21 !ruby/object:Location
             description: There isn't much here. You are standing on a barren plot
               of land.
             items: []
             people: []
             blocked_paths: {}
             custom_commands: {}
+            narrative_events: []
             associated_map: *3
         - - &6 !ruby/object:Location
             description: You arrive at a pond.
@@ -367,6 +374,7 @@ player: !ruby/object:Player
                 :obstruction: white picket fence
               south: *7
             custom_commands: {}
+            narrative_events: []
             associated_map: *3
           - &8 !ruby/object:Location
             description: There is a quaint, southern-style house in front of you toward
@@ -514,6 +522,7 @@ player: !ruby/object:Player
               east:
                 :obstruction: white picket fence
             custom_commands: {}
+            narrative_events: []
             associated_map: *3
           - &11 !ruby/object:Location
             description: An old tractor with a plow attached to it is parked next
@@ -751,6 +760,15 @@ player: !ruby/object:Player
               west:
                 :obstruction: white picket fence
             custom_commands: {}
+            narrative_events:
+            - :name: plow_field
+              :condition: lambda {|current_location| !!self._check_for_item('tractor')
+                }
+              :action: |-
+                lambda do |current_location|
+                      putsy "You drive the tractor across the dry earth and watch as the plow attachment shreds and folds the soil beneath you. The soil has been properly plowed.\n\n
+                      Just as you finish plowing the soil. You hear the engine struggle and lock up abruptly. Uh oh, this may have been the machine's last voyage."
+                    end
             associated_map: *3
         - - *1
           - &16 !ruby/object:Location
@@ -897,6 +915,7 @@ player: !ruby/object:Player
               south:
                 :obstruction: wall
             custom_commands: {}
+            narrative_events: []
             associated_map: *3
           - &19 !ruby/object:Location
             description: You step into a finely-decorated living room.
@@ -1032,10 +1051,11 @@ player: !ruby/object:Player
               north:
                 :obstruction: wall
             custom_commands: {}
+            narrative_events: []
             associated_map: *3
         current_x: 2
-        current_y: 2
-        current_location: *11
+        current_y: 1
+        current_location: *21
     reveal_description: 
     use_redirect: 
     applicable_commands:

@@ -11,7 +11,7 @@ water = Item.new('water',
   },
 )
 
-STREAM = Location.new('
+STREAM = Location.new('stream','
 You stumble across a moving body of water.
 ',
 items: [water])

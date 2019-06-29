@@ -15,7 +15,7 @@ WATER = Item.new('water',
 )
 
 
-POND = Location.new('
+POND = Location.new('pond','
 You arrive at a pond.
 ',
 items: [WATER],

@@ -43,7 +43,7 @@ tv = Item.new(
 
 
 
-LIVING_ROOM = Location.new('
+LIVING_ROOM = Location.new('living room','
   You step into a finely-decorated living room.
 ',
 items: [clock, armchair, tv],

@@ -44,7 +44,7 @@ FRONT_GATE_KEY = Item.new('key',
   }
 )
 
-BEDROOM = Location.new('
+BEDROOM = Location.new('bedroom','
 You are standing in a bedroom.
 ',
 items: [bedroom, bed, desk, coat_rack, hat, FRONT_GATE_KEY, calendar],

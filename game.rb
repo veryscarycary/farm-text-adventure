@@ -84,7 +84,20 @@ class Game
       response = gets.chomp
       parse_user_response(response)
 
+      # maybe this isn't the best way to handle this.
+      check_location_narrative_events
+
       increment_turn_counter
+    end
+  end
+
+  def check_location_narrative_events
+    @map.current_location.narrative_events.each do |event|
+    condition = (eval event[:condition]).call(@map.current_location)
+      if condition
+        lamb = eval event[:action]
+        lamb.call(@map.current_location)
+      end
     end
   end
 
@@ -111,6 +124,10 @@ class Game
     self.load(save_name)
 
     look_around
+  end
+
+  def check_narrative_event
+
   end
 
   def increment_turn_counter
@@ -163,6 +180,8 @@ class Game
         look_around
       when :debug_location_items
         puts @map.current_location.items.each {|item| item.get_flattened_nested_items.each {|item| p item.name}}
+      when :debug_item_state
+        puts _check_for_item(additional) ? _check_for_item(additional).state : 'item hidden or not found'
       when :debug_time
         putsy @time.current_time
 

@@ -56,9 +56,13 @@ class Item
 
   # recursive
   def find_nested_item(item_name)
+      found_item = nil
       return self if self.has_name?(item_name) && self.is_hidden == false
-      self.owns.each {|owned_item| return owned_item.find_nested_item(item_name)}
-      nil
+      self.owns.each do |owned_item|
+        result = owned_item.find_nested_item(item_name)
+        found_item = result unless result.nil?
+      end
+      found_item
   end
 
   # recursive

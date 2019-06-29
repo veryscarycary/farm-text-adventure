@@ -107,22 +107,22 @@ describe 'Item' do
   end
 
   context "#invoke_use_action" do
-    it "should invoke the item's use_action if it has one" do
+    it "should invoke the item's use_action and return true if it has one" do
       item = Item.new('item', "Some item.", {
         use_action: "lambda { return 10 }"
       })
 
       result = item.invoke_use_action
 
-      expect(result).to eql(10)
+      expect(result).to eql(true)
     end
 
-    it "should not invoke the item's use_action if it doesn't have one" do
+    it "should not invoke the item's use_action and return false if it doesn't have one" do
       item = Item.new('item', "Some item.")
 
       result = item.invoke_use_action
 
-      expect(result).to eql(nil)
+      expect(result).to eql(false)
     end
   end
 

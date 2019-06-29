@@ -1,7 +1,6 @@
-require_relative 'player'
 
 class Item
-  attr_reader :description, :name, :aliases, :location_description, :use_description, :read_description, :reveal_description, :state_descriptions, :update_location_description_due_to_state, :can_take, :applicable_commands, :get_flattened_nested_items, :command_restrictions, :use_on_doing_actions, :use_on_receiving_actions, :requires_time, :use_redirect
+  attr_reader :description, :name, :aliases, :location_description, :use_description, :read_description, :reveal_description, :state_descriptions, :update_location_description_due_to_state, :can_take, :applicable_commands, :get_flattened_nested_items, :command_restrictions, :use_on_doing_actions, :use_on_receiving_actions, :requires_time, :use_redirect, :use_on_doers, :use_on_receivers
   attr_accessor :state, :associated_location, :is_hidden, :belongs_to, :owns
 
   def initialize(name, description = '', options = {})
@@ -24,6 +23,8 @@ class Item
     @state_actions = options[:state_actions] || {}
     @ownership_actions = options[:ownership_actions] || {}
     @use_action = options[:use_action] || nil
+    @use_on_doers = options[:use_on_doers] || []
+    @use_on_receivers = options[:use_on_doers] || []
     @use_on_doing_actions = options[:use_on_doing_actions] || {}
     @use_on_receiving_actions = options[:use_on_receiving_actions] || {}
     # for purposes of having a link to the thing that owns it so we can check statuses.
@@ -89,8 +90,12 @@ class Item
   end
 
   def use_on(target_item)
-    target_item.invoke_use_on_receiving_action(self)
-    invoke_use_on_doing_action(target_item)
+    if target_item.use_on_doers.include?(self.name) && @use_on_receivers.include?(target_item.name)
+      target_item.invoke_use_on_receiving_action(self)
+      invoke_use_on_doing_action(target_item)
+    else
+      putsy "Nothing happened when you applied the #{@name} to the #{target_item.name}."
+    end
   end
 
   def invoke_use_action

@@ -1,8 +1,12 @@
+require_relative './locations/bedroom'
+
 class Player
-  attr_reader :inventory, :add_to_inventory, :drop_from_inventory, :check_inventory
+  attr_reader :inventory, :add_to_inventory, :drop_from_inventory, :check_inventory, :following_items
 
   def initialize
     @inventory = []
+    # and perhaps people, in the future
+    @following_items = []
   end
 
   def check_inventory
@@ -19,6 +23,14 @@ class Player
 
   def drop_from_inventory(item)
     @inventory.delete(item)
+  end
+
+  def add_following_item(item)
+    @following_items << item
+  end
+
+  def remove_following_item(item)
+    @following_items.delete(item)
   end
 end
 

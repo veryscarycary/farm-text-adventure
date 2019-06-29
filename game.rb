@@ -125,10 +125,10 @@ class Game
     underscored_command = response.split(' ')[0..1].join('_').to_sym
     if COMMANDS.include?(underscored_command)
       additional = response.split(' ')[2..-1]
-      [underscored_command, additional.join(' ')]
+      [underscored_command, additional.nil? ? '' : additional.join(' ')]
     else
       additional = response.split(' ')[1..-1]
-      [response.split(' ')[0].to_sym, additional.join(' ')]
+      [response.split(' ')[0].to_sym, additional.nil? ? '' : additional.join(' ')]
     end
   end
 
@@ -162,23 +162,23 @@ class Game
       when :look_around
         look_around
       when :debug_location_items
-        putsy @map.current_location.items.inspect
+        puts @map.current_location.items.each {|item| item.get_flattened_nested_items.each {|item| p item.name}}
       when :debug_time
         putsy @time.current_time
 
       # quick travel
       when :north, :n
-        @map.go('north')
+        go('north')
       when :south, :s
-        @map.go('south')
+        go('south')
       when :east, :e
-        @map.go('east')
+        go('east')
       when :west, :w
-        @map.go('west')
+        go('west')
 
         # commands with arguments
       when :go
-        @map.go(additional)
+        go(additional)
       when :save
         save_game(additional)
       when :load
@@ -215,6 +215,16 @@ class Game
       command_and_arg = "#{command}#{" [#{command_hash[:args][0]}]" if command_hash[:args].length > 0}"
       puts "#{replace_underscores_with_spaces(command.to_s)}#{" [#{command_hash[:args][0]}]" if command_hash[:args].length > 0}#{" " * (longest_command_and_args - command_and_arg.length)}   #{command_hash[:definition]}".yellow
     end
+  end
+
+  def go(direction)
+    @player.following_items.each do |item|
+      @map.current_location.remove_item(item) if _check_for_item(item.name, :location)
+    end
+
+    @map.go(direction)
+
+    @player.following_items.each { |item| @map.current_location.add_item(item) }
   end
 
   def print_current_location_description
@@ -374,7 +384,11 @@ class Game
     item = _check_for_item(item_name)
 
     if item && item.applicable_commands.include?(:use)
-      item.use_redirect.nil? ? item.use : invoke_command(item.use_redirect, item_name)
+      if item.command_restricted?(:use) && _check_for_item(item.command_restrictions[:use][:required_items][0].name, :inventory).nil?
+        putsy "It seems like you're unable to use the #{item.name} right now."
+      else
+        item.use_redirect.nil? ? item.use : invoke_command(item.use_redirect, item_name)
+      end
     elsif item && item.applicable_commands.include?(:use_on)
       putsy "You can't use the #{item_name} by itself but maybe you can use it on something else."
     elsif item

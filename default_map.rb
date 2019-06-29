@@ -6,6 +6,7 @@
 
 require_relative 'map'
 require_relative 'item'
+require_relative 'player'
 
 ###
 # require locations

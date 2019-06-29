@@ -1,4 +1,13 @@
-TRACTOR_KEY = ''
+TRACTOR_KEY = Item.new(
+  'tractor key',
+  "It's the a fat metal key.",
+  aliases: ['key', 'metal key' ,'fat metal key'],
+  applicable_commands: [:use_on, :take],
+  location_description: "There's a key sitting on the shelf.",
+  use_on_receivers: ['tractor'],
+  reveal_description: "There's a key sitting on the shelf in the shed.",
+  is_hidden: true,
+)
 
 motor_oil = Item.new(
   'oil',
@@ -25,7 +34,7 @@ shed = Item.new(
       item: "The shed is closed."
     },
   },
-  owns: [motor_oil],
+  owns: [motor_oil, TRACTOR_KEY],
 )
 
 engine = Item.new(
@@ -44,7 +53,7 @@ engine = Item.new(
     }
   },
   use_on_receiving_actions: {
-    oil: "lambda {|doing_item| self.state = :fixed; putsy 'You pour the oil into the engine and it seems to slurp it right up. Now if I can just get this thing to start...'}"
+    oil: "lambda {|doing_item| self.state = :fixed; putsy 'You pour the oil into the engine and it seems to slurp it right up. Now if I can just get this thing to start...'}",
   },
   reveal_description: "A dusty old engine sits before you. It looks like it could at least use some lubrication.",
   is_hidden: true,
@@ -68,19 +77,34 @@ hood = Item.new(
   owns: [engine]
 )
 
+plow = Item.new(
+  'plow',
+  "It has several blades fixed to its wide frame.",
+)
+
 
 tractor = Item.new(
   'tractor',
   "I bet this tractor makes plowing land a breeze.",
   applicable_commands: [:use],
-  owns: [hood],
-  use_description: '',
+  owns: [hood, plow],
   state: :broken,
   command_restrictions: {
     use: {
       restricted_states: [:broken],
       required_items: [TRACTOR_KEY]
     }
+  },
+  use_on_doers: ['tractor key'],
+  use_on_receiving_actions: {
+    key: "lambda do |doing_item|
+      if self.state == :broken
+        putsy 'You put the key in the ignition and turn the key. The engine rumbles but quickly dies.';
+      else
+        putsy 'You put the key in the ignition and turn the key. The engine consistently rumbles. Where would you like to go now?'; GAME.player.add_following_item(self);
+      end
+    end
+    "
   },
   state_descriptions: {
     broken: {
@@ -94,7 +118,7 @@ tractor = Item.new(
   }
 )
 
-TRACTOR = Location.new('An old tractor is parked next to a shed.',
+TRACTOR = Location.new('An old tractor with a plow attached to it is parked next to a shed.',
 items: [tractor, shed],
 blocked_paths: {
   'south' => {obstruction: 'wall'},

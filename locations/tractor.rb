@@ -1,7 +1,7 @@
 TRACTOR_KEY = Item.new(
-  'tractor key',
+  'key',
   "It's the a fat metal key.",
-  aliases: ['key', 'metal key' ,'fat metal key'],
+  aliases: ['metal key' ,'fat metal key'],
   applicable_commands: [:use_on, :take],
   location_description: "There's a key sitting on the shelf.",
   reveal_description: "There's a key sitting on the shelf in the shed.",
@@ -85,7 +85,7 @@ plow = Item.new(
 tractor = Item.new(
   'tractor',
   "I bet this tractor makes plowing land a breeze.",
-  applicable_commands: [:use],
+  applicable_commands: [],
   owns: [hood, plow],
   state: :broken,
   command_restrictions: {
@@ -106,17 +106,17 @@ tractor = Item.new(
   },
   state_descriptions: {
     broken: {
-      location: 'It looks like the tractor has seen better days.',
+      location: 'An old tractor with a plow attached to it is parked here. It looks like the tractor has seen better days.',
       item: 'The tractor looks pretty borked. It could use some love underneath the hood.'
     },
     fixed: {
-      location: 'It looks pretty healthy.',
+      location: 'An old tractor with a plow attached to it is parked here. It looks pretty healthy.',
       item: 'The tractor looks pretty healthy. It looks ready to go.'
     },
   }
 )
 
-TRACTOR = Location.new('tractor','An old tractor with a plow attached to it is parked next to a shed.',
+TRACTOR = Location.new('tractor', 'You arrive at an old shed.',
 items: [tractor, shed],
 blocked_paths: {
   'south' => {obstruction: 'wall'},

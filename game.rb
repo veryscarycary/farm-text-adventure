@@ -321,8 +321,6 @@ class Game
         @player.drop_from_inventory(owned_item)
         owned_item.update_location_description_due_to_drop
         dropped_nested_items << owned_item unless owned_item == item
-
-        p !owned_item.belongs_to.nil? && owned_item.belongs_to.name
       end
 
       # there is not support for duplicate items currently
@@ -367,24 +365,35 @@ class Game
     end
 
     if item && defined?(item.applicable_commands) && item.applicable_commands.include?(:open)
-      if item.command_restricted?(:open) && _check_for_item(item.command_restrictions[:open][:required_items][0].name, :inventory).nil?
+      if item.command_restricted?(:open) && !item.command_restrictions[:open][:required_items].nil? && !item.command_restrictions[:open][:required_items].empty? && _check_for_item(item.command_restrictions[:open][:required_items][0].name, :inventory).nil?
         putsy "It seems like you're unable to open the #{item.name} right now."
-      else
-        item.state = :open
-        item.invoke_state_action(item)
-        item.update_location_description_due_to_state
-
-        open_output = "You opened the #{item.name}."
-
-        revealed_items = reveal_items(item)
-        if revealed_items.length > 0
-          reveal_descriptions = revealed_items.map {|item| item.reveal_description }
-          open_output_arr = reveal_descriptions.unshift(open_output)
-          open_output = open_output_arr.join(' ')
-        end
-
-        putsy open_output
+        return
       end
+
+      if item.command_restricted?(:open) && item.state = :combolocked
+        putsy item.state_descriptions[:combolocked][:item] + " What code would you like to enter?\n"
+        code_input  = gets.chomp
+
+        if code_input != item.command_restrictions[:open][:required_user_input]
+          putsy "That code didn't seem to work. Maybe I can look for some clues that could help me out.."
+          return
+        end
+      end
+
+      item.state = :open
+      item.update_location_description_due_to_state
+
+      open_output = "You opened the #{item.name}."
+
+      revealed_items = reveal_items(item)
+      if revealed_items.length > 0
+        reveal_descriptions = revealed_items.map {|item| item.reveal_description }
+        open_output_arr = reveal_descriptions.unshift(open_output)
+        open_output = open_output_arr.join(' ')
+      end
+
+      putsy open_output
+      item.invoke_state_action(item)
     elsif item
       putsy "You can't open the #{item_name}."
     else

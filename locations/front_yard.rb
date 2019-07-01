@@ -6,32 +6,29 @@ house = Item.new(
 gate = Item.new(
 'gate',
 "It's a white-picket gate.",
-aliases: ['locked gate'],
+aliases: ['locked gate', 'lock'],
 applicable_commands: [:open],
-state: :locked,
+state: :combolocked,
 command_restrictions: {
   open: {
-    restricted_states: [:locked],
-    required_items: [FRONT_GATE_KEY]
+    restricted_states: [:combolocked],
+    required_user_input: '0618',
   },
 },
 state_actions: {
   open: "lambda {|item| item.associated_location.remove_obstruction('north') }",
 },
-use_on_receiving_actions: {
-  key: "lambda {|doing_item| GAME.open_item(self.name) }",
-},
 state_descriptions: {
-  locked: {
+  combolocked: {
     location: 'There is a locked gate to your north.',
-    item: 'The gate is locked.'
+    item: 'The gate is locked by a 4-digit numerical combination lock.'
   },
   open: {
     location: 'A gate is open to the north.',
     item: 'The gate is wide open.'
   },
   closed: {
-    location: 'A gate is to the north.',
+    location: 'A gate is closed to the north.',
     item: 'The gate is closed shut.'
   }
 })
@@ -57,6 +54,18 @@ mailbox = Item.new(
 letter = Item.new(
 'letter',
 "The letter is signed and dated by somebody. It looks pretty official.",
+# this state is kinda hacky. I meant for it to be a 8.5/11 letter, not an envelope
+# but I'll let people open it anyway.
+  state: :open,
+  state_actions: {
+    open: "lambda {|item| GAME.read_item(item.name) }",
+  },
+  state_descriptions: {
+    open: {
+      location: 'There is a letter inside the mailbox.',
+      item: "The letter is signed and dated by somebody. It looks pretty official.",
+    },
+  },
   read_description: "The letterhead of the message reads 'Perry Ford Bank'
 in large block font. The letter reads, 'It has come to our
 attention that you have been delinquent on your property loan
@@ -65,7 +74,7 @@ we have the authority to foreclose your property if we do
 not find evidence of active farming activities taking
 place at your address. Our investigation will take place
 on October 15, 2018 at 6PM.'",
-  applicable_commands: [:take, :drop, :read],
+  applicable_commands: [:take, :read, :open],
   reveal_description: "There is a letter inside the mailbox.",
   location_description: "There is a letter inside the mailbox.",
   is_hidden: true,

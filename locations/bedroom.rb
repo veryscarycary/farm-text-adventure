@@ -11,9 +11,16 @@ bed = Item.new('bed',
   applicable_commands: [:use]
 )
 
+picture = Item.new('picture',
+"It's a picture of a shaggy dog sitting contently beneath an old willow tree. There is a note that is tucked into the side of the frame that says, 'You were the best dog a man could have ever hoped for. RIP 06/18'",
+  aliases: ['frame', 'picture frame'],
+  location_description: "There is a picture of a dog sitting on the desk."
+)
+
 desk = Item.new('desk',
 "It's an old antique desk. I wonder if the owner is a collector.",
   aliases: ['old desk'],
+  owns: [picture],
   location_description: "There is an old desk in the corner of the room."
 )
 
@@ -25,7 +32,8 @@ coat_rack = Item.new('coat rack',
 hat = Item.new('hat',
 "It's a leather hat.",
   location_description: "A hat is hanging from one of the coat rack rungs.",
-  applicable_commands: [:take]
+  use_description: "You put the hat on your head.\n\nHmm, you kinda look like Indiana Jones!",
+  applicable_commands: [:take, :use]
 )
 
 calendar = Item.new('calendar',
@@ -35,17 +43,17 @@ calendar = Item.new('calendar',
   applicable_commands: [:take, :read]
 )
 
-FRONT_GATE_KEY = Item.new('key',
-"The key looks like your average lock-and-key type of key.",
-  location_description: "A key is hanging from one of the coat rack rungs.",
-  applicable_commands: [:take, :use_on],
-  use_on_doing_actions: {
-    gate: "lambda {|receiving_item| GAME._destroy_item(self.name); putsy 'You used the key on the gate. It is no longer in your inventory.' }"
-  }
-)
+# FRONT_GATE_KEY = Item.new('key',
+# "The key looks like your average lock-and-key type of key.",
+#   location_description: "A key is hanging from one of the coat rack rungs.",
+#   applicable_commands: [:take, :use_on],
+#   use_on_doing_actions: {
+#     gate: "lambda {|receiving_item| GAME._destroy_item(self.name); putsy 'You used the key on the gate. It is no longer in your inventory.' }"
+#   }
+# )
 
 BEDROOM = Location.new('bedroom','
 You are standing in a bedroom.
 ',
-items: [bedroom, bed, desk, coat_rack, hat, FRONT_GATE_KEY, calendar],
+items: [bedroom, bed, desk, coat_rack, hat, calendar],
 blocked_paths: {'west' => {obstruction: 'wall'}, 'north' => {obstruction: 'wall'}, 'south' => {obstruction: 'wall'}})

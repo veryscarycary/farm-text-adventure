@@ -27,6 +27,24 @@ tv = Item.new(
 "It's an old CRT style tv. What a bulbous looking thing.",
   applicable_commands: [:use],
   state: :off,
+  use_action: 'lambda do
+    if @state == :on
+      update_state(:off)
+
+      off_output = "You turned off the #{@name}."
+
+      putsy "#{off_output} #{@state_descriptions[@state][:trigger]}"
+
+    elsif @state == :off
+      update_state(:on)
+
+      on_output = "You turned on the #{@name}."
+
+      putsy "#{on_output} #{@state_descriptions[@state][:trigger]}"
+
+    end
+  end
+  ',
   state_descriptions: {
     on: {
       trigger: 'It quickly illuminates with a THRUMMMMM and shows a congressman standing tall behind a podium. He announces over a crowd, "If we do not resolve our nation\'s dire food shortage issues quickly, we will have a troublesome winter. Our population growth has been at critical levels for years. This year, we may be at a tipping point."',

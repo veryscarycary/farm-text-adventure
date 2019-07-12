@@ -82,13 +82,6 @@ class Item
     if !@use_action.nil?
       invoke_use_action
     end
-
-    case @state
-      when :on
-        toggle_on_off
-      when :off
-        toggle_on_off
-    end
   end
 
   def use_on(target_item)
@@ -179,25 +172,5 @@ class Item
   def update_state(state)
     @state = state
     update_location_description_due_to_state
-  end
-
-  def toggle_on_off
-    if @state == :on
-      update_state(:off)
-
-      off_output = "You turned off the #{@name}."
-
-      putsy "#{off_output} #{@state_descriptions[@state][:trigger]}"
-
-    elsif @state == :off
-      update_state(:on)
-
-      on_output = "You turned on the #{@name}."
-
-      putsy "#{on_output} #{@state_descriptions[@state][:trigger]}"
-
-    else
-      raise "Item '#{@name}' should not have invoked method toggle_on_off. It likely doesn't have an on or off state."
-    end
   end
 end

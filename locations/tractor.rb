@@ -85,7 +85,7 @@ plow = Item.new(
 tractor = Item.new(
   'tractor',
   "I bet this tractor makes plowing land a breeze.",
-  applicable_commands: [],
+  applicable_commands: [:use],
   owns: [hood, plow],
   state: :broken,
   command_restrictions: {
@@ -104,6 +104,14 @@ tractor = Item.new(
     end
     "
   },
+  use_action: "lambda do
+      if self.state == :broken
+        putsy 'You put the key in the ignition and turn the key. The engine rumbles but quickly dies.';
+      else
+        putsy 'You put the key in the ignition and turn the key. The engine consistently rumbles. Where would you like to go now?'; GAME.player.add_following_item(self);
+      end
+    end
+  ",
   state_descriptions: {
     broken: {
       location: 'An old tractor with a plow attached to it is parked here. It looks like the tractor has seen better days.',

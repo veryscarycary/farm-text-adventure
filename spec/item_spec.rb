@@ -127,33 +127,25 @@ describe 'Item' do
   end
 
   context "#use" do
-    item = Item.new('item', "Some item.", {
-      state_descriptions: {
-        on: {
-          location: "On here."
-        },
-        off: {
-          location: "Off here."
-        },
-      },
-      state: :on
-    })
+    it "should call invoke_use_action if the item has a use action" do
+      item = Item.new('item', "Some item.", {
+        use_action: "lambda { puts 'whateva' }",
+      })
 
-    it "should call toggle_on_off if state is on" do
-      Item.any_instance.stub(:toggle_on_off)
+      Item.any_instance.stub(:invoke_use_action)
       item.use
 
-      expect(item).to have_received(:toggle_on_off)
-      Item.any_instance.unstub(:toggle_on_off)
+      expect(item).to have_received(:invoke_use_action)
+      Item.any_instance.unstub(:invoke_use_action)
     end
 
-    it "should call toggle_on_off if state is off" do
-      item.state = :off
-      Item.any_instance.stub(:toggle_on_off)
-      item.use
+    it "should print the use_description if the item has a use description" do
+      item = Item.new('item', "Some item.", {
+        use_description: "Omg something happened when you did the thing",
+      })
 
-      expect(item).to have_received(:toggle_on_off)
-      Item.any_instance.unstub(:toggle_on_off)
+      expectation = expect { item.use }
+      expectation.to output(/Omg something happened when you did the thing/).to_stdout
     end
   end
 
@@ -285,56 +277,6 @@ describe 'Item' do
 
     it "should return itself and all nested owned items" do
       expect(item1.get_flattened_nested_items).to eql([item1, item2, item4, item5, item6, item3])
-    end
-  end
-
-  context "#toggle_on_off" do
-    it "should error if state is neither on or off" do
-      item = Item.new('item', "Some item.", {
-        state_descriptions: {
-          raging: {
-            location: "IT'S RAGING RIGHT NOW"
-          }
-        },
-        state: :raging
-        })
-      expect { item.toggle_on_off }.to raise_error
-    end
-
-    it "should turn item off if on" do
-      item = Item.new('item', "Some item.", {
-        state_descriptions: {
-          on: {
-            location: "on"
-          },
-          off: {
-            location: "off"
-          },
-        },
-        state: :on
-      })
-
-      item.toggle_on_off
-
-      expect(item.state).to eql(:off)
-    end
-
-    it "should turn item on if off" do
-      item = Item.new('item', "Some item.", {
-        state_descriptions: {
-          on: {
-            location: "on"
-          },
-          off: {
-            location: "off"
-          },
-        },
-        state: :off
-      })
-
-      item.toggle_on_off
-
-      expect(item.state).to eql(:on)
     end
   end
 end

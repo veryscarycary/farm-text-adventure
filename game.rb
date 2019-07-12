@@ -414,7 +414,8 @@ class Game
     item = _check_for_item(item_name)
 
     if item && item.applicable_commands.include?(:use)
-      if item.command_restricted?(:use) && _check_for_item(item.command_restrictions[:use][:required_items][0].name, :inventory).nil?
+      # if state of item is restricted AND requires an item that you don't have
+      if item.command_restricted?(:use) || (!item.command_restrictions[:use].nil? && !item.command_restrictions[:use][:required_items].nil? && _check_for_item(item.command_restrictions[:use][:required_items][0].name, :inventory).nil?)
         putsy "It seems like you're unable to use the #{item.name} right now."
       else
         item.use_redirect.nil? ? item.use : invoke_command(item.use_redirect, item_name)

@@ -189,8 +189,7 @@ class Location
       items.each do |item|
         if !item.is_hidden
           item.custom_commands.each {|key, value|
-            puts value[:location_description]
-            command_descriptions << value[:location_description]
+            command_descriptions << value[:location_description] unless value[:is_hidden]
           }
         end
       end

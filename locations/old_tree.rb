@@ -7,6 +7,7 @@ applicable_commands: [],
 custom_commands: {
   climb: {
     aliases: ['climb the tree', 'climb tree'],
+    is_hidden: true,
     location_description: 'CLIMB the tree?',
     action: "lambda { putsy 'hi!!!' }"
   },

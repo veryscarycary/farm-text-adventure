@@ -275,10 +275,15 @@ class Game
 
     if item
       # simply making all custom commands revealed by looking at them, for now
-      hidden_commands = item.get_hidden_custom_commands
+      hidden_custom_commands = item.get_hidden_custom_commands
+      hidden_custom_commands.each do |hidden_command|
+        item.custom_commands[hidden_command][:is_hidden] = false
+      end
+
+      custom_command_descriptions = item.custom_commands.map {|k, v| v[:location_description]}
 
       time_description = item.requires_time ? " The time reads: #{@time.current_time}." : ''
-      look_at_description = item.state ? "#{item.description} #{item.state_descriptions[item.state][:item]}#{time_description}" : "#{item.description}#{time_description}"
+      look_at_description = item.state ? "#{item.description} #{item.state_descriptions[item.state][:item]}#{time_description} #{custom_command_descriptions.join(' ')}" : "#{item.description}#{time_description} #{custom_command_descriptions.join(' ')}"
       putsy look_at_description
     else
       putsy "There isn't #{item_name =~ /^[aeiouAEIOU]/ ? 'an' : 'a'} #{item_name} to look at."

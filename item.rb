@@ -204,7 +204,7 @@ class Item
   end
 
   def get_hidden_custom_commands
-    hidden_commands = @custom_commands.map { |k, v| k if v[:is_hidden] }
+    hidden_commands = @custom_commands.select { |k, v| v[:is_hidden] }.map{|k, v| k }
   end
 
   def has_name?(name)

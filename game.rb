@@ -282,6 +282,7 @@ class Game
     if item
       # simply making all custom commands revealed by looking at them, for now
       hidden_custom_commands = item.get_hidden_custom_commands
+      p hidden_custom_commands
       hidden_custom_commands.each do |hidden_command|
         item.custom_commands[hidden_command][:is_hidden] = false
       end

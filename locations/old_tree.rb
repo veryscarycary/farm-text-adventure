@@ -11,12 +11,14 @@ reveal_description: 'There is a strange man perched up on one of the branches.',
 response: "OH BOY, IT'S HOTTER THAN HELL OUT HERE. I got wicked high off of some peyote and when I came to my senses, I was all the way up in this here tree.
 Funny thing is.. I'm afraid of heights. Otherwise, I'd be under some shelter somewhere. If I only had something to cool me down...",
 owns: [sombrero],
-use_on_receiving_action: "lambda do |doing_item|
-  GAME.player.drop_from_inventory(doing_item)
+use_on_receiving_actions: {
+  water: "lambda do |doing_item|
+    GAME.player.drop_from_inventory(doing_item)
 
-  putsy 'OH MY LORD I FEEL SO COOL. THANK YOU'
-end
-",
+    putsy 'OH MY LORD I FEEL SO COOL. THANK YOU'
+  end
+  "
+},
 aliases: ['strange man', 'man'],
 applicable_commands: [],
 is_hidden: true)

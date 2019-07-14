@@ -45,6 +45,23 @@ class Item
     item.invoke_belongs_to_ownership_action(self)
   end
 
+  def reveal_owned_items
+    # Item is in a Location
+    # if item.associated_location
+      # reveal items
+      revealed_items = []
+
+      get_flattened_nested_items.each do |item|
+        if item.is_hidden == true
+          item.is_hidden = false
+          revealed_items << item
+        end
+      end
+
+      revealed_items
+    # end
+  end
+
   def update_location_description_due_to_state
     @location_description = @state_descriptions[@state][:location]
   end

@@ -352,22 +352,6 @@ class Game
     # if current_location doesn't have the item, check player inventory
     item = _check_for_item(item_name)
 
-    def reveal_items(item)
-      # Item is in a Location
-      # if item.associated_location
-        # reveal items
-        revealed_items = []
-
-        item.get_flattened_nested_items.each do |item|
-          if item.is_hidden == true
-            item.is_hidden = false
-            revealed_items << item
-          end
-        end
-
-        revealed_items
-      # end
-    end
 
     if item && defined?(item.applicable_commands) && item.applicable_commands.include?(:open)
       if item.command_restricted?(:open) && !item.command_restrictions[:open][:required_items].nil? && !item.command_restrictions[:open][:required_items].empty? && _check_for_item(item.command_restrictions[:open][:required_items][0].name, :inventory).nil?
@@ -390,7 +374,7 @@ class Game
 
       open_output = "You opened the #{item.name}."
 
-      revealed_items = reveal_items(item)
+      revealed_items = item.reveal_owned_items
       if revealed_items.length > 0
         reveal_descriptions = revealed_items.map {|item| item.reveal_description }
         open_output_arr = reveal_descriptions.unshift(open_output)

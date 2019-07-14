@@ -8,6 +8,8 @@ cletus = Person.new('cletus',
 He's crouched on the inside of a tree limb. It's a wonder he hasn't fallen yet. What a strange fellow.",
 location_description: 'There is a strange man perched up on one of the branches.',
 reveal_description: 'There is a strange man perched up on one of the branches.',
+response: "OH BOY, IT'S HOTTER THAN HELL OUT HERE. I got wicked high off of some peyote and when I came to my senses, I was all the way up in this here tree.
+Funny thing is.. I'm afraid of heights. Otherwise, I'd be under some shelter somewhere. If I only had something to cool me down...",
 owns: [sombrero],
 aliases: ['strange man', 'man'],
 applicable_commands: [],

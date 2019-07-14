@@ -47,6 +47,10 @@ COMMANDS = {
     args: ['item'],
     definition: 'Describes an item, either in your current location or in your inventory'
   },
+  talk_to: {
+    args: ['person'],
+    definition: 'Talks to a person'
+  },
   inventory: {
     args: [],
     definition: 'Lists the items in your inventory'
@@ -209,6 +213,8 @@ class Game
         read_item(additional)
       when :look_at
         look_at(additional)
+      when :talk_to
+        talk_to(additional)
       when :take
         take_item(additional)
       when :drop
@@ -298,6 +304,20 @@ class Game
       putsy look_at_description
     else
       putsy "There isn't #{item_name =~ /^[aeiouAEIOU]/ ? 'an' : 'a'} #{item_name} to look at."
+    end
+  end
+
+  def talk_to(person)
+    person = _check_for_item(person)
+
+    if person
+      if person.is_a?(Person)
+        person.speak
+      else
+        putsy "You can't talk to the #{person.name}. What are you, are crazy person?"
+      end
+    else
+      putsy "There isn't #{person =~ /^[aeiouAEIOU]/ ? 'an' : 'a'} #{person} to talk to."
     end
   end
 

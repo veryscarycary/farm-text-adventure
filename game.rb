@@ -280,10 +280,21 @@ class Game
         item.custom_commands[hidden_command][:is_hidden] = false
       end
 
-      custom_command_descriptions = item.custom_commands.map {|k, v| v[:location_description]}
+      reveal_descriptions_str = ''
+      if item.will_reveal_owned_items_when_looked_at
+        revealed_items = item.reveal_owned_items
+        if revealed_items.length > 0
+          reveal_descriptions = revealed_items.map {|item| item.reveal_description }
+          reveal_descriptions_str = " #{reveal_descriptions.join(' ')}"
+        end
+      end
 
+      custom_command_descriptions = item.custom_commands.map {|k, v| v[:location_description]}
+      custom_command_descriptions_str = !custom_command_descriptions.empty? ? " #{custom_command_descriptions.join(' ')}" : ''
+
+      state_description = item.state ? " #{item.state_descriptions[item.state][:item]}" : ''
       time_description = item.requires_time ? " The time reads: #{@time.current_time}." : ''
-      look_at_description = item.state ? "#{item.description} #{item.state_descriptions[item.state][:item]}#{time_description} #{custom_command_descriptions.join(' ')}" : "#{item.description}#{time_description} #{custom_command_descriptions.join(' ')}"
+      look_at_description = "#{item.description}#{state_description}#{reveal_descriptions_str}#{time_description}#{custom_command_descriptions_str}"
       putsy look_at_description
     else
       putsy "There isn't #{item_name =~ /^[aeiouAEIOU]/ ? 'an' : 'a'} #{item_name} to look at."
@@ -351,7 +362,6 @@ class Game
   def open_item(item_name)
     # if current_location doesn't have the item, check player inventory
     item = _check_for_item(item_name)
-
 
     if item && defined?(item.applicable_commands) && item.applicable_commands.include?(:open)
       if item.command_restricted?(:open) && !item.command_restrictions[:open][:required_items].nil? && !item.command_restrictions[:open][:required_items].empty? && _check_for_item(item.command_restrictions[:open][:required_items][0].name, :inventory).nil?

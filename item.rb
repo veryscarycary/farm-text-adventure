@@ -1,6 +1,6 @@
 
 class Item
-  attr_reader :description, :name, :aliases, :location_description, :use_description, :read_description, :reveal_description, :state_descriptions, :update_location_description_due_to_state, :can_take, :applicable_commands, :get_flattened_nested_items, :command_restrictions, :use_on_doing_actions, :use_on_receiving_actions, :requires_time, :use_redirect, :custom_commands
+  attr_reader :description, :name, :aliases, :location_description, :use_description, :read_description, :reveal_description, :state_descriptions, :can_take, :applicable_commands, :command_restrictions, :use_on_doing_actions, :use_on_receiving_actions, :requires_time, :use_redirect, :custom_commands, :will_reveal_owned_items_when_looked_at
   attr_accessor :state, :associated_location, :is_hidden, :belongs_to, :owns
 
   def initialize(name, description = '', options = {})
@@ -35,6 +35,7 @@ class Item
     @requires_time = options[:requires_time] || false
     @is_hidden = options[:is_hidden] || false
     @can_take = options[:can_take] || true
+    @will_reveal_owned_items_when_looked_at = options[:will_reveal_owned_items_when_looked_at] || false
   end
 
   def remove_owned_item(item)

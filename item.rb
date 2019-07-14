@@ -1,6 +1,6 @@
 
 class Item
-  attr_reader :description, :name, :aliases, :location_description, :use_description, :read_description, :reveal_description, :state_descriptions, :can_take, :applicable_commands, :command_restrictions, :use_on_doing_actions, :use_on_receiving_actions, :requires_time, :use_redirect, :custom_commands, :will_reveal_owned_items_when_looked_at
+  attr_reader :description, :name, :aliases, :location_description, :use_description, :read_description, :reveal_description, :state_descriptions, :applicable_commands, :command_restrictions, :use_on_doing_actions, :use_on_receiving_actions, :requires_time, :use_redirect, :custom_commands, :will_reveal_owned_items_when_looked_at
   attr_accessor :state, :associated_location, :is_hidden, :belongs_to, :owns
 
   def initialize(name, description = '', options = {})
@@ -34,7 +34,6 @@ class Item
     @belongs_to = options[:belongs_to] || nil
     @requires_time = options[:requires_time] || false
     @is_hidden = options[:is_hidden] || false
-    @can_take = options[:can_take] || true
     @will_reveal_owned_items_when_looked_at = options[:will_reveal_owned_items_when_looked_at] || false
   end
 

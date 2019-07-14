@@ -1,7 +1,6 @@
 sombrero = tree = Item.new(
 'sombrero',
-"It is a wide felt sombrero. Perfect for blocking out the sun's harmful rays.",
-can_take: false)
+"It is a wide felt sombrero. Perfect for blocking out the sun's harmful rays.")
 
 cletus = Person.new('cletus',
 "He has a long beard and wiry white hair that's topped by a ragged felt sombrero.

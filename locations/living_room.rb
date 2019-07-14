@@ -1,7 +1,9 @@
 armchair = Item.new(
 'armchair',
 "The armchair is made of a soft leather and has a sheen to it.",
+  aliases: ['chair'],
   applicable_commands: [:use],
+  use_description: "You sit down on the chair. Wow. It's surprisingly comfy.\n\n Alright, enough of that.",
   location_description: "An ornate armchair is positioned in the center of the room.",
 )
 

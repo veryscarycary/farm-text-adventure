@@ -11,10 +11,21 @@ bed = Item.new('bed',
   applicable_commands: [:use]
 )
 
+note = Item.new('note',
+"It's a note that says, 'You were the best dog a man could have ever hoped for. RIP 06/18'",
+  location_description:  "There is a note that is tucked into the side of the picture frame that says, 'You were the best dog a man could have ever hoped for. RIP 06/18'",
+  reveal_description:  "There is a note that is tucked into the side of the frame that says, 'You were the best dog a man could have ever hoped for. RIP 06/18'",
+  applicable_commands: [:take],
+  is_hidden: true,
+)
+
 picture = Item.new('picture',
-"It's a picture of a shaggy dog sitting contently beneath an old willow tree. There is a note that is tucked into the side of the frame that says, 'You were the best dog a man could have ever hoped for. RIP 06/18'",
+"It's a picture of a shaggy dog sitting contently beneath an old willow tree.",
   aliases: ['frame', 'picture frame'],
-  location_description: "There is a picture of a dog sitting on the desk."
+  owns: [note],
+  location_description: "There is a picture of a dog sitting on the desk.",
+  applicable_commands: [:take],
+  will_reveal_owned_items_when_looked_at: true,
 )
 
 desk = Item.new('desk',
@@ -40,7 +51,8 @@ calendar = Item.new('calendar',
 "It's a glossy paper calendar with a large picture of a tractor and cornrows on the top half. Today's date is October 15, 2018.",
   location_description: "A calendar is hanging up against the wall.",
   read_description: "Today's date is October 15, 2018.",
-  applicable_commands: [:take, :read]
+  use_redirect: :read,
+  applicable_commands: [:take, :read, :use]
 )
 
 # FRONT_GATE_KEY = Item.new('key',

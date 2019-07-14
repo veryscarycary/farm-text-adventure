@@ -1,3 +1,5 @@
+living_room = Item.new('living_room', "It's a a finely-decorated living room.");
+
 armchair = Item.new(
 'armchair',
 "The armchair is made of a soft leather and has a sheen to it.",
@@ -66,5 +68,5 @@ tv = Item.new(
 LIVING_ROOM = Location.new('living room','
   You step into a finely-decorated living room.
 ',
-items: [clock, armchair, tv],
+items: [living_room, clock, armchair, tv],
 blocked_paths: {'east' => {obstruction: 'wall'}, 'south' => {obstruction: 'wall'}, 'north' => {obstruction: 'wall'}})

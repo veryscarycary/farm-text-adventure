@@ -101,7 +101,7 @@ class Map
 end
 
 class Location
-  attr_reader :name, :inspect_description, :print_full_description, :blocked_paths, :custom_commands, :narrative_events
+  attr_reader :name, :inspect_description, :print_full_description, :blocked_paths, :narrative_events
   attr_accessor :description, :items, :associated_map
 
   def initialize(name, description, options = {})
@@ -110,7 +110,6 @@ class Location
     @items = options[:items] || []
     @people = options[:people] || []
     @blocked_paths = options[:blocked_paths] || {}
-    @custom_commands = options[:custom_commands] || {}
     @narrative_events = options[:narrative_events] || []
     @associated_map = nil
 
@@ -123,16 +122,6 @@ class Location
 
   def remove_item(item)
     @items.delete(item)
-  end
-
-  def invoke_custom_command(command)
-    if !@custom_commands[command].nil?
-      lamb = eval @custom_commands[command][:action]
-      lamb.call
-      return true
-    end
-
-    false
   end
 
   def _find_location_coords_on_map
@@ -194,17 +183,32 @@ class Location
   end
 
   def print_full_description
-    items_with_descriptions = get_items_with_location_descriptions(@items)
+    def get_custom_command_descriptions(items)
+      command_descriptions = []
 
-    item_descriptions = items_with_descriptions.map do |item|
-      if !item.is_hidden
-        item.location_description
+      items.each do |item|
+        if !item.is_hidden
+          item.custom_commands.each {|key, value|
+            puts value[:location_description]
+            command_descriptions << value[:location_description]
+          }
+        end
+      end
+
+      command_descriptions
+    end
+
+    def get_item_location_descriptions(items)
+      item_descriptions = items.map do |item|
+        if !item.is_hidden
+          item.location_description
+        end
       end
     end
 
-    # @description is assumed to have a trailing space
-    putsy "#{@description} #{item_descriptions.join(' ')}#{!@custom_commands.empty? ? @custom_commands[@custom_commands.keys[0]][:description] : ''}"
+    items_with_descriptions = get_items_with_location_descriptions(@items)
 
+    putsy "#{@description} #{get_item_location_descriptions(items_with_descriptions).join(' ')} #{get_custom_command_descriptions(items_with_descriptions).join(' ')}"
   end
   #
   # def reconstruct_description

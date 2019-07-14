@@ -1,6 +1,6 @@
 
 class Item
-  attr_reader :description, :name, :aliases, :location_description, :use_description, :read_description, :reveal_description, :state_descriptions, :update_location_description_due_to_state, :can_take, :applicable_commands, :get_flattened_nested_items, :command_restrictions, :use_on_doing_actions, :use_on_receiving_actions, :requires_time, :use_redirect
+  attr_reader :description, :name, :aliases, :location_description, :use_description, :read_description, :reveal_description, :state_descriptions, :update_location_description_due_to_state, :can_take, :applicable_commands, :get_flattened_nested_items, :command_restrictions, :use_on_doing_actions, :use_on_receiving_actions, :requires_time, :use_redirect, :custom_commands
   attr_accessor :state, :associated_location, :is_hidden, :belongs_to, :owns
 
   def initialize(name, description = '', options = {})
@@ -16,6 +16,7 @@ class Item
     @use_description = options[:use_description]
     @use_redirect = options[:use_redirect]
     @applicable_commands = options[:applicable_commands] || []
+    @custom_commands = options[:custom_commands] || {}
     @state = options[:state] || nil
     @state_descriptions = options[:state_descriptions] || {}
     @command_restrictions = options[:command_restrictions] || {}
@@ -163,6 +164,29 @@ class Item
     end
 
     false
+  end
+
+  def invoke_custom_command(incoming_command)
+    def find_custom_command_on_item(incoming_command)
+      tuple = @custom_commands.find do |key, value|
+        value[:aliases].include?(incoming_command)
+      end
+      command = tuple.nil? ? incoming_command : tuple[0]
+    end
+
+    command = find_custom_command_on_item(incoming_command)
+
+    if !@custom_commands[command].nil?
+      lamb = eval @custom_commands[command][:action]
+      lamb.call
+      return true
+    end
+
+    false
+  end
+
+  def get_hidden_custom_commands
+    hidden_commands = @custom_commands.map { |k, v| k if v[:is_hidden] }
   end
 
   def has_name?(name)

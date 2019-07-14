@@ -133,8 +133,6 @@ class Game
   def increment_turn_counter
     @time.increment_turn_counter
   end
-# @map.current_location.custom_commands
-#   if
 
   def _get_command_and_additional(response)
     return ['', ''] if response == ''
@@ -157,7 +155,8 @@ class Game
   end
 
   def invoke_custom_location_command(command)
-    @map.current_location.invoke_custom_command(command)
+    # returns true if a custom location command was invoked
+    @map.current_location.items.any? {|item| item.invoke_custom_command(command) }
   end
 
   def invoke_command(command, additional)
@@ -172,8 +171,6 @@ class Game
       # commands without arguments
       when :help
         help
-      # when :load
-      #   load_game
       when :inventory
         @player.check_inventory
       when :look_around
@@ -277,6 +274,9 @@ class Game
     item = _check_for_item(item_name)
 
     if item
+      # simply making all custom commands revealed by looking at them, for now
+      hidden_commands = item.get_hidden_custom_commands
+
       time_description = item.requires_time ? " The time reads: #{@time.current_time}." : ''
       look_at_description = item.state ? "#{item.description} #{item.state_descriptions[item.state][:item]}#{time_description}" : "#{item.description}#{time_description}"
       putsy look_at_description

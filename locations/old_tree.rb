@@ -7,6 +7,17 @@ cletus = Person.new('cletus',
 He's crouched on the inside of a tree limb. It's a wonder he hasn't fallen yet. What a strange fellow.",
 location_description: 'There is a strange man perched up on one of the branches.',
 reveal_description: 'There is a strange man perched up on one of the branches.',
+state: :far,
+state_descriptions: {
+  far: {
+    location: 'There is a strange man perched up on one of the branches.',
+    item: ''
+  },
+  close: {
+    location: 'A strange man is perched on one of the branches.',
+    item: ''
+  }
+},
 response: "OH BOY, IT'S HOTTER THAN HELL OUT HERE. I got wicked high off of some peyote and when I came to my senses, I was all the way up in this here tree.
 Funny thing is.. I'm afraid of heights. Otherwise, I'd be under some shelter somewhere. If I only had something to cool me down...",
 owns: [sombrero],
@@ -34,10 +45,46 @@ custom_commands: {
     aliases: ['climb the tree', 'climb tree'],
     is_hidden: true,
     location_description: 'CLIMB the tree?',
-    action: "lambda { putsy 'CLIMBING FUNCTIONALITY ISNT FLUSHED OUT YET. Hint: look at the tree instead :)' }"
+    action: "lambda do
+      cletus = GAME._check_for_item('cletus', nil, {include_hidden: true})
+      cletus.is_hidden = false
+      cletus.update_state(:close)
+
+      GAME.map.current_location = TOP_OF_TREE
+      GAME.map.print_current_location_description
+    end"
   },
 },
 will_reveal_owned_items_when_looked_at: true)
+
+climb_down = Item.new(
+'climb down command hack',
+"",
+custom_commands: {
+  climb_down: {
+    aliases: ['climb', 'climb down'],
+    is_hidden: false,
+    location_description: 'CLIMB DOWN?',
+    action: "lambda do
+      cletus = GAME._check_for_item('cletus')
+      cletus.update_state(:far)
+
+      GAME.map.current_location = OLD_TREE
+      GAME.map.print_current_location_description
+    end"
+  },
+},)
+
+TOP_OF_TREE = OLD_TREE = Location.new('top of tree','
+You are standing among the upper limbs of the old tree.
+',
+items: [cletus, climb_down],
+blocked_paths: {
+  'west' => {obstruction: 'sheer drop'},
+  'east' => {obstruction: 'sheer drop'},
+  'north' => {obstruction: 'sheer drop'},
+  'south' => {obstruction: 'sheer drop'},
+})
 
 OLD_TREE = Location.new('old tree','
 ',

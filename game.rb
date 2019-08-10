@@ -259,21 +259,21 @@ class Game
     @map.print_current_location_description
   end
 
-  def _check_for_item(item_name, target = nil)
-    def _check_in_location(item_name)
+  def _check_for_item(item_name, target = nil, options = {})
+    def _check_in_location(item_name, options)
       @map.current_location.items.reduce(nil) do |acc, item|
         return acc if !acc.nil?
-        item.find_nested_item(item_name)
+        item.find_nested_item(item_name, options)
       end
     end
 
-    def _check_in_inventory(item_name)
+    def _check_in_inventory(item_name, options)
       @player.inventory.find {|curr_item| curr_item.has_name?(item_name)}
     end
 
-    return _check_in_location(item_name) if target == :location
-    return _check_in_inventory(item_name) if target == :inventory
-    _check_in_location(item_name) || _check_in_inventory(item_name)
+    return _check_in_location(item_name, options) if target == :location
+    return _check_in_inventory(item_name, options) if target == :inventory
+    _check_in_location(item_name, options) || _check_in_inventory(item_name, options)
   end
 
   def look_at(item_name)

@@ -71,11 +71,11 @@ class Item
   end
 
   # recursive
-  def find_nested_item(item_name)
+  def find_nested_item(item_name, options)
       found_item = nil
-      return self if self.has_name?(item_name) && self.is_hidden == false
+      return self if self.has_name?(item_name) && (options[:include_hidden] == true || self.is_hidden == false)
       self.owns.each do |owned_item|
-        result = owned_item.find_nested_item(item_name)
+        result = owned_item.find_nested_item(item_name, options)
         found_item = result unless result.nil?
       end
       found_item

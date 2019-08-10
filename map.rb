@@ -7,7 +7,8 @@ OPPOSITE_DIRECTIONS = {
 
 class Map
   OUT_OF_BOUNDS_OBSTRUCTION = 'chain link fence'
-  attr_reader :grid, :current_location, :print_current_location_description
+  attr_reader :grid, :print_current_location_description
+  attr_accessor :current_location
 
   def initialize(grid, current_x = 1, current_y = 2)
     @grid = grid

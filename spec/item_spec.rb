@@ -75,14 +75,6 @@ describe 'Item' do
         expect(item.is_hidden).to eql(false)
       end
     end
-
-    context "@can_take" do
-      it "should be true by default" do
-        item = Item.new('item', "Some item.")
-
-        expect(item.can_take).to eql(true)
-      end
-    end
   end
 
   context "#update_location_description_due_to_state" do

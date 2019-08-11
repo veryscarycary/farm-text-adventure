@@ -1,4 +1,3 @@
-require 'byebug'
 class Item
   attr_reader :description, :name, :aliases, :location_description, :use_description, :read_description, :reveal_description, :state_descriptions, :applicable_commands, :command_restrictions, :use_on_doing_actions, :use_on_receiving_actions, :requires_time, :use_redirect, :custom_commands, :will_reveal_owned_items_when_looked_at
   attr_accessor :state, :associated_location, :is_hidden, :belongs_to, :owns
@@ -71,7 +70,7 @@ class Item
   end
 
   # recursive
-  def find_nested_item(item_name, options)
+  def find_nested_item(item_name, options = {})
       found_item = nil
       return self if self.has_name?(item_name) && (options[:include_hidden] == true || self.is_hidden == false)
       self.owns.each do |owned_item|

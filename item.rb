@@ -1,4 +1,4 @@
-
+require 'byebug'
 class Item
   attr_reader :description, :name, :aliases, :location_description, :use_description, :read_description, :reveal_description, :state_descriptions, :applicable_commands, :command_restrictions, :use_on_doing_actions, :use_on_receiving_actions, :requires_time, :use_redirect, :custom_commands, :will_reveal_owned_items_when_looked_at
   attr_accessor :state, :associated_location, :is_hidden, :belongs_to, :owns
@@ -183,18 +183,21 @@ class Item
     false
   end
 
-  def invoke_custom_command(incoming_command)
-    def find_custom_command_on_item(incoming_command)
+  def invoke_custom_command(incoming_command, additional)
+    def find_custom_command_on_item(string_command)
       tuple = @custom_commands.find do |key, value|
-        value[:aliases].include?(incoming_command)
+        key_match = string_command.gsub(/ /, '_').to_sym
+        value[:aliases].include?(string_command) || key == key_match
       end
-      command = tuple.nil? ? incoming_command : tuple[0]
+      command = tuple.nil? ? nil : tuple[0]
     end
 
-    command = find_custom_command_on_item(incoming_command)
+    string_command = "#{incoming_command.to_s}#{additional.empty? ? '' : " #{additional}"}"
 
-    if !@custom_commands[command].nil?
-      lamb = eval @custom_commands[command][:action]
+    found_command = find_custom_command_on_item(string_command)
+
+    if !@custom_commands[found_command].nil?
+      lamb = eval @custom_commands[found_command][:action]
       lamb.call
       return true
     end

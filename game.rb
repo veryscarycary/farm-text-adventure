@@ -158,9 +158,9 @@ class Game
     invoke_command(command, additional)
   end
 
-  def invoke_custom_location_command(command)
+  def invoke_custom_location_command(command, additional)
     # returns true if a custom location command was invoked
-    @map.current_location.items.any? {|item| item.invoke_custom_command(command) }
+    @map.current_location.items.any? {|item| item.invoke_custom_command(command, additional) }
   end
 
   def invoke_command(command, additional)
@@ -169,7 +169,7 @@ class Game
       return
     end
 
-    return if invoke_custom_location_command(command)
+    return if invoke_custom_location_command(command, additional)
 
     case command
       # commands without arguments

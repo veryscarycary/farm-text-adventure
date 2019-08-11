@@ -60,11 +60,12 @@ will_reveal_owned_items_when_looked_at: true)
 climb_down = Item.new(
 'climb down command hack',
 "",
+location_description: 'CLIMB DOWN?',
 custom_commands: {
   climb_down: {
     aliases: ['climb', 'climb down'],
     is_hidden: false,
-    location_description: 'CLIMB DOWN?',
+    location_description: '',
     action: "lambda do
       cletus = GAME._check_for_item('cletus')
       cletus.update_state(:far)
@@ -75,7 +76,7 @@ custom_commands: {
   },
 },)
 
-TOP_OF_TREE = OLD_TREE = Location.new('top of tree','
+TOP_OF_TREE = Location.new('top of tree','
 You are standing among the upper limbs of the old tree.
 ',
 items: [cletus, climb_down],

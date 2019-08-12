@@ -2,12 +2,18 @@ sombrero = tree = Item.new(
 'sombrero',
 "It is a wide felt sombrero. Perfect for blocking out the sun's harmful rays.")
 
-cletus = Person.new('cletus',
+cletus = Person.new('man',
 "He has a long beard and wiry white hair that's topped by a ragged felt sombrero.
 He's crouched on the inside of a tree limb. It's a wonder he hasn't fallen yet. What a strange fellow.",
+aliases: ['strange man', 'cletus'],
 location_description: 'There is a strange man perched up on one of the branches.',
 reveal_description: 'There is a strange man perched up on one of the branches.',
 state: :far,
+command_restrictions: {
+  talk_to: {
+    restricted_states: [:far],
+  },
+},
 state_descriptions: {
   far: {
     location: 'There is a strange man perched up on one of the branches.',
@@ -29,8 +35,7 @@ use_on_receiving_actions: {
   end
   "
 },
-aliases: ['strange man', 'man'],
-applicable_commands: [],
+applicable_commands: [:talk_to],
 is_hidden: true)
 
 tree = Item.new(

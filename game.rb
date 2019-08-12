@@ -312,12 +312,16 @@ class Game
 
     if person
       if person.is_a?(Person)
-        person.speak
+        if person.command_restricted?(:talk_to)
+          putsy "You're unable to speak to the #{person.name} right now. You're too far away."
+        else
+          person.speak
+        end
       else
         putsy "You can't talk to the #{person.name}. What are you, are crazy person?"
       end
     else
-      putsy "There isn't #{person =~ /^[aeiouAEIOU]/ ? 'an' : 'a'} #{person} to talk to."
+      putsy "There isn't #{person =~ /^[aeiouAEIOU]/ ? 'an' : 'a'} #{person.name} to talk to."
     end
   end
 

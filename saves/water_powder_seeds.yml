@@ -1,7 +1,7 @@
 --- !ruby/object:Game
 player: !ruby/object:Player
   inventory:
-  - !ruby/object:Item
+  - &37 !ruby/object:Item
     name: bucket
     aliases: []
     description: It's an old rusty bucket.
@@ -14,7 +14,7 @@ player: !ruby/object:Player
         that it hasn't been used in ages. There are a few old horse stalls here but
         no sign of horses.
       items:
-      - &2 !ruby/object:Item
+      - !ruby/object:Item
         name: stalls
         aliases: []
         description: The stalls are kind of dirty and look like they haven't been
@@ -35,36 +35,7 @@ player: !ruby/object:Player
         use_action: 
         use_on_doing_actions: {}
         use_on_receiving_actions: {}
-        owns:
-        - !ruby/object:Item
-          name: seeds
-          aliases: []
-          description: It's a small paper pouch of seeds. The label is heavily worn
-            and it's hard to make out what kind of seeds they are.
-          location_description: ''
-          read_description: 
-          use_description: 
-          associated_location: 
-          reveal_description: 
-          use_redirect: 
-          applicable_commands:
-          - :take
-          - :drop
-          - :use_on
-          custom_commands: {}
-          state: 
-          state_descriptions: {}
-          command_restrictions: {}
-          state_actions: {}
-          ownership_actions: {}
-          use_action: 
-          use_on_doing_actions: {}
-          use_on_receiving_actions: {}
-          owns: []
-          belongs_to: *2
-          requires_time: false
-          is_hidden: true
-          will_reveal_owned_items_when_looked_at: false
+        owns: []
         belongs_to: 
         requires_time: false
         is_hidden: false
@@ -72,9 +43,9 @@ player: !ruby/object:Player
       people: []
       blocked_paths: {}
       narrative_events: []
-      associated_map: &4 !ruby/object:Map
+      associated_map: &3 !ruby/object:Map
         grid:
-        - - &3 !ruby/object:Location
+        - - &2 !ruby/object:Location
             name: waterfall
             description: The sound of rushing water is envelopes your senses. Before
               you lies a large waterfall.
@@ -87,7 +58,7 @@ player: !ruby/object:Player
               location_description: ''
               read_description: 
               use_description: 
-              associated_location: *3
+              associated_location: *2
               reveal_description: 
               use_redirect: 
               applicable_commands:
@@ -113,13 +84,13 @@ player: !ruby/object:Player
             people: []
             blocked_paths: {}
             narrative_events: []
-            associated_map: *4
+            associated_map: *3
           - *1
-          - &5 !ruby/object:Location
+          - &4 !ruby/object:Location
             name: old tree
             description: ''
             items:
-            - &8 !ruby/object:Item
+            - &7 !ruby/object:Item
               name: tree
               aliases:
               - old tree
@@ -129,7 +100,7 @@ player: !ruby/object:Player
                 through multiple human lifetimes.
               read_description: 
               use_description: 
-              associated_location: *5
+              associated_location: *4
               reveal_description: 
               use_redirect: 
               applicable_commands: []
@@ -155,7 +126,7 @@ player: !ruby/object:Player
               use_on_doing_actions: {}
               use_on_receiving_actions: {}
               owns:
-              - &6 !ruby/object:Person
+              - &5 !ruby/object:Person
                 name: man
                 aliases:
                 - strange man
@@ -167,11 +138,11 @@ player: !ruby/object:Player
                   the branches.
                 read_description: 
                 use_description: 
-                associated_location: &7 !ruby/object:Location
+                associated_location: &6 !ruby/object:Location
                   name: top of tree
                   description: You are standing among the upper limbs of the old tree.
                   items:
-                  - *6
+                  - *5
                   - !ruby/object:Item
                     name: climb down command hack
                     aliases: []
@@ -179,7 +150,7 @@ player: !ruby/object:Player
                     location_description: CLIMB DOWN?
                     read_description: 
                     use_description: 
-                    associated_location: *7
+                    associated_location: *6
                     reveal_description: 
                     use_redirect: 
                     applicable_commands: []
@@ -283,43 +254,13 @@ player: !ruby/object:Player
                   use_on_doing_actions: {}
                   use_on_receiving_actions: {}
                   owns: []
-                  belongs_to: *6
+                  belongs_to: *5
                   requires_time: false
                   is_hidden: false
                   will_reveal_owned_items_when_looked_at: false
-                - !ruby/object:Item
-                  name: powder
-                  aliases:
-                  - miracle grow
-                  description: It is a thick powder with specks of blue and yellow.
-                    It looks rather unnatural.
-                  location_description: ''
-                  read_description: 
-                  use_description: 
-                  associated_location: 
-                  reveal_description: 
-                  use_redirect: 
-                  applicable_commands:
-                  - :use_on
-                  custom_commands: {}
-                  state: 
-                  state_descriptions: {}
-                  command_restrictions: {}
-                  state_actions: {}
-                  ownership_actions: {}
-                  use_action: 
-                  use_on_doing_actions: {}
-                  use_on_receiving_actions:
-                    :soil: "lambda do |doing_item|\n    GAME.player.drop_from_inventory(doing_item)\n\n
-                      \   putsy 'MAKE PLANTS GROW OR SOMETHING!!'\n  end\n  "
-                  owns: []
-                  belongs_to: *6
-                  requires_time: false
-                  is_hidden: false
-                  will_reveal_owned_items_when_looked_at: false
-                belongs_to: *8
+                belongs_to: *7
                 requires_time: false
-                is_hidden: true
+                is_hidden: false
                 will_reveal_owned_items_when_looked_at: false
                 response: |-
                   OH BOY, IT'S HOTTER THAN HELL OUT HERE. I got wicked high off of some peyote and when I came to my senses, I was all the way up in this here tree.
@@ -332,8 +273,8 @@ player: !ruby/object:Player
             people: []
             blocked_paths: {}
             narrative_events: []
-            associated_map: *4
-        - - &9 !ruby/object:Location
+            associated_map: *3
+        - - &8 !ruby/object:Location
             name: stream
             description: You stumble across a moving body of water.
             items:
@@ -347,7 +288,7 @@ player: !ruby/object:Player
                   any ecosystem could thrive off of.
               read_description: 
               use_description: 
-              associated_location: *9
+              associated_location: *8
               reveal_description: 
               use_redirect: 
               applicable_commands:
@@ -373,7 +314,7 @@ player: !ruby/object:Player
             people: []
             blocked_paths: {}
             narrative_events: []
-            associated_map: *4
+            associated_map: *3
           - !ruby/object:Location
             name: field
             description: You find yourself in an open field. The sun is shining very
@@ -383,8 +324,8 @@ player: !ruby/object:Player
             people: []
             blocked_paths: {}
             narrative_events: []
-            associated_map: *4
-          - &10 !ruby/object:Location
+            associated_map: *3
+          - &9 !ruby/object:Location
             name: dry earth
             description: ''
             items:
@@ -400,7 +341,7 @@ player: !ruby/object:Player
                 plot of land. The ground is very dry.
               read_description: 
               use_description: 
-              associated_location: *10
+              associated_location: *9
               reveal_description: 
               use_redirect: 
               applicable_commands: []
@@ -490,16 +431,19 @@ player: !ruby/object:Player
 
                         GAME.player.drop_from_inventory(doing_item)
                       end
-                :seeds: "lambda do |doing_item|\n      putsy 'You carefully pour the
-                  seeds onto ground and fold them into the soil.'\n      if @state
-                  == :plowed_and_wet_and_powdered\n        'All of a sudden, a stem
-                  bursts through the soil and wiggles higher and higher, spreading
+                :seeds: "lambda do |doing_item|\n      if @state == :untouched ||
+                  @state == :wet || @state == :powdered || @state == :wet_and_powdered\n
+                  \       putsy 'The ground is not tilled properly. You cannot put
+                  the seeds in the earth.'\n        return\n      end\n      \n      if
+                  @state == :plowed_and_wet_and_powdered\n        'All of a sudden,
+                  a stem bursts through the soil and wiggles higher and higher, spreading
                   out soft branches until it stands slightly larger than you. You
                   see leafs pop out, one by one, and little green bulbs forming under
                   them. In a matter of seconds, you see heavy ripe tomatoes drooping
-                  off of the plant before you.'\n      else \n        putsy 'Hmm,
-                  I wonder if there's anthing I can do to make sure this garden stays
-                  healthy.'\n      end\n\n      GAME.player.drop_from_inventory(doing_item)\n
+                  off of the plant before you.'\n      else \n        putsy 'You carefully
+                  pour the seeds onto ground and fold them into the soil.'\n        putsy
+                  'Hmm, I wonder if there is anthing I can do to make sure this garden
+                  stays healthy.'\n      end\n\n      GAME.player.drop_from_inventory(doing_item)\n
                   \   end"
                 :powder: |-
                   lambda do |doing_item|
@@ -548,53 +492,47 @@ player: !ruby/object:Player
                       tractor = self._check_for_item('tractor')
                       !!tractor && tractor.state == :fixed
                     end
-              :action: |-
-                lambda do |current_location|
-                      putsy "You drive the tractor across the dry earth and watch as the plow attachment shreds and folds the soil beneath you. The soil has been properly plowed.\n\nJust as you finish plowing the soil. You hear the engine struggle and lock up abruptly. Uh oh, this may have been the machine's last voyage."
-                      tractor = self._check_for_item("tractor")
-                      tractor.update_state(:broken)
-
-                      engine = self._check_for_item("engine")
-                      engine.update_state(:broken)
-
-                      earth = self._check_for_item("earth")
-
-                      if earth.state == :untouched
-                        earth.update_state(:plowed)
-                      else
-                        earth.update_state(:plowed_and_wet)
-                      end
-
-                      self.player.remove_following_item(tractor)
-                    end
-            associated_map: *4
-        - - &11 !ruby/object:Location
+              :action: "lambda do |current_location|\n      putsy \"You drive the
+                tractor across the dry earth and watch as the plow attachment shreds
+                and folds the soil beneath you. The soil has been properly plowed.\\n\\nJust
+                as you finish plowing the soil. You hear the engine struggle and lock
+                up abruptly. Uh oh, this may have been the machine's last voyage.\"\n
+                \     tractor = self._check_for_item(\"tractor\")\n      tractor.update_state(:broken)\n
+                \     \n      hood = self._check_for_item(\"hood\")\n      hood.update_state(:closed)\n\n
+                \     engine = self._check_for_item(\"engine\")\n      engine.update_state(:broken)\n
+                \     engine.is_hidden = true\n\n      earth = self._check_for_item(\"earth\")\n\n
+                \     if earth.state == :wet\n        earth.update_state(:plowed_and_wet)\n
+                \     elsif earth.state == :wet_and_powdered\n        earth.update_state(:plowed_and_wet_and_powdered)\n
+                \     else\n        earth.update_state(:plowed)\n      end\n\n      self.player.remove_following_item(tractor)\n
+                \   end"
+            associated_map: *3
+        - - &10 !ruby/object:Location
             name: pond
             description: You arrive at a pond.
             items:
             - !ruby/object:Item
               name: water
-              aliases: []
+              aliases: &27 []
               description: It looks like fresh, cold water.
               location_description: The water is very calm here and it makes you feel
                 at peace with the world.
               read_description: 
               use_description: 
-              associated_location: *11
+              associated_location: *10
               reveal_description: 
               use_redirect: 
-              applicable_commands:
+              applicable_commands: &28
               - :drop
               - :use_on
-              custom_commands: {}
+              custom_commands: &29 {}
               state: 
-              state_descriptions: {}
-              command_restrictions: {}
-              state_actions: {}
-              ownership_actions: {}
+              state_descriptions: &30 {}
+              command_restrictions: &31 {}
+              state_actions: &32 {}
+              ownership_actions: &33 {}
               use_action: 
-              use_on_doing_actions: {}
-              use_on_receiving_actions:
+              use_on_doing_actions: &34 {}
+              use_on_receiving_actions: &35
                 :bucket: |-
                   lambda do |doing_item|
                         doing_item.state = :full
@@ -604,7 +542,7 @@ player: !ruby/object:Player
                         GAME.player.add_to_inventory(new_water)
                         putsy 'You fill the bucket with water.'
                       end
-              owns: []
+              owns: &36 []
               belongs_to: 
               requires_time: false
               is_hidden: false
@@ -613,11 +551,11 @@ player: !ruby/object:Player
             blocked_paths:
               east:
                 :obstruction: white picket fence
-              south: &22
+              south: &21
                 :obstruction: wall
             narrative_events: []
-            associated_map: *4
-          - &12 !ruby/object:Location
+            associated_map: *3
+          - &11 !ruby/object:Location
             name: front yard
             description: There is a quaint, southern-style house in front of you toward
               the south.
@@ -630,7 +568,7 @@ player: !ruby/object:Player
               location_description: ''
               read_description: 
               use_description: 
-              associated_location: *12
+              associated_location: *11
               reveal_description: 
               use_redirect: 
               applicable_commands: []
@@ -657,7 +595,7 @@ player: !ruby/object:Player
               location_description: A gate is open to the north.
               read_description: 
               use_description: 
-              associated_location: *12
+              associated_location: *11
               reveal_description: 
               use_redirect: 
               applicable_commands:
@@ -691,14 +629,14 @@ player: !ruby/object:Player
               requires_time: false
               is_hidden: false
               will_reveal_owned_items_when_looked_at: false
-            - &13 !ruby/object:Item
+            - &12 !ruby/object:Item
               name: mailbox
               aliases: []
               description: It's an old-style mailbox with the red lever sticking up.
               location_description: You are standing near a mailbox.
               read_description: 
               use_description: 
-              associated_location: *12
+              associated_location: *11
               reveal_description: 
               use_redirect: 
               applicable_commands:
@@ -757,7 +695,7 @@ player: !ruby/object:Player
                 use_on_doing_actions: {}
                 use_on_receiving_actions: {}
                 owns: []
-                belongs_to: *13
+                belongs_to: *12
                 requires_time: false
                 is_hidden: true
                 will_reveal_owned_items_when_looked_at: false
@@ -772,12 +710,12 @@ player: !ruby/object:Player
               east:
                 :obstruction: white picket fence
             narrative_events: []
-            associated_map: *4
-          - &14 !ruby/object:Location
+            associated_map: *3
+          - &13 !ruby/object:Location
             name: tractor
             description: You arrive at an old shed.
             items:
-            - &18 !ruby/object:Item
+            - &17 !ruby/object:Item
               name: tractor
               aliases: []
               description: I bet this tractor makes plowing land a breeze.
@@ -785,7 +723,7 @@ player: !ruby/object:Player
                 here. It looks like the tractor has seen better days.
               read_description: 
               use_description: 
-              associated_location: *14
+              associated_location: *13
               reveal_description: 
               use_redirect: 
               applicable_commands:
@@ -807,7 +745,7 @@ player: !ruby/object:Player
                   :restricted_states:
                   - :broken
                   :required_items:
-                  - &16 !ruby/object:Item
+                  - &15 !ruby/object:Item
                     name: key
                     aliases:
                     - metal key
@@ -833,7 +771,7 @@ player: !ruby/object:Player
                     use_on_doing_actions: {}
                     use_on_receiving_actions: {}
                     owns: []
-                    belongs_to: &15 !ruby/object:Item
+                    belongs_to: &14 !ruby/object:Item
                       name: shed
                       aliases: []
                       description: The shed is a rusty wind-damaged old thing. There
@@ -841,7 +779,7 @@ player: !ruby/object:Player
                       location_description: ''
                       read_description: 
                       use_description: 
-                      associated_location: *14
+                      associated_location: *13
                       reveal_description: 
                       use_redirect: 
                       applicable_commands:
@@ -888,11 +826,11 @@ player: !ruby/object:Player
                         use_on_doing_actions: {}
                         use_on_receiving_actions: {}
                         owns: []
-                        belongs_to: *15
+                        belongs_to: *14
                         requires_time: false
                         is_hidden: true
                         will_reveal_owned_items_when_looked_at: false
-                      - *16
+                      - *15
                       belongs_to: 
                       requires_time: false
                       is_hidden: false
@@ -917,7 +855,7 @@ player: !ruby/object:Player
                   Where would you like to go now?'; GAME.player.add_following_item(self);\n
                   \     end\n    end\n    "
               owns:
-              - &17 !ruby/object:Item
+              - &16 !ruby/object:Item
                 name: hood
                 aliases: []
                 description: The hood is made of heavy old steel. They don't make
@@ -978,11 +916,11 @@ player: !ruby/object:Player
                       putsy 'You pour the oil into the engine and it seems to slurp
                       it right up. Now if I can just get this thing to start...'}
                   owns: []
-                  belongs_to: *17
+                  belongs_to: *16
                   requires_time: false
                   is_hidden: true
                   will_reveal_owned_items_when_looked_at: false
-                belongs_to: *18
+                belongs_to: *17
                 requires_time: false
                 is_hidden: false
                 will_reveal_owned_items_when_looked_at: false
@@ -1007,7 +945,7 @@ player: !ruby/object:Player
                 use_on_doing_actions: {}
                 use_on_receiving_actions: {}
                 owns: []
-                belongs_to: *18
+                belongs_to: *17
                 requires_time: false
                 is_hidden: false
                 will_reveal_owned_items_when_looked_at: false
@@ -1015,7 +953,7 @@ player: !ruby/object:Player
               requires_time: false
               is_hidden: false
               will_reveal_owned_items_when_looked_at: false
-            - *15
+            - *14
             people: []
             blocked_paths:
               south:
@@ -1023,8 +961,8 @@ player: !ruby/object:Player
               west:
                 :obstruction: white picket fence
             narrative_events: []
-            associated_map: *4
-        - - &19 !ruby/object:Location
+            associated_map: *3
+        - - &18 !ruby/object:Location
             name: bedroom
             description: You are standing in a bedroom.
             items:
@@ -1035,7 +973,7 @@ player: !ruby/object:Player
               location_description: It seems pretty cozy in here.
               read_description: 
               use_description: 
-              associated_location: *19
+              associated_location: *18
               reveal_description: 
               use_redirect: 
               applicable_commands: []
@@ -1062,7 +1000,7 @@ player: !ruby/object:Player
               read_description: 
               use_description: "You snuggle up in the sheets and close your eyes for
                 a bit. \n\nHow long was I asleep for? I have work to do."
-              associated_location: *19
+              associated_location: *18
               reveal_description: 
               use_redirect: 
               applicable_commands:
@@ -1081,7 +1019,7 @@ player: !ruby/object:Player
               requires_time: false
               is_hidden: false
               will_reveal_owned_items_when_looked_at: false
-            - &21 !ruby/object:Item
+            - &20 !ruby/object:Item
               name: desk
               aliases:
               - old desk
@@ -1089,7 +1027,7 @@ player: !ruby/object:Player
               location_description: There is an old desk in the corner of the room.
               read_description: 
               use_description: 
-              associated_location: *19
+              associated_location: *18
               reveal_description: 
               use_redirect: 
               applicable_commands: []
@@ -1103,7 +1041,7 @@ player: !ruby/object:Player
               use_on_doing_actions: {}
               use_on_receiving_actions: {}
               owns:
-              - &20 !ruby/object:Item
+              - &19 !ruby/object:Item
                 name: picture
                 aliases:
                 - frame
@@ -1155,11 +1093,11 @@ player: !ruby/object:Player
                   use_on_doing_actions: {}
                   use_on_receiving_actions: {}
                   owns: []
-                  belongs_to: *20
+                  belongs_to: *19
                   requires_time: false
                   is_hidden: true
                   will_reveal_owned_items_when_looked_at: false
-                belongs_to: *21
+                belongs_to: *20
                 requires_time: false
                 is_hidden: false
                 will_reveal_owned_items_when_looked_at: true
@@ -1174,7 +1112,7 @@ player: !ruby/object:Player
               location_description: A coat rack is screwed into one of the walls.
               read_description: 
               use_description: 
-              associated_location: *19
+              associated_location: *18
               reveal_description: 
               use_redirect: 
               applicable_commands: []
@@ -1202,7 +1140,7 @@ player: !ruby/object:Player
                 You put the hat on your head.
 
                 Hmm, you kinda look like Indiana Jones!
-              associated_location: *19
+              associated_location: *18
               reveal_description: 
               use_redirect: 
               applicable_commands:
@@ -1231,7 +1169,7 @@ player: !ruby/object:Player
               location_description: A calendar is hanging up against the wall.
               read_description: Today's date is October 15, 2018.
               use_description: 
-              associated_location: *19
+              associated_location: *18
               reveal_description: 
               use_redirect: :read
               applicable_commands:
@@ -1256,12 +1194,12 @@ player: !ruby/object:Player
             blocked_paths:
               west:
                 :obstruction: wall
-              north: *22
+              north: *21
               south:
                 :obstruction: wall
             narrative_events: []
-            associated_map: *4
-          - &23 !ruby/object:Location
+            associated_map: *3
+          - &22 !ruby/object:Location
             name: entryway
             description: You enter the entryway of the house.
             items:
@@ -1274,7 +1212,7 @@ player: !ruby/object:Player
                 space and baby blue and white striped wallpaper.
               read_description: 
               use_description: 
-              associated_location: *23
+              associated_location: *22
               reveal_description: 
               use_redirect: 
               applicable_commands: []
@@ -1300,7 +1238,7 @@ player: !ruby/object:Player
               location_description: ''
               read_description: 
               use_description: 
-              associated_location: *23
+              associated_location: *22
               reveal_description: 
               use_redirect: 
               applicable_commands: []
@@ -1318,7 +1256,7 @@ player: !ruby/object:Player
               requires_time: false
               is_hidden: false
               will_reveal_owned_items_when_looked_at: false
-            - &25 !ruby/object:Item
+            - &24 !ruby/object:Item
               name: table
               aliases: entry table
               description: The entry table has a drawer that stretches its entire
@@ -1327,7 +1265,7 @@ player: !ruby/object:Player
                 wall.
               read_description: 
               use_description: 
-              associated_location: *23
+              associated_location: *22
               reveal_description: 
               use_redirect: 
               applicable_commands: []
@@ -1341,7 +1279,7 @@ player: !ruby/object:Player
               use_on_doing_actions: {}
               use_on_receiving_actions: {}
               owns:
-              - &24 !ruby/object:Item
+              - &23 !ruby/object:Item
                 name: drawer
                 aliases: []
                 description: It's a typical drawer.
@@ -1394,11 +1332,11 @@ player: !ruby/object:Player
                   use_on_doing_actions: {}
                   use_on_receiving_actions: {}
                   owns: []
-                  belongs_to: *24
+                  belongs_to: *23
                   requires_time: true
                   is_hidden: true
                   will_reveal_owned_items_when_looked_at: false
-                belongs_to: *25
+                belongs_to: *24
                 requires_time: false
                 is_hidden: false
                 will_reveal_owned_items_when_looked_at: false
@@ -1411,8 +1349,8 @@ player: !ruby/object:Player
               south:
                 :obstruction: wall
             narrative_events: []
-            associated_map: *4
-          - &26 !ruby/object:Location
+            associated_map: *3
+          - &25 !ruby/object:Location
             name: living room
             description: You step into a finely-decorated living room.
             items:
@@ -1423,7 +1361,7 @@ player: !ruby/object:Player
               location_description: ''
               read_description: 
               use_description: 
-              associated_location: *26
+              associated_location: *25
               reveal_description: 
               use_redirect: 
               applicable_commands: []
@@ -1441,7 +1379,7 @@ player: !ruby/object:Player
               requires_time: false
               is_hidden: false
               will_reveal_owned_items_when_looked_at: false
-            - &27 !ruby/object:Item
+            - &26 !ruby/object:Item
               name: clock
               aliases:
               - grandfather clock
@@ -1451,7 +1389,7 @@ player: !ruby/object:Player
                 the wall.
               read_description: 
               use_description: 
-              associated_location: *26
+              associated_location: *25
               reveal_description: 
               use_redirect: :look_at
               applicable_commands:
@@ -1487,7 +1425,7 @@ player: !ruby/object:Player
                 use_on_doing_actions: {}
                 use_on_receiving_actions: {}
                 owns: []
-                belongs_to: *27
+                belongs_to: *26
                 requires_time: false
                 is_hidden: false
                 will_reveal_owned_items_when_looked_at: false
@@ -1508,7 +1446,7 @@ player: !ruby/object:Player
                 You sit down on the chair. Wow. It's surprisingly comfy.
 
                  Alright, enough of that.
-              associated_location: *26
+              associated_location: *25
               reveal_description: 
               use_redirect: 
               applicable_commands:
@@ -1534,7 +1472,7 @@ player: !ruby/object:Player
               location_description: A tv is sitting in the corner.
               read_description: 
               use_description: 
-              associated_location: *26
+              associated_location: *25
               reveal_description: 
               use_redirect: 
               applicable_commands:
@@ -1585,10 +1523,10 @@ player: !ruby/object:Player
               north:
                 :obstruction: wall
             narrative_events: []
-            associated_map: *4
-        current_x: 0
-        current_y: 2
-        current_location: *11
+            associated_map: *3
+        current_x: 2
+        current_y: 1
+        current_location: *9
     reveal_description: 
     use_redirect: 
     applicable_commands:
@@ -1596,7 +1534,7 @@ player: !ruby/object:Player
     - :drop
     - :use_on
     custom_commands: {}
-    state: :empty
+    state: :full
     state_descriptions:
       :full:
         :location: ''
@@ -1613,16 +1551,132 @@ player: !ruby/object:Player
     use_action: 
     use_on_doing_actions: {}
     use_on_receiving_actions: {}
+    owns:
+    - !ruby/object:Item
+      name: water
+      aliases: *27
+      description: It looks like fresh, cold water.
+      location_description: The water is very calm here and it makes you feel at peace
+        with the world.
+      read_description: 
+      use_description: 
+      associated_location: *10
+      reveal_description: 
+      use_redirect: 
+      applicable_commands: *28
+      custom_commands: *29
+      state: 
+      state_descriptions: *30
+      command_restrictions: *31
+      state_actions: *32
+      ownership_actions: *33
+      use_action: 
+      use_on_doing_actions: *34
+      use_on_receiving_actions: *35
+      owns: *36
+      belongs_to: *37
+      requires_time: false
+      is_hidden: false
+      will_reveal_owned_items_when_looked_at: false
+    - &38 !ruby/object:Item
+      name: water
+      aliases: *27
+      description: It looks like fresh, cold water.
+      location_description: The water is very calm here and it makes you feel at peace
+        with the world.
+      read_description: 
+      use_description: 
+      associated_location: *10
+      reveal_description: 
+      use_redirect: 
+      applicable_commands: *28
+      custom_commands: *29
+      state: 
+      state_descriptions: *30
+      command_restrictions: *31
+      state_actions: *32
+      ownership_actions: *33
+      use_action: 
+      use_on_doing_actions: *34
+      use_on_receiving_actions: *35
+      owns: *36
+      belongs_to: *37
+      requires_time: false
+      is_hidden: false
+      will_reveal_owned_items_when_looked_at: false
+    belongs_to: 
+    requires_time: false
+    is_hidden: false
+    will_reveal_owned_items_when_looked_at: false
+  - !ruby/object:Item
+    name: seeds
+    aliases:
+    - pouch
+    - paper pouch
+    - small paper pouch
+    description: It's a small paper pouch of seeds. The label is heavily worn and
+      it's hard to make out what kind of seeds they are.
+    location_description: There is a small paper pouch lying up against one of the
+      stalls.
+    read_description: 
+    use_description: 
+    associated_location: 
+    reveal_description: There is a small paper pouch lying up against one of the stalls.
+    use_redirect: 
+    applicable_commands:
+    - :take
+    - :drop
+    - :use_on
+    custom_commands: {}
+    state: 
+    state_descriptions: {}
+    command_restrictions: {}
+    state_actions: {}
+    ownership_actions: {}
+    use_action: 
+    use_on_doing_actions: {}
+    use_on_receiving_actions: {}
+    owns: []
+    belongs_to: 
+    requires_time: false
+    is_hidden: false
+    will_reveal_owned_items_when_looked_at: false
+  - *38
+  - !ruby/object:Item
+    name: powder
+    aliases:
+    - miracle grow
+    description: It is a thick powder with specks of blue and yellow. It looks rather
+      unnatural.
+    location_description: ''
+    read_description: 
+    use_description: 
+    associated_location: 
+    reveal_description: 
+    use_redirect: 
+    applicable_commands:
+    - :use_on
+    custom_commands: {}
+    state: 
+    state_descriptions: {}
+    command_restrictions: {}
+    state_actions: {}
+    ownership_actions: {}
+    use_action: 
+    use_on_doing_actions: {}
+    use_on_receiving_actions:
+      :soil: "lambda do |doing_item|\n    GAME.player.drop_from_inventory(doing_item)\n\n
+        \   putsy 'MAKE PLANTS GROW OR SOMETHING!!'\n  end\n  "
     owns: []
     belongs_to: 
     requires_time: false
     is_hidden: false
     will_reveal_owned_items_when_looked_at: false
   following_items: []
-map: *4
+map: *3
 time: !ruby/object:GameTime
   hour: 6
-  minute: 3
+  minute: 10
   am_pm: AM
-  turn_counter: 7
-  current_time: 6:03 AM
+  turn_counter: 20
+  current_time: 6:10 AM

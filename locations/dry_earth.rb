@@ -11,7 +11,7 @@ earth = Item.new('earth',
   state: :untouched,
   state_descriptions: {
     untouched: {
-      location: "There isn\'t much here. It's nothing but a barren plot of land. The ground is very dry.",
+      location: "There isn't much here. It's nothing but a barren plot of land. The ground is very dry.",
       item: "The ground is quite dry. I'd be surprised if anything could grow here."
     },
     plowed: {
@@ -50,6 +50,10 @@ earth = Item.new('earth',
       location: 'The land here looks decently plowed and watered and has a bubbly film where the powder dissolved.',
       item: 'The soil is wet and plowed and has a bubbly film where the powder dissolved.'
     },
+    plowed_and_seeded_and_powdered: {
+      location: 'The land here looks decently plowed with seeds and has a layer of white powder on it.',
+      item: 'The soil is plowed with seeds and has a layer of white powder on it.'
+    },
     grown: {
       location: "There is a large, healthy tomato plant growing here. It's amazing this thing grew so fast.",
       item: "It's a healthy garden, that's for sure."
@@ -84,22 +88,57 @@ earth = Item.new('earth',
       GAME.player.drop_from_inventory(doing_item)
     end",
   seeds: "lambda do |doing_item|
-      putsy 'You carefully pour the seeds onto ground and fold them into the soil.'
+      if @state == :untouched || @state == :wet || @state == :powdered || @state == :wet_and_powdered
+        putsy 'The ground is not tilled properly. You cannot put the seeds in the earth.'
+        return
+      end
+      
       if @state == :plowed_and_wet_and_powdered
+        update_state(:grown)
+
         'All of a sudden, a stem bursts through the soil and wiggles higher and higher, spreading out soft branches until it stands slightly larger than you. You see leafs pop out, one by one, and little green bulbs forming under them. In a matter of seconds, you see heavy ripe tomatoes drooping off of the plant before you.'
-      else 
-        putsy 'Hmm, I wonder if there's anthing I can do to make sure this garden stays healthy.'
+      else
+        if @state == :plowed
+          update_state(:plowed_and_seeded)
+        elsif @state == :plowed_and_wet
+          update_state(:plowed_and_wet_and_seeded)
+        elsif @state == :plowed_and_powdered
+          update_state(:plowed_and_seeded_and_powdered)
+        end
+
+        putsy 'You carefully pour the seeds onto ground and fold them into the soil.'
+        putsy 'Hmm, I wonder if there is anthing I can do to make sure this garden stays healthy.'
       end
 
       GAME.player.drop_from_inventory(doing_item)
     end",
   powder: "lambda do |doing_item|
-      if @state == :untouched
-        putsy 'You sprinkle the powder evenly across the ground.'
-      elsif @state == :plowed_and_wet_and_seeded
+      if @state == :plowed_and_wet_and_seeded
+        update_state(:grown)
+
         putsy 'You sprinkle the powder evenly across the soil.'
         putsy 'All of a sudden, a stem bursts through the soil and wiggles higher and higher, spreading out soft branches until it stands slightly larger than you. You see leafs pop out, one by one, and little green bulbs forming under them. In a matter of seconds, you see heavy ripe tomatoes drooping off of the plant before you.'
-      else 
+      elsif @state == :untouched
+        update_state(:powdered)
+
+        putsy 'You sprinkle the powder evenly across the ground.'
+      elsif @state == :wet
+        update_state(:wet_and_powdered)
+
+        putsy 'You sprinkle the powder evenly across the soil.'
+      elsif @state == :plowed
+        update_state(:plowed_and_powdered)
+
+        putsy 'You sprinkle the powder evenly across the soil.'
+      elsif @state == :plowed_and_wet
+        update_state(:plowed_and_wet_and_powdered)
+
+        putsy 'You sprinkle the powder evenly across the soil.'
+      elsif @state == :plowed_and_seeded
+        update_state(:plowed_and_seeded_and_powdered)
+
+        putsy 'You sprinkle the powder evenly across the soil.'
+      else
         putsy 'You sprinkle the powder evenly across the soil.'
       end
 
@@ -122,16 +161,22 @@ narrative_events: [
       putsy "You drive the tractor across the dry earth and watch as the plow attachment shreds and folds the soil beneath you. The soil has been properly plowed.\n\nJust as you finish plowing the soil. You hear the engine struggle and lock up abruptly. Uh oh, this may have been the machine\'s last voyage."
       tractor = self._check_for_item("tractor")
       tractor.update_state(:broken)
+      
+      hood = self._check_for_item("hood")
+      hood.update_state(:closed)
 
       engine = self._check_for_item("engine")
       engine.update_state(:broken)
+      engine.is_hidden = true
 
       earth = self._check_for_item("earth")
 
-      if earth.state == :untouched
-        earth.update_state(:plowed)
-      else
+      if earth.state == :wet
         earth.update_state(:plowed_and_wet)
+      elsif earth.state == :wet_and_powdered
+        earth.update_state(:plowed_and_wet_and_powdered)
+      else
+        earth.update_state(:plowed)
       end
 
       self.player.remove_following_item(tractor)

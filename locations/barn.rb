@@ -22,6 +22,9 @@ BUCKET = Item.new('bucket',
 
 seeds = Item.new('seeds',
 "It's a small paper pouch of seeds. The label is heavily worn and it's hard to make out what kind of seeds they are.",
+  aliases: ['pouch', 'paper pouch', 'small paper pouch'],
+  location_description: "There is a small paper pouch lying up against one of the stalls.",
+  reveal_description: "There is a small paper pouch lying up against one of the stalls.",
   applicable_commands: [:take, :drop, :use_on],
   is_hidden: true,
 )

@@ -92,17 +92,16 @@ earth = Item.new('earth',
       end
 
       GAME.player.drop_from_inventory(doing_item)
-    end"
-  },
+    end",
   powder: "lambda do |doing_item|
-    if @state == :untouched
-      putsy 'You sprinkle the powder evenly across the ground.'
-    elsif @state == :plowed_and_wet_and_seeded
-      putsy 'You sprinkle the powder evenly across the soil.'
-      putsy 'All of a sudden, a stem bursts through the soil and wiggles higher and higher, spreading out soft branches until it stands slightly larger than you. You see leafs pop out, one by one, and little green bulbs forming under them. In a matter of seconds, you see heavy ripe tomatoes drooping off of the plant before you.'
-    else 
-      putsy 'You sprinkle the powder evenly across the soil.'
-    end
+      if @state == :untouched
+        putsy 'You sprinkle the powder evenly across the ground.'
+      elsif @state == :plowed_and_wet_and_seeded
+        putsy 'You sprinkle the powder evenly across the soil.'
+        putsy 'All of a sudden, a stem bursts through the soil and wiggles higher and higher, spreading out soft branches until it stands slightly larger than you. You see leafs pop out, one by one, and little green bulbs forming under them. In a matter of seconds, you see heavy ripe tomatoes drooping off of the plant before you.'
+      else 
+        putsy 'You sprinkle the powder evenly across the soil.'
+      end
 
       GAME.player.drop_from_inventory(doing_item)
     end"

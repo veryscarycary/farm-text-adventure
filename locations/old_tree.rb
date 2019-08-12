@@ -1,6 +1,21 @@
-sombrero = tree = Item.new(
+sombrero = Item.new(
 'sombrero',
 "It is a wide felt sombrero. Perfect for blocking out the sun's harmful rays.")
+
+MIRACLE_GROW = Item.new(
+'powder',
+"It is a thick powder with specks of blue and yellow. It looks rather unnatural.",
+aliases: ['miracle grow'],
+applicable_commands: [:use_on],
+use_on_receiving_actions: {
+  soil: "lambda do |doing_item|
+    GAME.player.drop_from_inventory(doing_item)
+
+    putsy 'MAKE PLANTS GROW OR SOMETHING!!'
+  end
+  "
+}
+)
 
 cletus = Person.new('man',
 "He has a long beard and wiry white hair that's topped by a ragged felt sombrero.
@@ -22,16 +37,28 @@ state_descriptions: {
   close: {
     location: 'A strange man is perched on one of the branches.',
     item: ''
+  },
+  far_and_watered: {
+    location: 'There is a strange man perched up on one of the branches.',
+    item: ''
+  },
+  close_and_watered: {
+    location: 'There is a strange man perched up on one of the branches.',
+    item: ''
   }
 },
 response: "OH BOY, IT'S HOTTER THAN HELL OUT HERE. I got wicked high off of some peyote and when I came to my senses, I was all the way up in this here tree.
 Funny thing is.. I'm afraid of heights. Otherwise, I'd be under some shelter somewhere. If I only had something to cool me down...",
-owns: [sombrero],
+owns: [sombrero, MIRACLE_GROW],
 use_on_receiving_actions: {
   water: "lambda do |doing_item|
     GAME.player.drop_from_inventory(doing_item)
 
-    putsy 'OH MY LORD I FEEL SO COOL. THANK YOU'
+    putsy 'OH MY LORD I FEEL SO COOL. THANK YOU!! Well, I wish I could pay you with some proper coin but all I have is this mysterious powder that I found in the barn over there.
+    It has some bright, weird colors to it so I figured it might give me a good ride to the next dimension, if you get my drift. But I feel like you would be more responsible with it. Here!'
+
+    self.remove_owned_item(MIRACLE_GROW)
+    GAME.player.add_to_inventory(MIRACLE_GROW)
   end
   "
 },
@@ -53,7 +80,12 @@ custom_commands: {
     action: "lambda do
       cletus = GAME._check_for_item('cletus', nil, {include_hidden: true})
       cletus.is_hidden = false
-      cletus.update_state(:close)
+      
+      if cletus.state == :far_and_watered
+        cletus.update_state(:close_and_watered)
+      else
+        cletus.update_state(:close)
+      end
 
       GAME.map.current_location = TOP_OF_TREE
       GAME.map.print_current_location_description

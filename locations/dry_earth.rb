@@ -1,3 +1,10 @@
+
+
+# TOMATO_PLANT = Item.new('earth',
+#   "It's a very healthy tomato plant",
+#   aliases: [],
+# )
+
 earth = Item.new('earth',
   "It's earth.",
   aliases: ['dry earth', 'land', 'soil', 'ground'],
@@ -15,9 +22,37 @@ earth = Item.new('earth',
       location: 'The land here is quite wet.',
       item: 'The ground is wet.'
     },
+    powdered: {
+      location: 'The land here very dry and has a layer of powder over it.',
+      item: 'The ground is dry and has powder spread over it.'
+    },
+    plowed_and_powdered: {
+      location: 'The land here is thoroughly plowed and has a powder spread over it.',
+      item: 'The ground is dry and has powder spread over it.'
+    },
     plowed_and_wet: {
       location: 'The land here looks decently plowed and watered. It could be the beginning of something beautiful.',
       item: 'The soil is wet and plowed.'
+    },
+    plowed_and_seeded: {
+      location: 'The land here plowed and seeded. It still looks awfully dry though.',
+      item: 'The soil is plowed and seeded.'
+    },
+    wet_and_powdered: {
+      location: 'The land here is wet and has powder spread over it.',
+      item: 'The ground is wet and has powder spread over it.'
+    },
+    plowed_and_wet_and_seeded: {
+      location: 'The land here has been plowed, watered, and seeded. I wonder how long it will take to grow.',
+      item: 'The soil is plowed, wet, and seeded.'
+    },
+    plowed_and_wet_and_powdered: {
+      location: 'The land here looks decently plowed and watered and has a bubbly film where the powder dissolved.',
+      item: 'The soil is wet and plowed and has a bubbly film where the powder dissolved.'
+    },
+    grown: {
+      location: "There is a large, healthy tomato plant growing here. It's amazing this thing grew so fast.",
+      item: "It's a healthy garden, that's for sure."
     },
   },
   use_on_receiving_actions: {
@@ -30,11 +65,44 @@ earth = Item.new('earth',
         update_state(:plowed_and_wet)
 
         putsy 'You poured the water onto the ground. The dry, plowed earth soaks up the water and gives the soil a soppy, dark look.'
-      elsif @state == :wet
-        putsy 'You poured the water onto the ground. The wet earth gets a little soppier. I think that might be enough water.'
+      elsif @state == :powdered
+        update_state(:wet_and_powdered)
+
+        putsy 'You poured the water onto the ground. The dry earth soaks up the water and gives it a soppy, dark look. The powder dissolves into the earth with a bubbling noise.'
+      elsif @state == :plowed_and_seeded
+        update_state(:plowed_and_wet_and_seeded)
+
+        putsy 'You poured the water onto the ground. The dry, plowed earth soaks up the water and gives the soil a soppy, dark look. I wonder how long it will take for these crops to grow.'
+      elsif @state == :plowed_and_powdered
+        update_state(:plowed_and_wet_and_powdered)
+
+        putsy 'You poured the water onto the ground. The dry, plowed earth soaks up the water and gives the soil a soppy, dark look. The powder dissolves into the earth with a bubbling noise.'
       else
-        putsy 'You poured the water onto the ground. The wet, plowed earth gets a little soppier. I think that might be enough water.'
+        putsy 'You poured the water onto the ground. The wet earth gets a little soppier. I think that might be enough water.'
       end
+
+      GAME.player.drop_from_inventory(doing_item)
+    end",
+  seeds: "lambda do |doing_item|
+      putsy 'You carefully pour the seeds onto ground and fold them into the soil.'
+      if @state == :plowed_and_wet_and_powdered
+        'All of a sudden, a stem bursts through the soil and wiggles higher and higher, spreading out soft branches until it stands slightly larger than you. You see leafs pop out, one by one, and little green bulbs forming under them. In a matter of seconds, you see heavy ripe tomatoes drooping off of the plant before you.'
+      else 
+        putsy 'Hmm, I wonder if there's anthing I can do to make sure this garden stays healthy.'
+      end
+
+      GAME.player.drop_from_inventory(doing_item)
+    end"
+  },
+  powder: "lambda do |doing_item|
+    if @state == :untouched
+      putsy 'You sprinkle the powder evenly across the ground.'
+    elsif @state == :plowed_and_wet_and_seeded
+      putsy 'You sprinkle the powder evenly across the soil.'
+      putsy 'All of a sudden, a stem bursts through the soil and wiggles higher and higher, spreading out soft branches until it stands slightly larger than you. You see leafs pop out, one by one, and little green bulbs forming under them. In a matter of seconds, you see heavy ripe tomatoes drooping off of the plant before you.'
+    else 
+      putsy 'You sprinkle the powder evenly across the soil.'
+    end
 
       GAME.player.drop_from_inventory(doing_item)
     end"

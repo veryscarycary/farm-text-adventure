@@ -5,6 +5,19 @@
 #   aliases: [],
 # )
 
+tomato = Item.new('tomato', "It's a very large tomato",
+  use_description: "You take a bite out of the tomato. Yum!",
+)
+
+tomatoes = Item.new('tomatoes', "It's a bundle of huge tomatoes",
+  use_description: "You take a bite out of one of the tomatoes. Yum!",
+)
+
+plant = Item.new('plant',
+"It's a very large tomato plant",
+  aliases: ['tomato plant']
+)
+
 earth = Item.new('earth',
   "It's earth.",
   aliases: ['dry earth', 'land', 'soil', 'ground'],

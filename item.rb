@@ -44,6 +44,14 @@ class Item
     item.invoke_belongs_to_ownership_action(self)
   end
 
+  def add_owned_item(item)
+    @owns << item
+    item.belongs_to = self
+
+    invoke_owns_ownership_action(item)
+    item.invoke_belongs_to_ownership_action(self)
+  end
+
   def reveal_owned_items
     # Item is in a Location
     # if item.associated_location

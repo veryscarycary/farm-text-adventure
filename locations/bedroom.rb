@@ -84,12 +84,11 @@ narrative_events: [
       TIME.hour >= 6 && TIME.am_pm == 'PM' && !sleepy_mood.nil?
     end",
     action: 'lambda do |current_location|
-      putsy "All of a sudden, you hear furious knocking at the front door.\n\n
+      putsy "All of a sudden, you hear furious knocking at the front door."
       
-      You open up the door and are greeted by two businessmen. One steps forward and says, \"Good day, sir. On behalf of your mortgage lender and in the interest of our investors, we have been sent here to make sure this property continues to operate as a farm and agriculture operation and will be forthcoming in its future payments to the bank. We have observed that you have a bountiful crop and wish you success in the seasons ahead. We will be in touch.\"\n\n
+      putsy "You open up the door and are greeted by two businessmen. One steps forward and says, \"Good day, sir. On behalf of your mortgage lender and in the interest of our investors, we have been sent here to make sure this property continues to operate as a farm and agriculture operation and will be forthcoming in its future payments to the bank. We have observed that you have a bountiful crop and wish you success in the seasons ahead. We will be in touch.\""
 
-      GAME OVER
-      "
+      putsy "GAME OVER"
 
       GAME.game_over = true
     end'
@@ -102,12 +101,11 @@ narrative_events: [
       TIME.hour >= 6 && TIME.am_pm == 'PM' && sleepy_mood.nil?
     end",
     action: 'lambda do |current_location|
-      putsy "All of a sudden, you hear furious knocking at the front door.\n\n
+      putsy "All of a sudden, you hear furious knocking at the front door."
       
-      You open up the door and are greeted by two businessmen. One steps forward and says, \"Good day, sir. On behalf of your mortgage lender and in the interest of our investors, we have been sent here to make sure this property continues to operate as a farm and agriculture operation and will be forthcoming in its future payments to the bank. It appears that this property has abandoned its agriculture production and has misrepresented its activities to the bank. Effective immediately, the bank considers the mortage to be in default and is seizing the property.\"\n\n
+      putsy "You open up the door and are greeted by two businessmen. One steps forward and says, \"Good day, sir. On behalf of your mortgage lender and in the interest of our investors, we have been sent here to make sure this property continues to operate as a farm and agriculture operation and will be forthcoming in its future payments to the bank. It appears that this property has abandoned its agriculture production and has misrepresented its activities to the bank. Effective immediately, the bank considers the mortage to be in default and is seizing the property.\""
 
-      GAME OVER
-      "
+      putsy "GAME OVER"
 
       GAME.game_over = true
     end'

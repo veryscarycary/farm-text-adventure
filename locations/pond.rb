@@ -6,9 +6,10 @@ WATER = Item.new('water',
     bucket: "lambda do |doing_item|
       doing_item.state = :full
       new_water = self.clone
-      doing_item.owns << new_water
-      doing_item.owns[-1].belongs_to = doing_item
+
+      doing_item.add_owned_item(new_water)
       GAME.player.add_to_inventory(new_water)
+      
       putsy 'You fill the bucket with water.'
     end"
   },

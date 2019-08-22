@@ -1,6 +1,6 @@
 
 class GameTime
-  attr_reader :current_time, :increment_turn_counter, :increment_time
+  attr_reader :current_time, :hour, :am_pm
 
   def initialize
     @hour = 6
@@ -16,6 +16,14 @@ class GameTime
     if @turn_counter % 2 == 0
       increment_time
     end
+  end
+
+  def set_time(hour, minute, am_pm)
+    @hour = hour
+    @minute = minute
+    @am_pm = am_pm.upcase
+
+    parse_and_set_current_time
   end
 
   def increment_time(minutes = 1)

@@ -67,6 +67,7 @@ COMMANDS = {
 
 class Game
   attr_accessor :player, :map, :time
+  attr_writer :game_over
   include Save
   include Utils
 
@@ -74,6 +75,11 @@ class Game
     @player = player
     @map = map
     @time = TIME
+    @game_over = false
+  end
+
+  def game_over?
+    @game_over
   end
 
   def start

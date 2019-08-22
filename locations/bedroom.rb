@@ -6,8 +6,15 @@ location_description: 'It seems pretty cozy in here.',
 bed = Item.new('bed',
 'This bed looks comfy.',
   location_description: "There is a tidy, queen-sized bed with four posts up against the center of the wall.",
-  use_description: "You snuggle up in the sheets and close your eyes for a bit. \n\nHow long was I asleep for? I have work to do.",
-  use_action: "lambda { TIME.increment_time(60) }",
+  use_description: "You snuggle up in the sheets and close your eyes for a bit.",
+  use_action: "lambda do
+    if !GAME._check_for_item('sleepy', :location).nil?
+      TIME.set_time(6, 0, 'PM')
+    else
+      TIME.increment_time(60)
+      putsy 'How long was I asleep for? I have work to do.'
+    end
+  end",
   applicable_commands: [:use]
 )
 
@@ -68,4 +75,42 @@ BEDROOM = Location.new('bedroom','
 You are standing in a bedroom.
 ',
 items: [bedroom, bed, desk, coat_rack, hat, calendar],
+narrative_events: [
+  {
+    name: 'bank_shows_up_WIN', # for human readability
+    condition: "lambda do |current_location|
+      sleepy_mood = GAME._check_for_item('sleepy', :location)
+
+      TIME.hour >= 6 && TIME.am_pm == 'PM' && !sleepy_mood.nil?
+    end",
+    action: 'lambda do |current_location|
+      putsy "All of a sudden, you hear furious knocking at the front door.\n\n
+      
+      You open up the door and are greeted by two businessmen. One steps forward and says, \"Good day, sir. On behalf of your mortgage lender and in the interest of our investors, we have been sent here to make sure this property continues to operate as a farm and agriculture operation and will be forthcoming in its future payments to the bank. We have observed that you have a bountiful crop and wish you success in the seasons ahead. We will be in touch.\"\n\n
+
+      GAME OVER
+      "
+
+      GAME.game_over = true
+    end'
+  },
+  {
+    name: 'bank_shows_up_LOSE', # for human readability
+    condition: "lambda do |current_location|
+      sleepy_mood = GAME._check_for_item('sleepy', :location)
+
+      TIME.hour >= 6 && TIME.am_pm == 'PM' && sleepy_mood.nil?
+    end",
+    action: 'lambda do |current_location|
+      putsy "All of a sudden, you hear furious knocking at the front door.\n\n
+      
+      You open up the door and are greeted by two businessmen. One steps forward and says, \"Good day, sir. On behalf of your mortgage lender and in the interest of our investors, we have been sent here to make sure this property continues to operate as a farm and agriculture operation and will be forthcoming in its future payments to the bank. It appears that this property has abandoned its agriculture production and has misrepresented its activities to the bank. Effective immediately, the bank considers the mortage to be in default and is seizing the property.\"\n\n
+
+      GAME OVER
+      "
+
+      GAME.game_over = true
+    end'
+  }
+],
 blocked_paths: {'west' => {obstruction: 'wall'}, 'north' => {obstruction: 'wall'}, 'south' => {obstruction: 'wall'}})

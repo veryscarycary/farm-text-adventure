@@ -96,7 +96,8 @@ earth = Item.new('earth',
       if @state == :plowed_and_wet_and_powdered
         update_state(:grown)
 
-        'All of a sudden, a stem bursts through the soil and wiggles higher and higher, spreading out soft branches until it stands slightly larger than you. You see leafs pop out, one by one, and little green bulbs forming under them. In a matter of seconds, you see heavy ripe tomatoes drooping off of the plant before you.'
+        putsy 'You carefully pour the seeds onto ground and fold them into the soil.'
+        putsy 'All of a sudden, a stem bursts through the soil and wiggles higher and higher, spreading out soft branches until it stands slightly larger than you. You see leaves pop out, one by one, and little green bulbs forming under them. In a matter of seconds, you see heavy ripe tomatoes drooping off of the plant before you.'
       else
         if @state == :plowed
           update_state(:plowed_and_seeded)
@@ -117,7 +118,7 @@ earth = Item.new('earth',
         update_state(:grown)
 
         putsy 'You sprinkle the powder evenly across the soil.'
-        putsy 'All of a sudden, a stem bursts through the soil and wiggles higher and higher, spreading out soft branches until it stands slightly larger than you. You see leafs pop out, one by one, and little green bulbs forming under them. In a matter of seconds, you see heavy ripe tomatoes drooping off of the plant before you.'
+        putsy 'All of a sudden, a stem bursts through the soil and wiggles higher and higher, spreading out soft branches until it stands slightly larger than you. You see leaves pop out, one by one, and little green bulbs forming under them. In a matter of seconds, you see heavy ripe tomatoes drooping off of the plant before you.'
       elsif @state == :untouched
         update_state(:powdered)
 
@@ -147,9 +148,16 @@ earth = Item.new('earth',
   },
 )
 
+# hacky. Sleepy becomes a 'following item' to make the main character get a sleepy description everywhere
+sleepy = Item.new('sleepy',
+  "",
+  location_description: "You feel very sleepy. I wonder if there is a bed around here where I can get some rest.",
+  is_hidden: true
+)
+
 DRY_EARTH = Location.new('dry earth','
 ',
-items: [earth],
+items: [earth, sleepy],
 narrative_events: [
   {
     name: 'plow_earth', # for human readability
@@ -158,8 +166,11 @@ narrative_events: [
       !!tractor && tractor.state == :fixed
     end",
     action: 'lambda do |current_location|
-      putsy "You drive the tractor across the dry earth and watch as the plow attachment shreds and folds the soil beneath you. The soil has been properly plowed.\n\nJust as you finish plowing the soil. You hear the engine struggle and lock up abruptly. Uh oh, this may have been the machine\'s last voyage."
       tractor = self._check_for_item("tractor")
+      earth = self._check_for_item("earth")
+
+      putsy "You drive the tractor across the #{earth.state == :wet || earth.state == :wet_and_powdered ? "wet" : "dry"} earth and watch as the plow attachment shreds and folds the soil beneath you. The soil has been properly plowed.\n\nJust as you finish plowing the soil. You hear the engine struggle and lock up abruptly. Uh oh, this may have been the machine\'s last voyage."
+
       tractor.update_state(:broken)
       
       hood = self._check_for_item("hood")
@@ -168,8 +179,6 @@ narrative_events: [
       engine = self._check_for_item("engine")
       engine.update_state(:broken)
       engine.is_hidden = true
-
-      earth = self._check_for_item("earth")
 
       if earth.state == :wet
         earth.update_state(:plowed_and_wet)
@@ -181,5 +190,22 @@ narrative_events: [
 
       self.player.remove_following_item(tractor)
     end'
+  },
+  {
+    name: 'trigger_sleepy', # for human readability
+    condition: "lambda do |current_location|
+      earth = self._check_for_item('earth')
+      sleepy_mood = self._check_for_item('sleepy', nil, { include_hidden: true })
+
+      !!earth && earth.state == :grown && sleepy_mood.is_hidden == true
+    end",
+    action: 'lambda do |current_location|
+      putsy "You notice that some of the white powder got onto your hands. Suddenly, your eyelids become heavy and you feel very drowsy. \n\n What the heck is in this stuff? I wonder if there is a bed around here where I can get some rest."
+
+      sleepy_mood = self._check_for_item("sleepy", nil, { include_hidden: true })
+      sleepy_mood.is_hidden = false
+
+      self.player.add_following_item(sleepy_mood)
+    end'
   }
-],)
+])

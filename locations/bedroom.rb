@@ -7,6 +7,11 @@ bed_posts = Item.new('posts',
 'The posts are white and are rounded at the top.',
 )
 
+sheets = Item.new('sheets',
+'The sheets are clean. They must have been freshly washed.',
+aliases: ['bed sheets']
+)
+
 bed = Item.new('bed',
 'This bed looks comfy.',
   aliases: ['queen-sized bed', 'tidy, queen-sized bed'],
@@ -21,7 +26,7 @@ bed = Item.new('bed',
     end
   end",
   applicable_commands: [:use],
-  owns: [bed_posts]
+  owns: [bed_posts, sheets]
 )
 
 note = Item.new('note',
@@ -100,6 +105,8 @@ narrative_events: [
       putsy "All of a sudden, you hear furious knocking at the front door."
       
       putsy "You open up the door and are greeted by two businessmen. One steps forward and says, \"Good day, sir. On behalf of your mortgage lender and in the interest of our investors, we have been sent here to make sure this property continues to operate as a farm and agriculture operation and will be forthcoming in its future payments to the bank. We have observed that you have a bountiful crop and wish you success in the seasons ahead. We will be in touch.\""
+
+      putsy "YOU WIN!"
 
       putsy "GAME OVER"
 

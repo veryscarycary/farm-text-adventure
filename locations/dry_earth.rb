@@ -7,15 +7,18 @@
 
 tomato = Item.new('tomato', "It's a very large tomato",
   use_description: "You take a bite out of the tomato. Yum!",
+  applicable_commands: [:use, :take]
 )
 
 tomatoes = Item.new('tomatoes', "It's a bundle of huge tomatoes",
   use_description: "You take a bite out of one of the tomatoes. Yum!",
+  applicable_commands: [:use, :take]
 )
 
 plant = Item.new('plant',
 "It's a very large tomato plant",
-  aliases: ['tomato plant']
+  aliases: ['tomato plant'],
+  owns: [tomato, tomatoes]
 )
 
 earth = Item.new('earth',
@@ -170,7 +173,7 @@ sleepy = Item.new('sleepy',
 
 DRY_EARTH = Location.new('dry earth','
 ',
-items: [earth, sleepy],
+items: [earth, sleepy, plant],
 narrative_events: [
   {
     name: 'plow_earth', # for human readability

@@ -20,7 +20,7 @@ plant = Item.new('plant',
 
 earth = Item.new('earth',
   "It's earth.",
-  aliases: ['dry earth', 'land', 'soil', 'ground'],
+  aliases: ['dry earth', 'land', 'soil', 'ground', 'plot'],
   state: :untouched,
   state_descriptions: {
     untouched: {

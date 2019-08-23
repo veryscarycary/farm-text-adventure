@@ -8,6 +8,10 @@ TRACTOR_KEY = Item.new(
   is_hidden: true,
 )
 
+shelf = Item.new('shelf',
+"The shelf provides an elevated surface for organization and is easily within reach.",
+)
+
 motor_oil = Item.new(
   'oil',
   "It's the golden elixer that machines love so much.",
@@ -21,6 +25,7 @@ motor_oil = Item.new(
 shed = Item.new(
   'shed',
   "The shed is a rusty wind-damaged old thing. There might be something useful in here.",
+  aliases: ['old shed'],
   applicable_commands: [:open],
   state: :closed,
   state_descriptions: {
@@ -33,12 +38,12 @@ shed = Item.new(
       item: "The shed is closed."
     },
   },
-  owns: [motor_oil, TRACTOR_KEY],
+  owns: [motor_oil, TRACTOR_KEY, shelf],
 )
 
 engine = Item.new(
   'engine',
-  "The engine is big complicated steel block. Everything looks intact, but it looks like it hasn't been run in ages.",
+  "The engine is a big complicated steel block. Everything looks intact, but it looks like it hasn't been run in ages.",
   applicable_commands: [],
   state: :broken,
   state_descriptions: {
@@ -76,15 +81,22 @@ hood = Item.new(
   owns: [engine]
 )
 
+
+frame = Item.new(
+  'frame',
+  "It's a metal frame",
+)
+
 plow = Item.new(
   'plow',
   "It has several blades fixed to its wide frame.",
+  owns: [frame]
 )
-
 
 tractor = Item.new(
   'tractor',
   "I bet this tractor makes plowing land a breeze.",
+  aliases: ['old tractor'],
   applicable_commands: [:use],
   owns: [hood, plow],
   state: :broken,

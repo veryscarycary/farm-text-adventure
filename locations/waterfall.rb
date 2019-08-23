@@ -1,3 +1,8 @@
+waterfall = Item.new('waterfall',
+"It's a gushing waterfall. The water is very powerful here.",
+aliases: ['large waterfall']
+)
+
 water = Item.new('water',
 "It's rapidly-moving water.",
   aliases: ['rapid water'],
@@ -14,4 +19,4 @@ WATERFALL = Location.new('waterfall', '
 The sound of rushing water is envelopes your senses.
 Before you lies a large waterfall.
 ',
-items: [water])
+items: [waterfall, water])

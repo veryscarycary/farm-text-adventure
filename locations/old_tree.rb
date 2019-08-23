@@ -65,13 +65,16 @@ use_on_receiving_actions: {
 applicable_commands: [:talk_to],
 is_hidden: true)
 
+branches = Item.new('branches',
+"The branches look heavy and strong.")
+
 tree = Item.new(
 'tree',
 "It is a tall, old tree. It's bark is thick and rough with patches that can be gripped easily.",
 location_description: 'You see an old tree that looks like it has been through multiple human lifetimes.',
 aliases: ['old tree'],
 applicable_commands: [],
-owns: [cletus],
+owns: [cletus, branches],
 custom_commands: {
   climb: {
     aliases: ['climb the tree', 'climb tree'],
@@ -113,10 +116,14 @@ custom_commands: {
   },
 },)
 
+tree_limbs = Item.new('tree limbs',
+"The limbs extend far and look heavy and strong.",
+aliases: ['limbs', 'upper limbs'])
+
 TOP_OF_TREE = Location.new('top of tree','
 You are standing among the upper limbs of the old tree.
 ',
-items: [cletus, climb_down],
+items: [cletus, tree_limbs, climb_down],
 blocked_paths: {
   'west' => {obstruction: 'sheer drop'},
   'east' => {obstruction: 'sheer drop'},

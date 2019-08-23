@@ -1,3 +1,7 @@
+stream = Item.new('stream',
+"The stream is pretty powerful here.",
+)
+
 water = Item.new('water',
 "It's rapidly-moving water.",
   aliases: ['rapid water'],
@@ -14,4 +18,4 @@ water = Item.new('water',
 STREAM = Location.new('stream','
 You stumble across a moving body of water.
 ',
-items: [water])
+items: [water, stream])

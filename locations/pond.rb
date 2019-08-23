@@ -1,3 +1,7 @@
+pond = Item.new('pond',
+"The pond is serine here.",
+)
+
 WATER = Item.new('water',
 "It looks like fresh, cold water.",
   location_description: 'The water is very calm here and it makes you feel at peace with the world.',
@@ -19,5 +23,5 @@ WATER = Item.new('water',
 POND = Location.new('pond','
 You arrive at a pond.
 ',
-items: [WATER],
+items: [pond, WATER],
 blocked_paths: {'east' => {obstruction: 'white picket fence'}})

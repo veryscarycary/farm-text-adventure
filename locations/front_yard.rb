@@ -37,6 +37,7 @@ state_descriptions: {
 mailbox = Item.new(
 'mailbox',
 "It's an old-style mailbox with the red lever sticking up.",
+  aliases: ['open mailbox'],
   applicable_commands: [:open],
   state: :closed,
   state_descriptions: {
@@ -74,7 +75,8 @@ we have the authority to foreclose your property if we do
 not find evidence of active farming activities taking
 place at your address. Our investigation will take place
 on October 15, 2018 at 6PM.'",
-  applicable_commands: [:take, :read, :open],
+  applicable_commands: [:take, :read, :open, :use],
+  use_redirect: :read,
   reveal_description: "There is a letter inside the mailbox.",
   location_description: "There is a letter inside the mailbox.",
   is_hidden: true,

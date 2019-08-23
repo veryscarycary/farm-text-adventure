@@ -3,8 +3,13 @@ bedroom = Item.new('bedroom',
 location_description: 'It seems pretty cozy in here.',
 )
 
+bed_posts = Item.new('posts',
+'The posts are white and are rounded at the top.',
+)
+
 bed = Item.new('bed',
 'This bed looks comfy.',
+  aliases: ['queen-sized bed', 'tidy, queen-sized bed'],
   location_description: "There is a tidy, queen-sized bed with four posts up against the center of the wall.",
   use_description: "You snuggle up in the sheets and close your eyes for a bit.",
   use_action: "lambda do
@@ -15,7 +20,8 @@ bed = Item.new('bed',
       putsy 'How long was I asleep for? I have work to do.'
     end
   end",
-  applicable_commands: [:use]
+  applicable_commands: [:use],
+  owns: [bed_posts]
 )
 
 note = Item.new('note',
@@ -42,9 +48,16 @@ desk = Item.new('desk',
   location_description: "There is an old desk in the corner of the room."
 )
 
+coat_rack_rungs = Item.new('rungs',
+"The rungs are metal and have a golden color to them, though I doubt it's real gold.",
+aliases: ['coat rack rungs'],
+)
+
 coat_rack = Item.new('coat rack',
 "The coat rack is a thin panel that's screwed into the wall.",
-  location_description: "A coat rack is screwed into one of the walls."
+location_description: "A coat rack is screwed into one of the walls.",
+aliases: ['rack'],
+owns: [coat_rack_rungs]
 )
 
 hat = Item.new('hat',

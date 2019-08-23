@@ -37,6 +37,22 @@ describe 'Map' do
         expect(loc1.blocked_paths['east']).to eql({obstruction: 'wall'})
         expect(loc2.blocked_paths['west']).to eql({obstruction: 'something already'})
       end
+
+      it "should not automatically add the default map bound obstruction to the edge locations" do
+        loc1 = Location.new('', '', {
+          blocked_paths: {'east' => {obstruction: 'wall'}}
+        })
+        loc2 = Location.new('', '', {
+          blocked_paths: {'west' => {obstruction: 'something already'}}
+        })
+        map = Map.new([
+          [loc1, loc2],
+        ], 0, 0);
+
+        # chain link fence is the current hardcoded obstruction
+        expect(loc1.items.find {|item| item.name == 'chain link fence' && item.aliases.include?('fence')}).not_to be_nil
+        expect(loc2.items.find {|item| item.name == 'chain link fence' && item.aliases.include?('fence')}).not_to be_nil
+      end
     end
   end
 end
@@ -50,6 +66,16 @@ describe 'Location' do
         ')
 
         expect(location.description).to eql("A nasty place")
+      end
+
+      it "should not automatically add the location's blocked paths/obstructions as items in the location" do
+        location = Location.new('','A nasty place',
+          blocked_paths: {'west' => {obstruction: 'wall'}, 'north' => {obstruction: 'dog'}, 'south' => {obstruction: 'big horse'}}
+        )
+        
+        expect(location.items.find {|item| item.name == 'wall'}).not_to be_nil
+        expect(location.items.find {|item| item.name == 'dog' && item.aliases.include?('dog')}).not_to be_nil
+        expect(location.items.find {|item| item.name == 'big horse' && item.aliases.include?('horse')}).not_to be_nil
       end
     end
   end

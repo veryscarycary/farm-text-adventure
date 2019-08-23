@@ -26,6 +26,14 @@ class Map
             border_sharing_location.blocked_paths[OPPOSITE_DIRECTIONS[direction]] = location.blocked_paths[direction]
           end
         end
+
+        # automatically create/place default obstruction in edge locations
+        if i == 0 || j == 0 || i == @grid.length - 1 || j == row.length - 1
+          obstruction_alias = OUT_OF_BOUNDS_OBSTRUCTION.split(' ')[-1]
+          obstruction_item = Item.new(OUT_OF_BOUNDS_OBSTRUCTION, "It's #{OUT_OF_BOUNDS_OBSTRUCTION =~ /^[aeiouAEIOU]/ ? 'an' : 'a'} #{OUT_OF_BOUNDS_OBSTRUCTION}.", aliases: [obstruction_alias])
+          location.items << obstruction_item
+          obstruction_item.associated_location = location
+        end
       end
     end
   end
@@ -114,6 +122,10 @@ class Location
     @narrative_events = options[:narrative_events] || []
     @associated_map = nil
 
+    @blocked_paths.map { |direction, hash| hash[:obstruction] }.uniq.each do |obstruction|
+      obstruction_alias = obstruction.split(' ')[-1]
+      @items << Item.new(obstruction, "It's #{obstruction =~ /^[aeiouAEIOU]/ ? 'an' : 'a'} #{obstruction}.", aliases: [obstruction_alias])
+    end
     @items.each { |item| item.associated_location = self }
   end
 

@@ -1,3 +1,4 @@
+
 entryway = Item.new(
 'entryway',
 "It seems like a usual entryway with ample walking space and baby blue and white striped wallpaper.",

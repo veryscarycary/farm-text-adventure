@@ -1,5 +1,3 @@
-require_relative './locations/bedroom'
-
 class Player
   attr_reader :inventory, :add_to_inventory, :drop_from_inventory, :check_inventory, :following_items
 

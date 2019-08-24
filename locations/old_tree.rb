@@ -51,16 +51,33 @@ response: "OH BOY, IT'S HOTTER THAN HELL OUT HERE. I got wicked high off of some
 Funny thing is.. I'm afraid of heights. Otherwise, I'd be under some shelter somewhere. If I only had something to cool me down...",
 owns: [sombrero, MIRACLE_GROW],
 use_on_receiving_actions: {
-  water: "lambda do |doing_item|
+  water: 'lambda do |doing_item|
+    putsy "You pour the water over the man\'s head."
+
     GAME.player.drop_from_inventory(doing_item)
 
-    putsy 'OH MY LORD I FEEL SO COOL. THANK YOU!! Well, I wish I could pay you with some proper coin but all I have is this mysterious powder that I found in the barn over there.
-    It has some bright, weird colors to it so I figured it might give me a good ride to the next dimension, if you get my drift. But I feel like you would be more responsible with it. Here!'
+    putsy "OH MY LORD I FEEL SO COOL. THANK YOU!! Well, I wish I could pay you with some proper coin but all I have is this mysterious powder that I found in the barn over there. It has some bright, weird colors to it so I figured it might give me a good ride to the next dimension, if you get my drift. But I feel like you would be more responsible with it. Here!"
 
     self.remove_owned_item(MIRACLE_GROW)
     GAME.player.add_to_inventory(MIRACLE_GROW)
   end
-  "
+  ',
+  bucket: 'lambda do |doing_item|
+    if doing_item.state == :full
+      putsy "You pour the water over the man\'s head."
+
+      GAME.player.drop_from_inventory(doing_item.owns[0])
+      doing_item.update_state(:empty)
+
+      putsy "OH MY LORD I FEEL SO COOL. THANK YOU!! Well, I wish I could pay you with some proper coin but all I have is this mysterious powder that I found in the barn over there. It has some bright, weird colors to it so I figured it might give me a good ride to the next dimension, if you get my drift. But I feel like you would be more responsible with it. Here!"
+
+      self.remove_owned_item(MIRACLE_GROW)
+      GAME.player.add_to_inventory(MIRACLE_GROW)
+    else
+      putsy "You can\'t use the bucket on the man."
+    end
+  end
+  ',
 },
 applicable_commands: [:talk_to],
 is_hidden: true)

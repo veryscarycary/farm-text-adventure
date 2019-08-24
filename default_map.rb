@@ -23,10 +23,23 @@ narrative_events = [
     name: 'watch_beeps', # for human readability
     condition: "lambda do |current_location|
       watch = self._check_for_item('watch', :inventory)
-      !!watch && TIME.minute == 0 && TIME.turn_counter > 0
+      bed = self._check_for_item('bed')
+      
+      !!watch && (!bed || bed.state == :not_in_use) && TIME.minute == 0 && TIME.turn_counter > 0
     end",
     action: 'lambda do |current_location|
       putsy "BEEP BEEP! You look at your watch. It reads #{TIME.current_time}. There are only so may hours in a day."
+    end'
+  },
+  {
+    # so if in the unlikely event that someone sleeps in the bed with a watch on at the top of the hour
+    # there won't be two messages(one global and one from the bed event)
+    name: 'reset_bed_in_use', # for human readability
+    condition: "lambda do |current_location|
+      current_location.name == 'bedroom'
+    end",
+    action: 'lambda do |current_location|
+      GAME._check_for_item("bed", :location).update_state(:not_in_use)
     end'
   },
   {

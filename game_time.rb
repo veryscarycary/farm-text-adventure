@@ -26,7 +26,7 @@ class GameTime
     parse_and_set_current_time
   end
 
-  def increment_time(minutes = 1)
+  def increment_time(minutes = 20)
     @minute += minutes
 
     if @minute >= 60

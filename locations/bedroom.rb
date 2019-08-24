@@ -18,18 +18,31 @@ bed = Item.new('bed',
   location_description: "There is a tidy, queen-sized bed with four posts up against the center of the wall.",
   use_description: "You snuggle up in the sheets and close your eyes for a bit.",
   use_action: 'lambda do
+    self.update_state(:in_use)
+
     if !GAME._check_for_item("sleepy", :location).nil?
       TIME.set_time(6, 0, "PM")
     else
-      if !GAME._check_for_item("watch", :inventory).nil?
+      if !GAME._check_for_item("watch", :inventory).nil?        
         TIME.increment_time(60 - TIME.minute)
         putsy "BEEP BEEP! You rub your eyes and squint at your watch. It reads #{TIME.current_time}. Well, that was a rude awakening."
       else
         TIME.increment_time(60)
         putsy "How long was I asleep for? I have work to do."
-      end
-    end
+        end
+    end    
   end',
+  state: :in_use,
+  state_descriptions: {
+    in_use: {
+      location: 'There is a tidy, queen-sized bed with four posts up against the center of the wall.',
+      item: 'This bed looks comfy.'
+    },
+    not_in_use: {
+      location: 'There is a tidy, queen-sized bed with four posts up against the center of the wall.',
+      item: 'This bed looks comfy.'
+    },
+  },
   applicable_commands: [:use],
   owns: [bed_posts, sheets]
 )
@@ -117,6 +130,6 @@ narrative_events: [
 
       GAME.game_over = true
     end'
-  }
+  },
 ],
 blocked_paths: {'west' => {obstruction: 'wall'}, 'north' => {obstruction: 'wall'}, 'south' => {obstruction: 'wall'}})

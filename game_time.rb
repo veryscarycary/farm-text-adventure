@@ -1,6 +1,6 @@
 
 class GameTime
-  attr_reader :current_time, :hour, :am_pm
+  attr_reader :current_time, :hour, :minute, :am_pm, :turn_counter
 
   def initialize
     @hour = 6
@@ -13,7 +13,7 @@ class GameTime
   def increment_turn_counter
     @turn_counter += 1
 
-    if @turn_counter % 2 == 0
+    if @turn_counter % 1 == 0
       increment_time
     end
   end

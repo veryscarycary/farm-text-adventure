@@ -2,6 +2,7 @@ require_relative 'game_time'
 require_relative 'save'
 require_relative 'utils'
 require_relative 'kernal'
+require_relative 'narrative_events'
 TIME = GameTime.new
 # some items need access to global time, so it needs to be loaded first
 require_relative 'default_map'
@@ -70,6 +71,7 @@ class Game
   attr_writer :game_over
   include Save
   include Utils
+  include NarrativeEvents
 
   def initialize(player, map = DEFAULT_MAP)
     @player = player
@@ -94,20 +96,9 @@ class Game
       response = gets.chomp
       parse_user_response(response)
 
-      # maybe this isn't the best way to handle this.
-      check_location_narrative_events
+      check_narrative_events
 
       increment_turn_counter
-    end
-  end
-
-  def check_location_narrative_events
-    @map.current_location.narrative_events.each do |event|
-    condition = (eval event[:condition]).call(@map.current_location)
-      if condition
-        lamb = eval event[:action]
-        lamb.call(@map.current_location)
-      end
     end
   end
 
@@ -134,10 +125,6 @@ class Game
     self.load(save_name)
 
     look_around
-  end
-
-  def check_narrative_event
-
   end
 
   def increment_turn_counter

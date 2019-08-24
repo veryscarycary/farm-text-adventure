@@ -8,7 +8,11 @@ class Player
   end
 
   def check_inventory
-    item_names_with_articles = @inventory.map {|item| item.name[0].match(/[aeiouAEIOU]/) ? "an #{item.name}" : "a #{item.name}"}
+    item_names_with_articles = @inventory.map do |item|
+      article = item.get_indefinite_article
+      article.empty? ? item.name : "#{article} #{item.name}"
+    end
+
     item_names_with_articles[-1].prepend('and ') if item_names_with_articles.length > 1
 
     items_string = item_names_with_articles.join(', ')

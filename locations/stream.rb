@@ -1,5 +1,10 @@
 stream = Item.new('stream',
 "The stream is pretty powerful here.",
+  use_on_receiving_actions: {
+    bucket: "lambda do |doing_item|
+      putsy 'The water is moving too rapidly here to catch the water in the bucket!'
+    end"
+  },
 )
 
 water = Item.new('water',

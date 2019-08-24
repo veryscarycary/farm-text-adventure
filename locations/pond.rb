@@ -1,5 +1,20 @@
 pond = Item.new('pond',
 "The pond is serine here.",
+  use_on_receiving_actions: {
+    bucket: "lambda do |doing_item|
+      if doing_item.state == :full
+        putsy 'The bucket is already full!'
+      else
+        doing_item.state = :full
+        new_water = WATER.clone
+
+        doing_item.add_owned_item(new_water)
+        GAME.player.add_to_inventory(new_water)
+        
+        putsy 'You fill the bucket with water.'
+      end
+    end"
+  },
 )
 
 WATER = Item.new('water',

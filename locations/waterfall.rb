@@ -1,6 +1,11 @@
 waterfall = Item.new('waterfall',
 "It's a gushing waterfall. The water is very powerful here.",
-aliases: ['large waterfall']
+aliases: ['large waterfall'],
+  use_on_receiving_actions: {
+    bucket: "lambda do |doing_item|
+      putsy 'The water is moving too rapidly here to catch the water in the bucket!'
+    end"
+  },
 )
 
 water = Item.new('water',

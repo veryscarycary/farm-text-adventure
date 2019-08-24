@@ -34,6 +34,15 @@ class Item
     @requires_time = options[:requires_time] || false
     @is_hidden = options[:is_hidden] || false
     @will_reveal_owned_items_when_looked_at = options[:will_reveal_owned_items_when_looked_at] || false
+    @does_start_with_vowel_sound = options[:does_start_with_vowel_sound] || false
+    @is_plural = options[:is_plural] || false
+  end
+
+  def get_indefinite_article
+    return '' if @name == 'water'
+    return 'some' if @is_plural
+
+    @does_start_with_vowel_sound || @name =~ /^[aeiouAEIOU]/ ? 'an' : 'a'
   end
 
   def remove_owned_item(item)
@@ -74,7 +83,8 @@ class Item
   end
 
   def update_location_description_due_to_drop
-    @location_description = @belongs_to.nil? ? "A #{@name} is on the floor." : "A #{@name} is with the #{@belongs_to.name}."
+    indefinite_article = get_indefinite_article
+    @location_description = @belongs_to.nil? ? "#{indefinite_article.empty? ? @name.capitalize : "#{indefinite_article.capitalize} #{@name}"} is on the floor." : "#{indefinite_article.empty? ? @name.capitalize : "#{indefinite_article.capitalize} #{@name}"} is with the #{@belongs_to.name}."
   end
 
   # recursive

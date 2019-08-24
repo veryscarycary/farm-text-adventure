@@ -213,14 +213,14 @@ class Location
     def get_item_location_descriptions(items)
       item_descriptions = items.map do |item|
         if !item.is_hidden
-          item.location_description
+          item.location_description.gsub(/\s+/, ' ')
         end
       end
     end
 
     items_with_descriptions = get_items_with_location_descriptions(@items)
 
-    putsy "#{@description} #{get_item_location_descriptions(items_with_descriptions).join(' ')} #{get_custom_command_descriptions(items_with_descriptions).join(' ')}"
+    putsy "#{@description.empty? ? '' : "#{@description} "}#{get_item_location_descriptions(items_with_descriptions).join(' ')} #{get_custom_command_descriptions(items_with_descriptions).join(' ')}"
   end
   #
   # def reconstruct_description

@@ -68,7 +68,7 @@ COMMANDS = {
 };
 
 class Game
-  attr_accessor :player, :map, :time
+  attr_accessor :player, :map, :time, :narrative_events, :hints
   attr_writer :game_over
   include Save
   include Utils
@@ -136,6 +136,10 @@ class Game
 
   def check_hints
     @hints.check_hints
+  end
+
+  def toggle_hints(on_or_off)
+    @hints.toggle_hints(on_or_off)
   end
 
   def increment_turn_counter
@@ -223,6 +227,8 @@ class Game
         take_item(additional)
       when :drop
         drop_item(additional)
+      when :hints
+        toggle_hints(additional)
       else
         putsy "Invalid command. Please use the 'help' command to view your options."
     end

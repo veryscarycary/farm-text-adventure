@@ -1,13 +1,10 @@
-# plot idea: start in field.
-# Find house. Find note. Note says that the bank is coming at 6PM to close the property
-# if it finds evidence from their investigation that a farm is not operating here.
-# It is currently 6AM(find a watch somewhere)
-# Need to collect water, seeds, till the soil.
-
 require_relative 'map'
 require_relative 'item'
 require_relative 'person'
 require_relative 'player'
+require_relative 'game_time'
+require_relative 'narrative_events'
+require_relative 'hints'
 
 ###
 # require locations
@@ -22,13 +19,16 @@ narrative_events = [
   {
     name: 'watch_beeps', # for human readability
     condition: "lambda do |current_location|
-      watch = self._check_for_item('watch', :inventory)
-      bed = self._check_for_item('bed')
+      watch = GAME._check_for_item('watch', :inventory)
+      bed = GAME._check_for_item('bed')
       
       !!watch && (!bed || bed.state == :not_in_use) && TIME.minute == 0 && TIME.turn_counter > 0
     end",
     action: 'lambda do |current_location|
       putsy "BEEP BEEP! You look at your watch. It reads #{TIME.current_time}. There are only so may hours in a day."
+
+      # to avoid beeping again if it is still on the hour next turn
+      TIME.set_time(TIME.hour, TIME.minute + 1, TIME.am_pm)
     end'
   },
   {
@@ -63,9 +63,50 @@ narrative_events = [
   },
 ]
 
+NARRATIVE_EVENTS = NarrativeEvents.new(narrative_events)
+
+hints = [
+  {
+    name: 'navigation_hint_1', # for human readability
+    condition: "lambda do |current_location|
+      TIME.turn_counter == 10
+    end",
+    action: 'lambda do |current_location|
+      putspi "Pro tip: Navigate quickly by just typing the directional n, s, e, or w buttons."
+    end'
+  },
+  {
+    name: 'looking_at_items_hint_1', # for human readability
+    condition: "lambda do |current_location|      
+      TIME.turn_counter == 30
+    end",
+    action: 'lambda do |current_location|
+      putspi "Looking at items can reveal important information about them. Sometimes, it can even reveal other hidden items."
+    end'
+  },
+  {
+    name: 'looking_around_hint_1', # for human readability
+    condition: "lambda do |current_location|
+      front_yard = GAME.map.grid[2][1]
+      gate = GAME._check_for_item('gate', :location, { location: front_yard })
+      
+      !!gate && gate.state == :combolocked && TIME.turn_counter == 50
+    end",
+    action: 'lambda do |current_location|
+      putspi "When you look around, it can reveal important information about your surroundings."
+    end'
+  },
+]
+
+HINTS = Hints.new(hints)
+
+TIME = GameTime.new
+
 DEFAULT_MAP = Map.new([
   [WATERFALL, BARN, OLD_TREE],
   [STREAM, FIELD, DRY_EARTH],
   [POND, FRONT_YARD, TRACTOR],
   [BEDROOM, ENTRYWAY, LIVING_ROOM]
-], 1, 2, narrative_events);
+], 1, 2);
+
+

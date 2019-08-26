@@ -1,10 +1,7 @@
-require_relative 'game_time'
 require_relative 'save'
 require_relative 'utils'
 require_relative 'kernal'
-require_relative 'narrative_events'
-TIME = GameTime.new
-# some items need access to global time, so it needs to be loaded first
+
 require_relative 'default_map'
 
 COMMANDS = {
@@ -63,7 +60,11 @@ COMMANDS = {
   load: {
     args: ['game_save'],
     definition: 'Loads your saved game'
-  }
+  },
+  hints: {
+    args: ["'on'/'off'"],
+    definition: 'Enable or disable helpful hints'
+  },
 };
 
 class Game
@@ -71,12 +72,13 @@ class Game
   attr_writer :game_over
   include Save
   include Utils
-  include NarrativeEvents
 
   def initialize(player, map = DEFAULT_MAP)
     @player = player
     @map = map
     @time = TIME
+    @hints = HINTS
+    @narrative_events = NARRATIVE_EVENTS
     @game_over = false
   end
 
@@ -97,6 +99,7 @@ class Game
       parse_user_response(response)
 
       check_narrative_events
+      check_hints
 
       increment_turn_counter
     end
@@ -125,6 +128,14 @@ class Game
     self.load(save_name)
 
     look_around
+  end
+
+  def check_narrative_events
+    @narrative_events.check_narrative_events
+  end
+
+  def check_hints
+    @hints.check_hints
   end
 
   def increment_turn_counter
@@ -254,7 +265,9 @@ class Game
 
   def _check_for_item(item_name, target = nil, options = {})
     def _check_in_location(item_name, options)
-      @map.current_location.items.reduce(nil) do |acc, item|
+      location = options[:location] || @map.current_location
+  
+      location.items.reduce(nil) do |acc, item|
         return acc if !acc.nil?
         item.find_nested_item(item_name, options)
       end

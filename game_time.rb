@@ -13,7 +13,7 @@ class GameTime
   def increment_turn_counter
     @turn_counter += 1
 
-    if @turn_counter % 1 == 0
+    if @turn_counter % 2 == 0
       increment_time
     end
   end
@@ -26,7 +26,7 @@ class GameTime
     parse_and_set_current_time
   end
 
-  def increment_time(minutes = 20)
+  def increment_time(minutes = 1)
     @minute += minutes
 
     if @minute >= 60

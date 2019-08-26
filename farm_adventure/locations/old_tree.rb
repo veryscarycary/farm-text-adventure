@@ -6,15 +6,7 @@ MIRACLE_GROW = Item.new(
 'powder',
 "It is a thick powder with specks of blue and yellow. It looks rather unnatural.",
 aliases: ['miracle grow'],
-applicable_commands: [:use_on],
-use_on_receiving_actions: {
-  soil: "lambda do |doing_item|
-    GAME.player.drop_from_inventory(doing_item)
-
-    putsy 'MAKE PLANTS GROW OR SOMETHING!!'
-  end
-  "
-}
+applicable_commands: [:use_on]
 )
 
 cletus = Person.new('man',

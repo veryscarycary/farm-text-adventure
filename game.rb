@@ -1,8 +1,15 @@
 require_relative 'save'
 require_relative 'utils'
 require_relative 'kernal'
+require_relative 'map'
+require_relative 'item'
+require_relative 'person'
+require_relative 'player'
+require_relative 'game_time'
+require_relative 'narrative_events'
+require_relative 'hints'
 
-require_relative 'default_map'
+require_relative 'farm_adventure/index'
 
 COMMANDS = {
   help: {

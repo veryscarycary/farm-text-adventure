@@ -178,21 +178,21 @@ narrative_events: [
   {
     name: 'plow_earth', # for human readability
     condition: "lambda do |current_location|
-      tractor = self._check_for_item('tractor')
+      tractor = GAME._check_for_item('tractor')
       !!tractor && tractor.state == :fixed
     end",
     action: 'lambda do |current_location|
-      tractor = self._check_for_item("tractor")
-      earth = self._check_for_item("earth")
+      tractor = GAME._check_for_item("tractor")
+      earth = GAME._check_for_item("earth")
 
       putsy "You drive the tractor across the #{earth.state == :wet || earth.state == :wet_and_powdered ? "wet" : "dry"} earth and watch as the plow attachment shreds and folds the soil beneath you. The soil has been properly plowed.\n\nJust as you finish plowing the soil. You hear the engine struggle and lock up abruptly. Uh oh, this may have been the machine\'s last voyage."
 
       tractor.update_state(:broken)
       
-      hood = self._check_for_item("hood")
+      hood = GAME._check_for_item("hood")
       hood.update_state(:closed)
 
-      engine = self._check_for_item("engine")
+      engine = GAME._check_for_item("engine")
       engine.update_state(:broken)
       engine.is_hidden = true
 
@@ -204,24 +204,24 @@ narrative_events: [
         earth.update_state(:plowed)
       end
 
-      self.player.remove_following_item(tractor)
+      GAME.player.remove_following_item(tractor)
     end'
   },
   {
     name: 'trigger_sleepy', # for human readability
     condition: "lambda do |current_location|
-      earth = self._check_for_item('earth')
-      sleepy_mood = self._check_for_item('sleepy', nil, { include_hidden: true })
+      earth = GAME._check_for_item('earth')
+      sleepy_mood = GAME._check_for_item('sleepy', nil, { include_hidden: true })
 
       !!earth && earth.state == :grown && sleepy_mood.is_hidden == true
     end",
     action: 'lambda do |current_location|
       putsy "You notice that some of the white powder got onto your hands. Suddenly, your eyelids become heavy and you feel very drowsy. \n\n What the heck is in this stuff? I wonder if there is a bed around here where I can get some rest."
 
-      sleepy_mood = self._check_for_item("sleepy", nil, { include_hidden: true })
+      sleepy_mood = GAME._check_for_item("sleepy", nil, { include_hidden: true })
       sleepy_mood.is_hidden = false
 
-      self.player.add_following_item(sleepy_mood)
+      GAME.player.add_following_item(sleepy_mood)
     end'
   }
 ])

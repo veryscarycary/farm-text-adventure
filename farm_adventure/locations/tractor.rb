@@ -109,18 +109,26 @@ tractor = Item.new(
   use_on_receiving_actions: {
     key: "lambda do |doing_item|
       if self.state == :broken
-        putsy 'You put the key in the ignition and turn the key. The engine rumbles but quickly dies.';
+        putsy 'You put the key in the ignition and turn the key. The engine rumbles but quickly dies.'
       else
-        putsy 'You put the key in the ignition and turn the key. The engine consistently rumbles. Where would you like to go now?'; GAME.player.add_following_item(self);
+        putsy 'You put the key in the ignition and turn the key. The engine consistently rumbles. Where would you like to go now?'
+
+        if !GAME.player.following_items.include?(self)
+          GAME.player.add_following_item(self)
+        end
       end
     end
     "
   },
   use_action: "lambda do
       if self.state == :broken
-        putsy 'You put the key in the ignition and turn the key. The engine rumbles but quickly dies.';
+        putsy 'You put the key in the ignition and turn the key. The engine rumbles but quickly dies.'
       else
-        putsy 'You put the key in the ignition and turn the key. The engine consistently rumbles. Where would you like to go now?'; GAME.player.add_following_item(self);
+        putsy 'You put the key in the ignition and turn the key. The engine consistently rumbles. Where would you like to go now?'
+
+        if !GAME.player.following_items.include?(self)
+          GAME.player.add_following_item(self)
+        end
       end
     end
   ",

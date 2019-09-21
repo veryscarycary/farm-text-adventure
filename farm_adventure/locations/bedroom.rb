@@ -33,14 +33,16 @@ bed = Item.new('bed',
     end    
   end',
   state: :in_use,
+  # this state is a hack so that we could tell if the bed is in use when the watch beeps,
+  # so we don't get duplicate beeps.
   state_descriptions: {
     in_use: {
       location: 'There is a tidy, queen-sized bed with four posts up against the center of the wall.',
-      item: 'This bed looks comfy.'
+      item: ''
     },
     not_in_use: {
       location: 'There is a tidy, queen-sized bed with four posts up against the center of the wall.',
-      item: 'This bed looks comfy.'
+      item: ''
     },
   },
   applicable_commands: [:use],

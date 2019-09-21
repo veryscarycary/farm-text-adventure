@@ -33,23 +33,9 @@ state_descriptions: {
   }
 })
 
-
-mailbox = Item.new(
-'mailbox',
-"It's an old-style mailbox with the red lever sticking up.",
-  aliases: ['open mailbox'],
-  applicable_commands: [:open],
-  state: :closed,
-  state_descriptions: {
-    open: {
-      location: 'You are standing near an open mailbox.',
-      item: 'The mailbox is open.'
-    },
-    closed: {
-      location: 'You are standing near a mailbox.',
-      item: 'The mailbox is closed.'
-    },
-  }
+lever = Item.new('lever',
+"It's a red lever. It kind of looks like a little flag. It's an indicator that mail has been delivered to the mailbox.",
+  aliases: ['red lever'],
 )
 
 letter = Item.new(
@@ -82,10 +68,24 @@ on October 15, 2018 at 6PM.'",
   is_hidden: true,
 )
 
-letter.belongs_to = mailbox
-mailbox.owns = [letter]
-
-
+mailbox = Item.new(
+'mailbox',
+"It's an old-style mailbox with the red lever sticking up.",
+  aliases: ['open mailbox'],
+  applicable_commands: [:open],
+  state: :closed,
+  state_descriptions: {
+    open: {
+      location: 'You are standing near an open mailbox.',
+      item: 'The mailbox is open.'
+    },
+    closed: {
+      location: 'You are standing near a mailbox.',
+      item: 'The mailbox is closed.'
+    },
+  },
+  owns: [letter, lever],
+)
 
 FRONT_YARD = Location.new('front yard','
 There is a quaint, southern-style house in front of you toward the south.

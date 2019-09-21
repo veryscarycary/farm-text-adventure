@@ -55,7 +55,11 @@ note = Item.new('note',
   is_hidden: true,
 )
 
-dog = Item.new('dog', "It's a golden, long-haired dog -- a golden retreiver or maybe a lab mix.")
+tree_image = Item.new('willow tree',
+"That dog must be loving that willow tree shade.",
+aliases: ['willow tree'])
+
+dog_image = Item.new('dog', "It's a golden, long-haired dog -- a golden retreiver or maybe a lab mix.")
 
 picture = Item.new('picture',
 "It's a picture of a shaggy dog sitting contently beneath an old willow tree.",
@@ -64,7 +68,7 @@ picture = Item.new('picture',
   location_description: "There is a picture of a dog sitting on the desk.",
   applicable_commands: [:take],
   will_reveal_owned_items_when_looked_at: true,
-  owns: [dog]
+  owns: [dog_image, tree_image]
 )
 
 desk = Item.new('desk',

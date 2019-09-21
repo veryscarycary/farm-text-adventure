@@ -66,10 +66,11 @@ tv = Item.new(
   }
 )
 
+corner = Item.new('corner', "It's just the corner of the room. Nothing special here.")
 
 
 LIVING_ROOM = Location.new('living room','
   You step into a finely-decorated living room.
 ',
-items: [room, clock, armchair, tv],
+items: [room, clock, armchair, tv, corner],
 blocked_paths: {'east' => {obstruction: 'wall'}, 'south' => {obstruction: 'wall'}, 'north' => {obstruction: 'wall'}})

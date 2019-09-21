@@ -100,7 +100,7 @@ corn_rows_image = Item.new('corn rows',
 aliases: ['rows'])
 
 image = Item.new('image',
-"It's an image of a tractor and corn rows. Very farm-themed."
+"It's an image of a tractor and corn rows. Very farm-themed.",
 owns: [tractor_image, corn_rows_image]
 )
 

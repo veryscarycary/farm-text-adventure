@@ -33,7 +33,7 @@ bed = Item.new('bed',
     end    
   end',
   state: :in_use,
-  # this state is a hack so that we could tell if the bed is in use when the watch beeps,
+  # this state is a hack so that we can tell if the bed is in use when the watch beeps,
   # so we don't get duplicate beeps.
   state_descriptions: {
     in_use: {
@@ -57,7 +57,7 @@ note = Item.new('note',
   is_hidden: true,
 )
 
-tree_image = Item.new('willow tree',
+tree_image = Item.new('tree',
 "That dog must be loving that willow tree shade.",
 aliases: ['willow tree'])
 

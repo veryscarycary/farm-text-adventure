@@ -90,12 +90,17 @@ hat = Item.new('hat',
   applicable_commands: [:take, :use]
 )
 
+image = Item.new('image',
+"It's an image of a tractor and cornrows. Very farm-themed."
+)
+
 calendar = Item.new('calendar',
-"It's a glossy paper calendar with a large picture of a tractor and cornrows on the top half. Today's date is October 15, 2018.",
+"It's a glossy paper calendar with a large image of a tractor and cornrows on the top half. Today's date is October 15, 2018.",
   location_description: "A calendar is hanging up against the wall.",
   read_description: "Today's date is October 15, 2018.",
   use_redirect: :read,
-  applicable_commands: [:take, :read, :use]
+  applicable_commands: [:take, :read, :use],
+  owns: [image]
 )
 
 # FRONT_GATE_KEY = Item.new('key',

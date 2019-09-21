@@ -93,12 +93,19 @@ hat = Item.new('hat',
   applicable_commands: [:take, :use]
 )
 
+tractor_image = Item.new('tractor', "It's a typical brand-new tractor, like the ones you see in the ads. Picture-esque.")
+
+corn_rows_image = Item.new('corn rows',
+"The corn rows look healthy and vast. What a great image.",
+aliases: ['rows'])
+
 image = Item.new('image',
-"It's an image of a tractor and cornrows. Very farm-themed."
+"It's an image of a tractor and corn rows. Very farm-themed."
+owns: [tractor_image, corn_rows_image]
 )
 
 calendar = Item.new('calendar',
-"It's a glossy paper calendar with a large image of a tractor and cornrows on the top half. Today's date is October 15, 2018.",
+"It's a glossy paper calendar with a large image of a tractor and corn rows on the top half. Today's date is October 15, 2018.",
   location_description: "A calendar is hanging up against the wall.",
   read_description: "Today's date is October 15, 2018.",
   use_redirect: :read,

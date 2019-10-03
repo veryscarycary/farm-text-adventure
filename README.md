@@ -18,17 +18,17 @@ Mac
     or
 3.  if colorize is not the only dependency, type ```gem install bundler --user-install```. type `bundle install`.
 4.  if the shell you are using doesn't have a black background, you should go to preferences to set it to black.
-5.  ruby game.rb
+5.  ```ruby game.rb```
 
 Windows
 
 1.  Download .zip
 2.  Install Ruby (https://stackify.com/install-ruby-on-windows-everything-you-need-to-get-going/)
-3.  if rbenv(or similar) are not installed, type `gem install colorize --user-install`
+3.  if rbenv(or similar) are not installed, type ```gem install colorize --user-install```
     or
-4.  if colorize is not the only dependency, type `gem install bundler --user-install`. type `bundle install`.
+4.  if colorize is not the only dependency, type ```gem install bundler --user-install```. type ```bundle install```.
 5.  if the shell you are using doesn't have a black background, you should go to preferences to set it to black.
-6.  ruby game.rb
+6.  ```ruby game.rb```
 
 # Development
 

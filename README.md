@@ -11,24 +11,28 @@ completed all of the correct tasks, the game will come to an end, or you'll even
 
 TODO: Confirm that these installation instructions work on a fresh build
 
+- Gray code below should be run within the terminal
+
 Mac
 
 1.  ```git clone https://github.com/veryscarycary/farm-text-adventure.git```
-2.  if rbenv(or similar) are not installed, type ```gem install colorize --user-install```
+2.  ```cd farm-text-adventure```
+3.  if rbenv(or similar) are not installed, type ```gem install colorize --user-install```
     or
-3.  if colorize is not the only dependency, type ```gem install bundler --user-install```. type `bundle install`.
-4.  if the shell you are using doesn't have a black background, you should go to preferences to set it to black.
-5.  ```ruby game.rb```
+4.  if colorize is not the only dependency, type ```gem install bundler --user-install```. type `bundle install`.
+5.  if the shell you are using doesn't have a black background, you should go to preferences to set it to black.
+6.  ```ruby game.rb```
 
 Windows
 
 1.  Download .zip
 2.  Install Ruby (https://stackify.com/install-ruby-on-windows-everything-you-need-to-get-going/)
-3.  if rbenv(or similar) are not installed, type ```gem install colorize --user-install```
+3.  Unzip the zip file and go to the farm-text-adventure folder in the command-line
+4.  if rbenv(or similar) are not installed, type ```gem install colorize --user-install```
     or
-4.  if colorize is not the only dependency, type ```gem install bundler --user-install```. type ```bundle install```.
-5.  if the shell you are using doesn't have a black background, you should go to preferences to set it to black.
-6.  ```ruby game.rb```
+5.  if colorize is not the only dependency, type ```gem install bundler --user-install```. type ```bundle install```.
+6.  if the shell you are using doesn't have a black background, you should go to preferences to set it to black.
+7.  ```ruby game.rb```
 
 # Development
 

@@ -11,7 +11,7 @@ completed all of the correct tasks, the game will come to an end, or you'll even
 
 TODO: Confirm that these installation instructions work on a fresh build
 
-- Gray code below should be run within the terminal
+- Gray-blocked code below should be run within the terminal
 
 Mac
 

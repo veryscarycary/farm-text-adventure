@@ -13,10 +13,10 @@ TODO: Confirm that these installation instructions work on a fresh build
 
 Mac
 
-1.  git clone repo
-2.  if rbenv(or similar) are not installed, type `gem install colorize --user-install`
+1.  ```git clone https://github.com/veryscarycary/farm-text-adventure.git```
+2.  if rbenv(or similar) are not installed, type ```gem install colorize --user-install```
     or
-3.  if colorize is not the only dependency, type `gem install bundler --user-install`. type `bundle install`.
+3.  if colorize is not the only dependency, type ```gem install bundler --user-install```. type `bundle install`.
 4.  if the shell you are using doesn't have a black background, you should go to preferences to set it to black.
 5.  ruby game.rb
 

@@ -263,6 +263,18 @@ class Game
       @map.current_location.remove_item(item) if _check_for_item(item.name, :location)
     end
 
+    # to fix boundaries bug
+    case direction
+      when 'n'
+        direction = 'north'
+      when 's'
+        direction = 'south'
+      when 'e'
+        direction = 'east'
+      when 'w'
+        direction = 'west'
+    end
+
     @map.go(direction)
 
     @player.following_items.each { |item| @map.current_location.add_item(item) }

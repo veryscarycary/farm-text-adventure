@@ -66,11 +66,10 @@ dog_image = Item.new('dog', "It's a golden, long-haired dog -- a golden retreive
 picture = Item.new('picture',
 "It's a picture of a shaggy dog sitting contently beneath an old willow tree.",
   aliases: ['frame', 'picture frame'],
-  owns: [note],
   location_description: "There is a picture of a dog sitting on the desk.",
   applicable_commands: [:take],
   will_reveal_owned_items_when_looked_at: true,
-  owns: [dog_image, tree_image]
+  owns: [dog_image, tree_image, note]
 )
 
 desk = Item.new('desk',

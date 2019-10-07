@@ -184,6 +184,11 @@ class Game
       return
     end
 
+    if COMMANDS.include?(command) && !COMMANDS[command][:args].empty? && additional.strip.length == 0
+      putsy "Try using the '#{command}' command with a target. e.g. use tv, read letter, etc."
+      return
+    end
+
     return if invoke_custom_location_command(command, additional)
 
     case command
@@ -498,7 +503,7 @@ class Game
     if item && defined?(item.read_description) && !item.read_description.nil?
       putsy item.read_description
     elsif item
-      putsy "You can't read the #{item_name}"
+      putsy "You can't read the #{item_name}."
     else
       putsy "There is no #{item_name} to read."
     end

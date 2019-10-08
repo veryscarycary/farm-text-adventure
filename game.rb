@@ -185,8 +185,10 @@ class Game
     end
 
     if COMMANDS.include?(command) && !COMMANDS[command][:args].empty? && additional.strip.length == 0
-      putsy "Try using the '#{command}' command with a target. e.g. use tv, read letter, etc."
-      return
+      unless command == :save || command == :load
+        putsy "Try using the '#{command}' command with a target. e.g. use tv, read letter, etc."
+        return
+      end
     end
 
     return if invoke_custom_location_command(command, additional)

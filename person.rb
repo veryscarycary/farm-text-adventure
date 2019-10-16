@@ -2,11 +2,11 @@ class Person < Item
   def initialize(name, description = '', options = {})
     super
 
-    @response = options[:response] || ''
+    @responses = options[:responses] || {}
     @can_take = false
   end
 
   def speak
-    putsy @response
+    putsy @responses[@state]
   end
 end

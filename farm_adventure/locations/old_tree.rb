@@ -18,7 +18,7 @@ reveal_description: 'There is a strange man perched up on one of the branches.',
 state: :far,
 command_restrictions: {
   talk_to: {
-    restricted_states: [:far],
+    restricted_states: [:far, :far_and_watered],
   },
 },
 state_descriptions: {
@@ -39,8 +39,11 @@ state_descriptions: {
     item: ''
   }
 },
-response: "OH BOY, IT'S HOTTER THAN HELL OUT HERE. I got wicked high off of some peyote and when I came to my senses, I was all the way up in this here tree.
-Funny thing is.. I'm afraid of heights. Otherwise, I'd be under some shelter somewhere. If I only had something to cool me down...",
+responses: {
+  close: "OH BOY, IT'S HOTTER THAN HELL OUT HERE. I got wicked high off of some peyote and when I came to my senses, I was all the way up in this here tree.
+  Funny thing is.. I'm afraid of heights. Otherwise, I'd be under some shelter somewhere. If I only had something to cool me down...",
+  close_and_watered: "Phew. Thanks for that refresher, partner. I think I'll take it easy up here for a while."
+},
 owns: [sombrero, MIRACLE_GROW],
 use_on_receiving_actions: {
   water: 'lambda do |doing_item|
@@ -50,6 +53,8 @@ use_on_receiving_actions: {
 
     putsy "OH MY LORD I FEEL SO COOL. THANK YOU!! Well, I wish I could pay you with some proper coin but all I have is this mysterious powder that I found in the barn over there. It has some bright, weird colors to it so I figured it might give me a good ride to the next dimension, if you get my drift. But I feel like you would be more responsible with it. Here!"
 
+    self.update_state(:close_and_watered)
+    
     self.remove_owned_item(MIRACLE_GROW)
     GAME.player.add_to_inventory(MIRACLE_GROW)
   end
@@ -63,6 +68,8 @@ use_on_receiving_actions: {
 
       putsy "OH MY LORD I FEEL SO COOL. THANK YOU!! Well, I wish I could pay you with some proper coin but all I have is this mysterious powder that I found in the barn over there. It has some bright, weird colors to it so I figured it might give me a good ride to the next dimension, if you get my drift. But I feel like you would be more responsible with it. Here!"
 
+      self.update_state(:close_and_watered)
+      
       self.remove_owned_item(MIRACLE_GROW)
       GAME.player.add_to_inventory(MIRACLE_GROW)
     else
@@ -86,7 +93,7 @@ applicable_commands: [],
 owns: [cletus, branches],
 custom_commands: {
   climb: {
-    aliases: ['climb the tree', 'climb tree'],
+    aliases: ['climb', 'climb the tree', 'climb tree'],
     is_hidden: true,
     location_description: 'CLIMB the tree?',
     action: "lambda do
@@ -95,7 +102,7 @@ custom_commands: {
       
       if cletus.state == :far_and_watered
         cletus.update_state(:close_and_watered)
-      else
+      elsif cletus.state == :far
         cletus.update_state(:close)
       end
 
@@ -117,7 +124,12 @@ custom_commands: {
     location_description: '',
     action: "lambda do
       cletus = GAME._check_for_item('cletus')
-      cletus.update_state(:far)
+
+      if cletus.state == :close_and_watered
+        cletus.update_state(:far_and_watered)
+      elsif cletus.state == :close
+        cletus.update_state(:far)
+      end
 
       GAME.map.current_location = OLD_TREE
       GAME.map.print_current_location_description

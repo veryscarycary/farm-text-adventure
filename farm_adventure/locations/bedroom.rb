@@ -69,7 +69,9 @@ picture = Item.new('picture',
   location_description: "There is a picture of a dog sitting on the desk.",
   applicable_commands: [:take],
   will_reveal_owned_items_when_looked_at: true,
-  owns: [dog_image, tree_image, note]
+  # currently, a bug where the dog/tree etc will go into the inventory when taken
+  # owns: [dog_image, tree_image, note]
+  owns: [note]
 )
 
 desk = Item.new('desk',
@@ -106,7 +108,9 @@ aliases: ['rows'])
 
 image = Item.new('image',
 "It's an image of a tractor and corn rows. Very farm-themed.",
-owns: [tractor_image, corn_rows_image]
+# currently, a bug where the corn rows, tractor etc will go into the inventory when taken
+# owns: [tractor_image, corn_rows_image]
+owns: []
 )
 
 calendar = Item.new('calendar',
@@ -115,7 +119,8 @@ calendar = Item.new('calendar',
   read_description: "Today's date is October 15, 2018.",
   use_redirect: :read,
   applicable_commands: [:take, :read, :use],
-  owns: [image]
+  # owns: [image]
+  owns: []
 )
 
 # FRONT_GATE_KEY = Item.new('key',

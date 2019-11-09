@@ -34,7 +34,9 @@ seeds = Item.new('seeds',
   location_description: "There is a small paper pouch lying up against one of the stalls.",
   reveal_description: "There is a small paper pouch lying up against one of the stalls.",
   applicable_commands: [:take, :drop, :use_on],
-  owns: [label],
+  # bug where label will be put into inventory individually
+  # owns: [label],
+  owns: [],
   is_hidden: true,
 )
 

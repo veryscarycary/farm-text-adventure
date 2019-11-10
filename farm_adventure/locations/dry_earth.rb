@@ -77,7 +77,13 @@ earth = Item.new('earth',
   },
   use_on_receiving_actions: {
     water: "lambda do |doing_item|
-      if @state == :untouched
+      
+      if @state == :plowed_and_seeded_and_powdered
+        update_state(:grown)
+
+        putsy 'You poured the water onto the ground. The dry, plowed earth soaks up the water and gives the soil a soppy, dark look. The powder dissolves into the earth with a bubbling noise.'
+        putsy 'All of a sudden, a stem bursts through the soil and wiggles higher and higher, spreading out soft branches until it stands slightly larger than you. You see leaves pop out, one by one, and little green bulbs forming under them. In a matter of seconds, you see heavy ripe tomatoes drooping off of the plant before you.'
+      elsif @state == :untouched
         update_state(:wet)
 
         putsy 'You poured the water onto the ground. The dry earth soaks up the water and gives it a soppy, dark look.'
@@ -200,6 +206,8 @@ narrative_events: [
         earth.update_state(:plowed_and_wet)
       elsif earth.state == :wet_and_powdered
         earth.update_state(:plowed_and_wet_and_powdered)
+      elsif earth.state == :powdered
+        earth.update_state(:plowed_and_powdered)
       else
         earth.update_state(:plowed)
       end

@@ -49,6 +49,9 @@ use_on_receiving_actions: {
   water: 'lambda do |doing_item|
     putsy "You pour the water over the man\'s head."
 
+    bucket = GAME._check_for_item("bucket", :inventory)
+    bucket.update_state(:empty)
+
     GAME.player.drop_from_inventory(doing_item)
 
     putsy "OH MY LORD I FEEL SO COOL. THANK YOU!! Well, I wish I could pay you with some proper coin but all I have is this mysterious powder that I found in the barn over there. It has some bright, weird colors to it so I figured it might give me a good ride to the next dimension, if you get my drift. But I feel like you would be more responsible with it. Here!"

@@ -28,7 +28,9 @@ FARM_NARRATIVE_EVENTS = [
   {
     name: 'time_runs_out', # for human readability
     condition: "lambda do |current_location|
-      TIME.hour == 6 && TIME.minute == 0 && TIME.am_pm == 'PM'
+      sleepy_mood = GAME._check_for_item('sleepy', :location)
+
+      TIME.hour == 6 && TIME.minute == 0 && TIME.am_pm == 'PM' && sleepy_mood.nil?
     end",
     action: 'lambda do |current_location|
       putsy "You hear the sound of an engine in the distance. You head in the direction of the sound."

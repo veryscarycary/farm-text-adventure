@@ -39,7 +39,7 @@ earth = Item.new('earth',
       item: 'The ground is wet.'
     },
     powdered: {
-      location: 'The land here very dry and has a layer of powder over it.',
+      location: 'The land here is very dry and has a layer of powder over it.',
       item: 'The ground is dry and has powder spread over it.'
     },
     plowed_and_powdered: {
@@ -118,7 +118,7 @@ earth = Item.new('earth',
       if @state == :plowed_and_wet_and_powdered
         update_state(:grown)
 
-        putsy 'You carefully pour the seeds onto ground and fold them into the soil.'
+        putsy 'You carefully pour the seeds onto the ground and fold them into the soil.'
         putsy 'All of a sudden, a stem bursts through the soil and wiggles higher and higher, spreading out soft branches until it stands slightly larger than you. You see leaves pop out, one by one, and little green bulbs forming under them. In a matter of seconds, you see heavy ripe tomatoes drooping off of the plant before you.'
       else
         if @state == :plowed
@@ -129,7 +129,7 @@ earth = Item.new('earth',
           update_state(:plowed_and_seeded_and_powdered)
         end
 
-        putsy 'You carefully pour the seeds onto ground and fold them into the soil.'
+        putsy 'You carefully pour the seeds onto the ground and fold them into the soil.'
         putsy 'Hmm, I wonder if there is anthing I can do to make sure this garden stays healthy.'
       end
 

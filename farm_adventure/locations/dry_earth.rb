@@ -107,7 +107,44 @@ earth = Item.new('earth',
         putsy 'You poured the water onto the ground. The wet earth gets a little soppier. I think that might be enough water.'
       end
 
+      bucket = GAME._check_for_item('bucket', :inventory)
+      bucket.update_state(:empty)
+
       GAME.player.drop_from_inventory(doing_item)
+    end",
+    bucket: "lambda do |doing_item|
+      
+      if @state == :plowed_and_seeded_and_powdered
+        update_state(:grown)
+
+        putsy 'You poured the water onto the ground. The dry, plowed earth soaks up the water and gives the soil a soppy, dark look. The powder dissolves into the earth with a bubbling noise.'
+        putsy 'All of a sudden, a stem bursts through the soil and wiggles higher and higher, spreading out soft branches until it stands slightly larger than you. You see leaves pop out, one by one, and little green bulbs forming under them. In a matter of seconds, you see heavy ripe tomatoes drooping off of the plant before you.'
+      elsif @state == :untouched
+        update_state(:wet)
+
+        putsy 'You poured the water onto the ground. The dry earth soaks up the water and gives it a soppy, dark look.'
+      elsif @state == :plowed
+        update_state(:plowed_and_wet)
+
+        putsy 'You poured the water onto the ground. The dry, plowed earth soaks up the water and gives the soil a soppy, dark look.'
+      elsif @state == :powdered
+        update_state(:wet_and_powdered)
+
+        putsy 'You poured the water onto the ground. The dry earth soaks up the water and gives it a soppy, dark look. The powder dissolves into the earth with a bubbling noise.'
+      elsif @state == :plowed_and_seeded
+        update_state(:plowed_and_wet_and_seeded)
+
+        putsy 'You poured the water onto the ground. The dry, plowed earth soaks up the water and gives the soil a soppy, dark look. I wonder how long it will take for these crops to grow.'
+      elsif @state == :plowed_and_powdered
+        update_state(:plowed_and_wet_and_powdered)
+
+        putsy 'You poured the water onto the ground. The dry, plowed earth soaks up the water and gives the soil a soppy, dark look. The powder dissolves into the earth with a bubbling noise.'
+      else
+        putsy 'You poured the water onto the ground. The wet earth gets a little soppier. I think that might be enough water.'
+      end
+
+      GAME.player.drop_from_inventory(doing_item.owns[0])
+      doing_item.update_state(:empty)
     end",
   seeds: "lambda do |doing_item|
       if @state == :untouched || @state == :wet || @state == :powdered || @state == :wet_and_powdered

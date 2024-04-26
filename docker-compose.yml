@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+  text-adventure:
+    build:
+      context: .
+    stdin_open: true
+    tty: true
+    networks:
+      - my-network
+
+networks:
+  my-network:
+    driver: bridge

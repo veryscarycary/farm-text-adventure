@@ -34,6 +34,16 @@ Windows
 6.  if the shell you are using doesn't have a black background, you should go to preferences to set it to black.
 7.  ```ruby game.rb```
 
+Docker
+
+1. Install Docker
+2. In your shell, type and run the following:
+
+```
+docker compose build
+docker compose run --rm text-adventure
+```
+
 # Development
 
 This game was developed with the intention of being able to plug in different story lines / games with

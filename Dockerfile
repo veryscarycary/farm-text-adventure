@@ -15,7 +15,7 @@ RUN bundle install
 
 
 # Expose the port that socat will listen on
-EXPOSE 3000
+EXPOSE 3001
 
 # Run socat to execute the Ruby script and forward its input and output to port 3000
-CMD ["socat", "-d", "-d", "TCP-LISTEN:3000,reuseaddr,fork", "EXEC:\"ruby game.rb\",pty"]
+CMD ["socat", "-d", "-d", "TCP-LISTEN:3001,reuseaddr,fork", "EXEC:\"ruby game.rb\",pty"]

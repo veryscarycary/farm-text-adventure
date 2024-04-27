@@ -1,6 +1,9 @@
 # Use the official Ruby 2.7.0 image as the base image
 FROM ruby:2.7.0
 
+# Install socat
+RUN apt-get update && apt-get install -y socat
+
 # Set the working directory inside the container
 WORKDIR /app
 
@@ -10,5 +13,9 @@ COPY . .
 # Install dependencies
 RUN bundle install
 
-# Define the command to run your Ruby process
-CMD ["ruby", "game.rb"]
+
+# Expose the port that socat will listen on
+EXPOSE 3000
+
+# Run socat to execute the Ruby script and forward its input and output to port 3000
+CMD ["socat", "-d", "-d", "TCP-LISTEN:3000,reuseaddr,fork", "EXEC:\"ruby game.rb\",pty"]

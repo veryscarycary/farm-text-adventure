@@ -8,11 +8,10 @@ RUN apt-get update && apt-get install -y socat
 WORKDIR /app
 
 # Copy the rest of your application code into the container
-COPY . .
+COPY .. .
 
 # Install dependencies
 RUN bundle install
-
 
 # Expose the port that socat will listen on
 EXPOSE 3001

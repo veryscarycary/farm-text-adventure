@@ -41,7 +41,7 @@ Docker
 
 ```
 docker compose build
-docker compose run --rm text-adventure
+docker compose up
 ```
 
 # Development

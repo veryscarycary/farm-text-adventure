@@ -40,8 +40,7 @@ Docker
 2. In your shell, type and run the following:
 
 ```
-docker compose build
-docker compose up
+docker compose run text-adventure
 ```
 
 # Development

@@ -24,22 +24,20 @@ module Save
   end
 
   def load(save_name)
-    hyphenated_save_name = save_name.split(' ').join('_')
-
     found_file = Dir[File.dirname(__FILE__) + '/saves/*.yml'].find do |file|
       file_name = File.basename(file, File.extname(file))
-      file_name == save_name || file_name == hyphenated_save_name
+      file_name == save_name
     end
 
     if found_file.nil?
       putsy "Sorry, your save file could not be found. Maybe you typoed it?"
     else
-      loaded_game = YAML.load(File.read("./saves/#{hyphenated_save_name}.yml"))
+      loaded_game = YAML.load(File.read("./saves/#{save_name}.yml"))
       @player = loaded_game.player
       @map = loaded_game.map
       @time = loaded_game.time
 
-      putsy "Your save '#{hyphenated_save_name}' was successfully loaded."
+      putsy "Your save '#{save_name}' was successfully loaded."
     end
   end
 end

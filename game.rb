@@ -345,8 +345,8 @@ class Game
     end
   end
 
-  def talk_to(person)
-    person = _check_for_item(person)
+  def talk_to(person_name)
+    person = _check_for_item(person_name)
 
     if person
       if person.is_a?(Person)
@@ -359,7 +359,7 @@ class Game
         putsy "You can't talk to the #{person.name}. What are you, are crazy person?"
       end
     else
-      putsy "There isn't #{person =~ /^[aeiouAEIOU]/ ? 'an' : 'a'} #{person.name} to talk to."
+      putsy "There isn't #{person_name =~ /^[aeiouAEIOU]/ ? 'an' : 'a'} #{person_name} to talk to."
     end
   end
 

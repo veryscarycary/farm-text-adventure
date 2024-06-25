@@ -40,8 +40,15 @@ Docker
 2. In your shell, type and run the following:
 
 ```
+docker compose build
 docker compose run text-adventure
 ```
+
+# Tests
+
+1. Run `bundle exec rspec`
+
+If running with docker, use `docker exec -it [container-id] sh` and then `bundle exec rspec` at the root directory
 
 # Development
 
